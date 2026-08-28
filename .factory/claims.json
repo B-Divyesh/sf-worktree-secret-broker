@@ -1,0 +1,51 @@
+[
+  {
+    "id": "demo-isolated",
+    "claim": "The CLI demo reads no provider, makes no network connection, and removes its temporary worktree.",
+    "where": "README and demo output",
+    "test": "npm test -- --grep @claim:demo-isolated",
+    "sandbox": "fresh temp directory with provider and AF_INET socket traps; bundled CLI demo"
+  },
+  {
+    "id": "approved-environment",
+    "claim": "Only approved values enter a cleared child environment.",
+    "where": "landing hero, how it works, README",
+    "test": "npm test -- --grep @claim:approved-environment",
+    "sandbox": "temp Git worktree, fake Secret Service CLI, unrelated parent token"
+  },
+  {
+    "id": "names-only-receipt",
+    "claim": "Receipts and worktrees contain names, never resolved values.",
+    "where": "landing preview and README",
+    "test": "npm test -- --grep @claim:names-only-receipt",
+    "sandbox": "temp Git worktree and fake provider; inspect stdout, config, and git diff"
+  },
+  {
+    "id": "production-denied",
+    "claim": "Production-labelled mappings are denied by default.",
+    "where": "landing limits and README",
+    "test": "npm test -- --grep @claim:production-denied",
+    "sandbox": "fresh production-labelled sample config with no provider installed"
+  },
+  {
+    "id": "lease-expiry",
+    "claim": "Expiry stops the child process and records lease-expired.",
+    "where": "landing how it works and README",
+    "test": "npm test -- --grep @claim:lease-expiry",
+    "sandbox": "temp Git worktree, fake provider, one-second test lease, sleeping child"
+  },
+  {
+    "id": "demo-same-origin",
+    "claim": "The browser demo uses bundled sample text and contacts no third party.",
+    "where": "demo and privacy pages",
+    "test": "npm test -- --grep @claim:demo-same-origin",
+    "sandbox": "fresh browser context with every request origin recorded"
+  },
+  {
+    "id": "paid-policy-tools",
+    "claim": "Team policy tools cost $19 once, activate after verification, and generate a names-only config.",
+    "where": "landing paid section and terms",
+    "test": "npm test -- --grep @claim:paid-policy-tools",
+    "sandbox": "fresh browser context with recorded valid Sociobot verification response"
+  }
+]

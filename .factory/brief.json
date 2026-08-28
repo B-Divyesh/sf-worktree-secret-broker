@@ -1,0 +1,8 @@
+{
+  "slug": "worktree-secret-broker",
+  "title": "Worktree Secret Broker",
+  "summary": "Give one worktree process only the development secrets it needs.",
+  "artifact_class": "cli",
+  "monetization": "one-time",
+  "success_measure": "At least 90% of pilot worktrees start without copying a secret file, and no broker-managed value appears in git diff or process history tests."
+}
