@@ -104,11 +104,17 @@ test('@claim:paid-policy-tools price, checkout, and license verification are obs
 
 for (const path of ['/', '/demo', '/privacy', '/terms', '/missing']) {
   test(`accessibility baseline on ${path}`, async ({ page }) => {
+    const errors: string[] = [];
+    page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
+    page.on('pageerror', error => errors.push(error.message));
     await page.goto(path);
     await expect(page.locator('main')).toBeVisible();
     await expect(page.locator('h1')).toHaveCount(1);
+    await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+    expect((await page.title()).length).toBeLessThanOrEqual(60);
     const results = await new AxeBuilder({ page }).analyze();
     expect(results.violations.filter(item => ['serious', 'critical'].includes(item.impact ?? ''))).toEqual([]);
+    expect(errors).toEqual([]);
   });
 }
 

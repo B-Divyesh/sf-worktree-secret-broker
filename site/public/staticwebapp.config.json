@@ -1,5 +1,9 @@
 {
   "navigationFallback": { "rewrite": "/index.html", "exclude": ["/assets/*", "/*.{png,webp,svg,woff2,xml,txt}"] },
+  "routes": [
+    { "route": "/assets/*", "headers": { "Cache-Control": "public, max-age=31536000, immutable" } },
+    { "route": "/*.{woff2,webp,png,svg}", "headers": { "Cache-Control": "public, max-age=604800" } }
+  ],
   "globalHeaders": {
     "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.sociobot.in; base-uri 'self'; form-action 'self' https://api.sociobot.in; frame-ancestors 'none'; object-src 'none'",
     "X-Content-Type-Options": "nosniff",

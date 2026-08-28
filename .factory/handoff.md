@@ -34,8 +34,8 @@ axe, a 390×844 viewport, isolated demo traffic, and mocked license verification
 - `dist/bin/wsb` — optimized local binary
 - `dist/site/index.html` — static deploy root
 
-The release site is 352 KB on disk. Initial gzip sizes are 5.54 KB JavaScript
-and 3.08 KB CSS. Fonts total 108 KB. The hero WebP is 79 KB.
+The release site is 352 KB on disk. Initial gzip sizes are 5.74 KB JavaScript
+and 3.18 KB CSS. Fonts total 108 KB. The hero WebP is 79 KB.
 
 Lighthouse 13.0.1 against the production preview at mobile defaults:
 

@@ -22,7 +22,7 @@ function shell(content: string, demo = false): string {
     ${demo ? `<aside class="demo-banner" aria-label="Demo mode"><span>Demo — sample data, nothing is saved</span><span class="demo-actions"><button type="button" data-reset-demo>Reset demo</button><a href="/" data-link>Start for real</a></span></aside>` : ''}
     <header class="site-header">
       <a class="wordmark" href="/" data-link aria-label="Worktree Secret Broker home"><span class="key-mark" aria-hidden="true"></span><span>Worktree<br>Secret Broker</span></a>
-      <nav aria-label="Main navigation"><a href="/demo" data-link>Demo</a><a href="/#install">Install</a><a href="/privacy" data-link>Privacy</a></nav>
+      <nav aria-label="Main navigation"><a href="/demo" data-link>Demo</a><a href="/#install" data-link>Install</a><a href="/privacy" data-link>Privacy</a></nav>
     </header>
     <main id="main">${content}</main>
     <footer>
@@ -107,7 +107,7 @@ function demo(): string {
       <div class="demo-grid"><section><h2>Sample input</h2><pre><code>DATABASE_URL
 NPM_TOKEN
 lease_minutes = 15</code></pre></section><section><h2>Observable result</h2><p>Two approved names reach the child. The temporary directory is removed after the receipt.</p></section></div>
-      <div class="next-action"><a class="button" href="/#install">Install the real CLI</a><span>Then map your own keychain references.</span></div>
+      <div class="next-action"><a class="button" href="/#install" data-link>Install the real CLI</a><span>Then map your own keychain references.</span></div>
     </section>`, true);
 }
 
@@ -157,17 +157,24 @@ function render(push = false): void {
   app.innerHTML = route === '/' ? home() : route === '/demo' ? demo() : route === '/privacy' ? privacy() : route === '/terms' ? terms() : notFound();
   bindActions();
   if (push) {
-    window.scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
-    const h1 = document.querySelector<HTMLHeadingElement>('h1')!;
-    h1.focus({ preventScroll: true });
-    document.querySelector('#route-status')!.textContent = h1.textContent;
+    const target = location.hash ? document.querySelector<HTMLElement>(location.hash) : null;
+    const focusTarget = target?.querySelector<HTMLElement>('h2') ?? document.querySelector<HTMLHeadingElement>('h1')!;
+    focusTarget.tabIndex = -1;
+    focusTarget.focus({ preventScroll: true });
+    window.scrollTo({ top: target?.offsetTop ?? 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+    document.querySelector('#route-status')!.textContent = focusTarget.textContent;
   }
 }
 
 function bindActions(): void {
   document.querySelectorAll<HTMLAnchorElement>('a[data-link]').forEach(link => link.addEventListener('click', event => {
     if (event.button || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-    event.preventDefault(); history.pushState({}, '', link.href); render(true);
+    event.preventDefault();
+    history.replaceState({ ...history.state, scrollY }, '', location.href);
+    if (link.closest('.demo-banner')) {
+      Object.keys(sessionStorage).filter(key => key.startsWith('demo:')).forEach(key => sessionStorage.removeItem(key));
+    }
+    history.pushState({ scrollY: 0 }, '', link.href); render(true);
   }));
   document.querySelector('[data-reset-demo]')?.addEventListener('click', () => {
     Object.keys(sessionStorage).filter(key => key.startsWith('demo:')).forEach(key => sessionStorage.removeItem(key));
@@ -233,7 +240,21 @@ function acceptReturnedLicense(): void {
   history.replaceState({}, '', `${url.pathname}${url.search}${url.hash}`);
 }
 
-window.addEventListener('popstate', () => render(true));
+window.addEventListener('popstate', event => {
+  render(false);
+  requestAnimationFrame(() => {
+    window.scrollTo({ top: Number(event.state?.scrollY ?? 0), behavior: 'instant' });
+    const h1 = document.querySelector<HTMLHeadingElement>('h1')!;
+    h1.focus({ preventScroll: true });
+    document.querySelector('#route-status')!.textContent = h1.textContent;
+  });
+});
+history.replaceState({ ...history.state, scrollY }, '', location.href);
+let scrollFrame = 0;
+addEventListener('scroll', () => {
+  cancelAnimationFrame(scrollFrame);
+  scrollFrame = requestAnimationFrame(() => history.replaceState({ ...history.state, scrollY }, '', location.href));
+}, { passive: true });
 acceptReturnedLicense(); render();
 const savedLicense = localStorage.getItem(LICENSE_KEY); if (savedLicense) void verifyLicense(savedLicense);
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
