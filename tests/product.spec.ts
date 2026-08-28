@@ -51,7 +51,7 @@ test('@claim:approved-environment only approved values enter a cleared child env
   await rm(item.root, { recursive: true, force: true });
 });
 
-test('@claim:names-only-receipt receipt and worktree never contain the resolved value', async () => {
+test('@claim:names-only-receipt receipt, worktree, and provider-reference config never contain the resolved value', async () => {
   const item = await fixture();
   const result = await exec(binary, ['run', '--config', item.config, '--worktree', item.root, '--', 'true'], { env: item.env });
   expect(result.stdout).toContain('names: API_TOKEN');
@@ -78,6 +78,17 @@ test('@claim:lease-expiry expiry stops the child process and reports revocation'
   await rm(item.root, { recursive: true, force: true });
 });
 
+test('@claim:worktree-root-required nested paths are refused before the child starts', async () => {
+  const item = await fixture();
+  const nested = join(item.root, 'nested');
+  const marker = join(item.root, 'child-started');
+  await mkdir(nested);
+  await expect(exec(binary, ['run', '--config', item.config, '--worktree', nested, '--', 'sh', '-c', `touch ${marker}`], { env: item.env }))
+    .rejects.toMatchObject({ stderr: expect.stringContaining('name the worktree root') });
+  await expect(access(marker)).rejects.toThrow();
+  await rm(item.root, { recursive: true, force: true });
+});
+
 test('@claim:demo-same-origin browser demo makes only same-origin requests', async ({ page }) => {
   const origins = new Set<string>();
   page.on('request', request => origins.add(new URL(request.url()).origin));
@@ -86,20 +97,53 @@ test('@claim:demo-same-origin browser demo makes only same-origin requests', asy
   expect([...origins]).toEqual(['http://127.0.0.1:4173']);
 });
 
-test('@claim:paid-policy-tools price, checkout, and license verification are observable', async ({ page }) => {
-  await page.route('https://api.sociobot.in/api/v1/products/worktree-secret-broker/verify?*', route => route.fulfill({
-    status: 200, contentType: 'application/json', body: JSON.stringify({ valid: true, reason: 'ok', expires_at: null }),
-  }));
+test('@claim:recorded-demo-sample recording uses the CLI demo’s two bundled names', async ({ page }) => {
   await page.goto('/');
-  await expect(page.getByText('$19', { exact: true })).toBeVisible();
-  await expect(page.getByRole('link', { name: /Buy team policy tools/ })).toHaveAttribute('href', 'https://api.sociobot.in/api/v1/products/worktree-secret-broker/checkout');
-  await page.getByLabel('Have a license? Paste it').fill('license_test_123');
-  await page.getByRole('button', { name: 'Verify license' }).click();
-  await expect(page.getByRole('status')).toHaveText('Team policy tools are active on this device.');
-  expect(await page.evaluate(() => localStorage.getItem('sb_license:worktree-secret-broker'))).toBe('license_test_123');
-  await expect(page.getByRole('heading', { name: 'Team policy generator' })).toBeVisible();
+  await expect(page.getByText('The recording uses the demo’s two bundled names.')).toBeVisible();
+  const { stdout } = await exec(binary, ['demo', '--json']);
+  const receipt = JSON.parse(stdout) as { secret_names: string[] };
+  expect(receipt.secret_names).toEqual(['DATABASE_URL', 'NPM_TOKEN']);
+  await expect(page.locator('.terminal')).toContainText('Approved: DATABASE_URL, NPM_TOKEN');
+});
+
+test('@claim:site-no-analytics the landing page makes no third-party request', async ({ page }) => {
+  const origins = new Set<string>();
+  page.on('request', request => origins.add(new URL(request.url()).origin));
+  await page.goto('/');
+  await expect(page.getByRole('heading', { name: 'Lease secrets to one worktree process' })).toBeVisible();
+  expect([...origins]).toEqual(['http://127.0.0.1:4173']);
+});
+
+test('@claim:policy-generator the local helper creates development-only references without a network request', async ({ page }) => {
+  const origins = new Set<string>();
+  page.on('request', request => origins.add(new URL(request.url()).origin));
+  await page.goto('/');
+  await page.getByLabel('Approved variable names').fill('SERVICE_TOKEN');
   await page.getByRole('button', { name: 'Generate team policy' }).click();
-  await expect(page.locator('#policy-output')).toContainText('source = "keychain://team/database_url"');
+  await expect(page.locator('#policy-output')).toContainText('name = "SERVICE_TOKEN"');
+  await expect(page.locator('#policy-output')).toContainText('source = "keychain://team/service_token"');
+  await expect(page.locator('#policy-output')).toContainText('labels = ["development"]');
+  await expect(page.locator('#policy-output')).not.toContainText('fixture-value-7x9');
+  expect([...origins]).toEqual(['http://127.0.0.1:4173']);
+});
+
+test('regression: an unavailable checkout is not advertised', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('a[href*="/checkout"]')).toHaveCount(0);
+  await expect(page.getByRole('link', { name: /buy/i })).toHaveCount(0);
+  expect(await page.locator('body').innerText()).not.toContain('$19');
+});
+
+test('offline reload works after the service worker controls the built demo', async ({ context, page }) => {
+  await page.goto('/demo');
+  await page.evaluate(() => navigator.serviceWorker.ready);
+  await page.reload({ waitUntil: 'domcontentloaded' });
+  await page.waitForFunction(() => navigator.serviceWorker.controller !== null);
+  await context.setOffline(true);
+  await page.reload({ waitUntil: 'commit', timeout: 5_000 });
+  await expect(page.getByRole('heading', { name: 'Watch a secret lease finish cleanly' })).toBeVisible();
+  await expect(page.getByText('Demo — sample data, nothing is saved').first()).toBeVisible();
+  await context.setOffline(false);
 });
 
 for (const path of ['/', '/demo', '/privacy', '/terms', '/missing']) {
@@ -123,4 +167,16 @@ test('mobile first screen keeps the action visible and has no horizontal overflo
   await page.goto('/');
   await expect(page.getByRole('link', { name: 'Try it with sample data' })).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+});
+
+test('keyboard starts at the skip link and operates the policy helper', async ({ page }) => {
+  await page.goto('/');
+  await page.keyboard.press('Tab');
+  await expect(page.getByRole('link', { name: 'Skip to main content' })).toBeFocused();
+  await page.getByLabel('Approved variable names').focus();
+  await page.keyboard.press('Control+A');
+  await page.keyboard.type('SERVICE_TOKEN');
+  await page.getByRole('button', { name: 'Generate team policy' }).focus();
+  await page.keyboard.press('Enter');
+  await expect(page.locator('#policy-output')).toContainText('name = "SERVICE_TOKEN"');
 });

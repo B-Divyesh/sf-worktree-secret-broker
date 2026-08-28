@@ -9,14 +9,14 @@
   {
     "id": "approved-environment",
     "claim": "Only approved values enter a cleared child environment.",
-    "where": "landing hero, how it works, README",
+    "where": "landing hero, how it works, privacy page, README",
     "test": "npm test -- --grep @claim:approved-environment",
     "sandbox": "temp Git worktree, fake Secret Service CLI, unrelated parent token"
   },
   {
     "id": "names-only-receipt",
-    "claim": "Receipts and worktrees contain names, never resolved values.",
-    "where": "landing preview and README",
+    "claim": "Receipts, worktrees, and provider-reference config contain names or references, never resolved values.",
+    "where": "landing facts and preview; README",
     "test": "npm test -- --grep @claim:names-only-receipt",
     "sandbox": "temp Git worktree and fake provider; inspect stdout, config, and git diff"
   },
@@ -35,17 +35,38 @@
     "sandbox": "temp Git worktree, fake provider, one-second test lease, sleeping child"
   },
   {
+    "id": "worktree-root-required",
+    "claim": "The broker refuses to start a child outside a named Git worktree root.",
+    "where": "landing how it works and README",
+    "test": "npm test -- --grep @claim:worktree-root-required",
+    "sandbox": "temp Git worktree with a nested directory and fake provider"
+  },
+  {
     "id": "demo-same-origin",
     "claim": "The browser demo uses bundled sample text and contacts no third party.",
-    "where": "demo and privacy pages",
+    "where": "demo, privacy page, and README",
     "test": "npm test -- --grep @claim:demo-same-origin",
     "sandbox": "fresh browser context with every request origin recorded"
   },
   {
-    "id": "paid-policy-tools",
-    "claim": "Team policy tools cost $19 once, activate after verification, and generate a names-only config.",
-    "where": "landing paid section and terms",
-    "test": "npm test -- --grep @claim:paid-policy-tools",
-    "sandbox": "fresh browser context with recorded valid Sociobot verification response"
+    "id": "recorded-demo-sample",
+    "claim": "The landing recording uses the CLI demo’s two bundled names.",
+    "where": "landing preview",
+    "test": "npm test -- --grep @claim:recorded-demo-sample",
+    "sandbox": "fresh browser context plus bundled CLI demo JSON receipt"
+  },
+  {
+    "id": "site-no-analytics",
+    "claim": "The site has no analytics and makes no third-party request on the landing page.",
+    "where": "privacy page",
+    "test": "npm test -- --grep @claim:site-no-analytics",
+    "sandbox": "fresh browser context at the landing page with every request origin recorded"
+  },
+  {
+    "id": "policy-generator",
+    "claim": "The local policy helper turns variable names into development-only provider references without a network request.",
+    "where": "landing policy helper and README",
+    "test": "npm test -- --grep @claim:policy-generator",
+    "sandbox": "fresh browser context with request origins recorded and a sentinel secret value"
   }
 ]

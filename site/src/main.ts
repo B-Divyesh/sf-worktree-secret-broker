@@ -1,11 +1,5 @@
 import './style.css';
 
-const PRODUCT = 'worktree-secret-broker';
-const API = 'https://api.sociobot.in/api/v1';
-const LICENSE_KEY = `sb_license:${PRODUCT}`;
-const VERDICT_KEY = `sb_license_verdict:${PRODUCT}`;
-const DAY = 86_400_000;
-
 type Route = '/' | '/demo' | '/privacy' | '/terms' | '/not-found';
 
 const escapeHtml = (value: string) => value.replace(/[&<>'"]/g, char => ({
@@ -27,7 +21,7 @@ function shell(content: string, demo = false): string {
     <main id="main">${content}</main>
     <footer>
       <p>Temporary secret leases for worktree processes.</p>
-      <nav aria-label="Footer navigation"><a href="/privacy" data-link>Privacy</a><a href="/terms" data-link>Terms</a><a href="https://www.sociobot.in/" rel="external">Built by Param Factory <span class="sr-only">(external site)</span></a></nav>
+      <nav aria-label="Footer navigation"><a href="/privacy" data-link>Privacy</a><a href="/terms" data-link>Terms</a><a href="https://sociobot.in/" rel="external">Built by Param Factory <span class="sr-only">(external site)</span></a></nav>
       <p>Version 0.1.0 · build 2026.08.28</p>
     </footer>`;
 }
@@ -60,12 +54,12 @@ function home(): string {
         <h1 tabindex="-1">Lease secrets to one worktree process</h1>
         <p class="lede">For developers running coding agents, each worktree gets only approved development variables.</p>
         <div class="hero-action"><a class="button" href="/demo" data-link>Try it with sample data</a><span>Opens an isolated recorded CLI run.</span></div>
-        <ul class="plain-facts"><li>Values stay in your keychain.</li><li>No secret files.</li><li>Free CLI. Team policy tools cost $19 once.</li></ul>
+        <ul class="plain-facts"><li>Only approved variables enter the child.</li><li>Receipts list names, never values.</li><li>Production labels are denied by default.</li></ul>
       </div>
       <figure class="hero-art"><img src="/key-orchard.webp" width="1200" height="800" alt="Three brass keys descend toward one lit worktree while distant keyholes stay dark." fetchpriority="high"><figcaption>Only named keys reach the temporary root chamber.</figcaption></figure>
     </section>
     <section class="product-preview" aria-labelledby="preview-heading">
-      <div class="section-intro"><p class="eyebrow">See the boundary</p><h2 id="preview-heading">The receipt shows names, never values</h2><p>The real CLI run uses the same sample shown here.</p></div>
+      <div class="section-intro"><p class="eyebrow">See the boundary</p><h2 id="preview-heading">The receipt shows names, never values</h2><p>The recording uses the demo’s two bundled names.</p></div>
       ${terminal()}
     </section>
     <section class="steps" id="install" aria-labelledby="steps-heading">
@@ -81,17 +75,14 @@ function home(): string {
       <div><p class="eyebrow">A narrow tool</p><h2 id="limits-heading">What the broker does not do</h2></div>
       <ul><li>It does not host a vault.</li><li>It does not scan repositories.</li><li>It denies production-labelled entries by default.</li><li>It cannot hide variables from the child that needs them.</li></ul>
     </section>
-    ${paidSection()}
+    ${policySection()}
   `);
 }
 
-function paidSection(): string {
-  return `<section class="paid" aria-labelledby="paid-heading">
-    <div><p class="eyebrow">Optional team tools</p><h2 id="paid-heading">Set one policy for every worktree</h2><p>The free CLI includes every runtime safety feature. Pay once for policy templates, review notes, and config generation.</p></div>
-    <div class="price"><strong>$19</strong><span>one-time purchase</span><a class="button secondary" href="${API}/products/${PRODUCT}/checkout">Buy team policy tools <span class="sr-only">from Sociobot checkout</span></a></div>
-    <form id="license-form" class="license-form"><label for="license">Have a license? Paste it</label><div><input id="license" name="license" autocomplete="off" spellcheck="false"><button type="submit">Verify license</button></div><p id="license-status" role="status">Sociobot is the merchant of record. Refunds are handled there.</p></form>
-    <form id="policy-desk" class="policy-desk" hidden>
-      <h3>Team policy generator</h3><p>Enter variable names only. The generator creates references and a review note in this browser.</p>
+function policySection(): string {
+  return `<section class="paid" aria-labelledby="policy-heading">
+    <div><p class="eyebrow">Local policy helper</p><h2 id="policy-heading">Generate a names-only team policy</h2><p>Enter variable names. The helper creates development-only provider references in this browser.</p></div>
+    <form id="policy-desk" class="policy-desk">
       <div class="policy-fields"><label for="policy-names">Approved variable names <textarea id="policy-names" rows="3">DATABASE_URL\nNPM_TOKEN</textarea></label><label for="policy-provider">Provider <select id="policy-provider"><option value="keychain">OS keychain</option><option value="op">1Password</option></select></label><label for="policy-ttl">Lease length <select id="policy-ttl"><option value="5">5 minutes</option><option value="15" selected>15 minutes</option><option value="30">30 minutes</option><option value="60">60 minutes</option></select></label></div>
       <button type="submit">Generate team policy</button><pre id="policy-output" tabindex="0" aria-live="polite"><code>Your names-only config will appear here.</code></pre>
     </form>
@@ -113,10 +104,8 @@ lease_minutes = 15</code></pre></section><section><h2>Observable result</h2><p>T
 
 function privacy(): string {
   return legal('Privacy — Worktree Secret Broker', 'Privacy stays local', `
-    <p>The CLI sends no analytics, secrets, config, or receipts anywhere. It asks your installed keychain or 1Password CLI for each approved value.</p>
-    <h2>Site data</h2><p>The site does not use analytics or cookies. If you enter a license, your browser stores it under <code>${LICENSE_KEY}</code>.</p>
-    <h2>License checks</h2><p>The site sends the license token to Sociobot only when you add or verify it. The cached result lasts one day.</p>
-    <h2>Demo data</h2><p>The browser demo uses only bundled sample text. Resetting it clears the <code>demo:</code> session keys.</p>
+    <p>The CLI resolves only the provider references in your config. It passes resolved values to the child process you start.</p>
+    <h2>Site data</h2><p>The site has no analytics. The browser demo uses bundled sample text. Reset demo returns the recording to its first frame.</p>
     <h2>Contact</h2><p>Questions can go to <a href="mailto:privacy@sociobot.in">privacy@sociobot.in</a>.</p>`);
 }
 
@@ -124,7 +113,6 @@ function terms(): string {
   return legal('Terms — Worktree Secret Broker', 'Terms for using the broker', `
     <p>Worktree Secret Broker is provided under the MIT License, without warranty. You remain responsible for the credentials and commands you use.</p>
     <h2>Safe use</h2><p>Use development credentials. Review each mapping. Do not treat a process environment as a vault.</p>
-    <h2>Purchases</h2><p>Team policy tools cost $19 once. Sociobot and Dodo are the merchant of record. A refund revokes its license.</p>
     <h2>Changes</h2><p>These terms apply to version 0.1.0 and were updated on 28 August 2026.</p>`);
 }
 
@@ -186,13 +174,6 @@ function bindActions(): void {
     try { await navigator.clipboard.writeText(button.dataset.copy ?? ''); button.textContent = 'Copied'; }
     catch { button.textContent = 'Copy failed — select the command'; }
   });
-  document.querySelector<HTMLFormElement>('#license-form')?.addEventListener('submit', async event => {
-    event.preventDefault();
-    const token = new FormData(event.currentTarget as HTMLFormElement).get('license')?.toString().trim() ?? '';
-    if (!token) { setLicenseStatus('Paste a license token, then verify it.'); return; }
-    localStorage.setItem(LICENSE_KEY, token);
-    await verifyLicense(token, true);
-  });
   document.querySelector<HTMLFormElement>('#policy-desk')?.addEventListener('submit', event => {
     event.preventDefault();
     const names = (document.querySelector<HTMLTextAreaElement>('#policy-names')?.value ?? '').split(/\s+/).filter(Boolean);
@@ -204,40 +185,6 @@ function bindActions(): void {
     const blocks = names.map(name => `[[secrets]]\nname = "${name}"\nsource = "${provider === 'op' ? `op://Development/${name}/value` : `keychain://team/${name.toLowerCase()}`}"\nlabels = ["development"]`).join('\n\n');
     output.textContent = `# Team review: production labels remain denied by default.\nversion = 1\nlease_minutes = ${ttl}\n\n${blocks}`;
   });
-}
-
-function setLicenseStatus(message: string): void {
-  const status = document.querySelector('#license-status'); if (status) status.textContent = message;
-}
-
-function showPolicyDesk(active: boolean): void {
-  const desk = document.querySelector<HTMLElement>('#policy-desk');
-  if (desk) desk.hidden = !active;
-}
-
-async function verifyLicense(token: string, force = false): Promise<void> {
-  const cached = JSON.parse(localStorage.getItem(VERDICT_KEY) ?? 'null') as { valid: boolean; checkedAt: number } | null;
-  if (cached?.valid) showPolicyDesk(true);
-  if (!force && cached && Date.now() - cached.checkedAt < DAY) {
-    if (cached.valid) setLicenseStatus('Team policy tools are active on this device.');
-    return;
-  }
-  setLicenseStatus('Checking the license…');
-  try {
-    const response = await fetch(`${API}/products/${PRODUCT}/verify?license=${encodeURIComponent(token)}`);
-    if (!response.ok) throw new Error('request failed');
-    const result = await response.json() as { valid: boolean };
-    localStorage.setItem(VERDICT_KEY, JSON.stringify({ valid: result.valid, checkedAt: Date.now() }));
-    showPolicyDesk(result.valid);
-    setLicenseStatus(result.valid ? 'Team policy tools are active on this device.' : 'License no longer active. Check the token or buy a new license.');
-  } catch { setLicenseStatus('The license check is offline. The free CLI still works. Try again later.'); }
-}
-
-function acceptReturnedLicense(): void {
-  const url = new URL(location.href); const token = url.searchParams.get('license');
-  if (!token) return;
-  localStorage.setItem(LICENSE_KEY, token); url.searchParams.delete('license');
-  history.replaceState({}, '', `${url.pathname}${url.search}${url.hash}`);
 }
 
 window.addEventListener('popstate', event => {
@@ -255,8 +202,7 @@ addEventListener('scroll', () => {
   cancelAnimationFrame(scrollFrame);
   scrollFrame = requestAnimationFrame(() => history.replaceState({ ...history.state, scrollY }, '', location.href));
 }, { passive: true });
-acceptReturnedLicense(); render();
-const savedLicense = localStorage.getItem(LICENSE_KEY); if (savedLicense) void verifyLicense(savedLicense);
-if ('serviceWorker' in navigator && location.protocol === 'https:') {
+render();
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
   void navigator.serviceWorker.register('/sw.js');
 }

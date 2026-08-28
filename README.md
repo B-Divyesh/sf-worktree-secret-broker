@@ -5,7 +5,7 @@ reads approved values from your OS keychain or 1Password CLI. It never writes
 those values to the worktree.
 
 This is for developers who create disposable worktrees for coding agents.
-Version 0.1.0 is local-only, has no telemetry, and is MIT licensed.
+Version 0.1.0 is MIT licensed.
 
 ## Install
 
@@ -66,8 +66,8 @@ wsb run \
 ```
 
 `wsb` resolves each approved reference and passes the value in the child
-environment. The value does not appear in the command line. The broker kills
-the child when the lease expires and prints a receipt with names only.
+environment. The broker kills the child when the lease expires and prints a
+receipt with names only.
 
 ### Providers
 
@@ -111,10 +111,17 @@ deployable site in `dist/site/`. The static deploy root is `dist/site`.
 See [`.factory/demo.md`](.factory/demo.md),
 [`CONTRIBUTING.md`](CONTRIBUTING.md), and [`CHANGELOG.md`](CHANGELOG.md).
 
-## Privacy and payment
+## Team policy helper
 
-The CLI has no network code or telemetry. The site stores a license only when
-you paste one or return from Sociobot checkout. See the published
+The site includes a local policy helper. It turns variable names into
+development-only provider references without a network request. The helper
+does not ask for secret values.
+
+## Privacy
+
+The site has no analytics. The browser demo uses bundled sample text. The CLI
+only resolves the provider references in your config for the child process you
+start. See the published
 [privacy](https://worktree-secret-broker.sociobot.in/privacy) and
 [terms](https://worktree-secret-broker.sociobot.in/terms) pages.
 

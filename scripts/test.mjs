@@ -6,7 +6,9 @@ function run(command, args) {
 }
 
 run('cargo', ['fmt', '--check']);
+run('cargo', ['clippy', '--', '-D', 'warnings']);
 run('cargo', ['test']);
+run('npm', ['run', 'typecheck']);
 run('cargo', ['build']);
 run('npm', ['run', 'build:site']);
 const forwarded = process.argv.slice(2).filter(arg => arg !== '--');
