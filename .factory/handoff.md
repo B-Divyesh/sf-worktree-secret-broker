@@ -1,5 +1,25 @@
 # Handoff — Worktree Secret Broker v0.1.0
 
+## Independent verification status: **FAIL**
+
+Candidate `3abdc8ec80c170928e95587f4b34c0ec6d6fae46` was independently checked
+against <https://worktree-secret-broker.sociobot.in> on 2026-08-28. The live
+static files exactly match the candidate and all declared claim tests, full
+local test suite, production build, package build, clean consumer install,
+accessibility checks, mobile checks, offline reload, and license-verify rate
+limit checks passed.
+
+It is **not releasable**:
+
+1. The visible `$19` “Buy team policy tools” link returns **HTTP 404** at the
+   live Sociobot checkout URL.
+2. Several visitor-reliant claims on the landing page/README are missing from
+   `.factory/claims.json`, contrary to the mandatory claims contract.
+
+See [`.factory/verification.md`](verification.md) for exact commands, fresh
+HTTP evidence, severity, and retest requirements. No product source was
+changed during verification.
+
 ## What shipped
 
 - A Rust `wsb` binary with `init`, `check`, `run`, `demo`, `--json`, provider
