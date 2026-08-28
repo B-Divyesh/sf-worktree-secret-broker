@@ -1,0 +1,13 @@
+# Sample names and references. These do not point to real values.
+version = 1
+lease_minutes = 15
+
+[[secrets]]
+name = "DATABASE_URL"
+source = "keychain://acorn-notes/database-url"
+labels = ["development"]
+
+[[secrets]]
+name = "NPM_TOKEN"
+source = "op://Development/npm/token"
+labels = ["development"]
