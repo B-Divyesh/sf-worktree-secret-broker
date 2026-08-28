@@ -1,9 +1,11 @@
 {
-  "navigationFallback": { "rewrite": "/index.html", "exclude": ["/assets/*", "/*.{png,webp,svg,woff2,xml,txt}"] },
   "routes": [
     { "route": "/assets/*", "headers": { "Cache-Control": "public, max-age=31536000, immutable" } },
     { "route": "/*.{woff2,webp,png,svg}", "headers": { "Cache-Control": "public, max-age=604800" } }
   ],
+  "responseOverrides": {
+    "404": { "rewrite": "/404.html" }
+  },
   "globalHeaders": {
     "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'",
     "X-Content-Type-Options": "nosniff",

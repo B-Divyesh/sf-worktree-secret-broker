@@ -162,6 +162,17 @@ for (const path of ['/', '/demo', '/privacy', '/terms', '/missing']) {
   });
 }
 
+test('production output keeps deep links and returns the designed 404 document', async () => {
+  for (const route of ['demo', 'privacy', 'terms']) {
+    await expect(access(join(process.cwd(), 'dist/site', route, 'index.html'))).resolves.toBeUndefined();
+  }
+  await expect(access(join(process.cwd(), 'dist/site/404.html'))).resolves.toBeUndefined();
+  const config = JSON.parse(await readFile(join(process.cwd(), 'dist/site/staticwebapp.config.json'), 'utf8')) as {
+    responseOverrides?: Record<string, { rewrite?: string }>;
+  };
+  expect(config.responseOverrides?.['404']?.rewrite).toBe('/404.html');
+});
+
 test('mobile first screen keeps the action visible and has no horizontal overflow', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
