@@ -1,0 +1,136 @@
+{
+  "routes": {
+    "/": {
+      "status": 200,
+      "title": "Worktree Secret Broker — Lease development secrets",
+      "h1": 1,
+      "main": 1,
+      "seriousAxe": 0
+    },
+    "/demo": {
+      "status": 200,
+      "title": "Demo — Worktree Secret Broker",
+      "h1": 1,
+      "main": 1,
+      "seriousAxe": 0
+    },
+    "/privacy": {
+      "status": 200,
+      "title": "Privacy — Worktree Secret Broker",
+      "h1": 1,
+      "main": 1,
+      "seriousAxe": 0
+    },
+    "/terms": {
+      "status": 200,
+      "title": "Terms — Worktree Secret Broker",
+      "h1": 1,
+      "main": 1,
+      "seriousAxe": 0
+    },
+    "/missing": {
+      "status": 404,
+      "title": "Page not found — Worktree Secret Broker",
+      "h1": 1,
+      "main": 1,
+      "seriousAxe": 0
+    }
+  },
+  "requests": [
+    "https://worktree-secret-broker.sociobot.in/",
+    "https://worktree-secret-broker.sociobot.in/fonts/fraunces-600-700.woff2",
+    "https://worktree-secret-broker.sociobot.in/key-orchard.webp",
+    "https://worktree-secret-broker.sociobot.in/assets/index-DPuurGYK.js",
+    "https://worktree-secret-broker.sociobot.in/assets/index-DpNs4Gwf.css",
+    "https://worktree-secret-broker.sociobot.in/fonts/atkinson-400.woff2",
+    "https://worktree-secret-broker.sociobot.in/fonts/atkinson-700.woff2",
+    "https://worktree-secret-broker.sociobot.in/demo",
+    "https://worktree-secret-broker.sociobot.in/fonts/fraunces-600-700.woff2",
+    "https://worktree-secret-broker.sociobot.in/key-orchard.webp",
+    "https://worktree-secret-broker.sociobot.in/assets/index-DPuurGYK.js",
+    "https://worktree-secret-broker.sociobot.in/assets/index-DpNs4Gwf.css",
+    "https://worktree-secret-broker.sociobot.in/fonts/atkinson-400.woff2",
+    "https://worktree-secret-broker.sociobot.in/fonts/atkinson-700.woff2",
+    "https://worktree-secret-broker.sociobot.in/privacy",
+    "https://worktree-secret-broker.sociobot.in/fonts/fraunces-600-700.woff2",
+    "https://worktree-secret-broker.sociobot.in/key-orchard.webp",
+    "https://worktree-secret-broker.sociobot.in/assets/index-DPuurGYK.js",
+    "https://worktree-secret-broker.sociobot.in/assets/index-DpNs4Gwf.css",
+    "https://worktree-secret-broker.sociobot.in/fonts/atkinson-400.woff2",
+    "https://worktree-secret-broker.sociobot.in/fonts/atkinson-700.woff2",
+    "https://worktree-secret-broker.sociobot.in/terms",
+    "https://worktree-secret-broker.sociobot.in/fonts/fraunces-600-700.woff2",
+    "https://worktree-secret-broker.sociobot.in/key-orchard.webp",
+    "https://worktree-secret-broker.sociobot.in/assets/index-DPuurGYK.js",
+    "https://worktree-secret-broker.sociobot.in/assets/index-DpNs4Gwf.css",
+    "https://worktree-secret-broker.sociobot.in/fonts/atkinson-400.woff2",
+    "https://worktree-secret-broker.sociobot.in/fonts/atkinson-700.woff2",
+    "https://worktree-secret-broker.sociobot.in/repair-6-missing",
+    "https://worktree-secret-broker.sociobot.in/fonts/fraunces-600-700.woff2",
+    "https://worktree-secret-broker.sociobot.in/key-orchard.webp",
+    "https://worktree-secret-broker.sociobot.in/assets/index-DPuurGYK.js",
+    "https://worktree-secret-broker.sociobot.in/assets/index-DpNs4Gwf.css",
+    "https://worktree-secret-broker.sociobot.in/fonts/atkinson-400.woff2",
+    "https://worktree-secret-broker.sociobot.in/fonts/atkinson-700.woff2",
+    "https://worktree-secret-broker.sociobot.in/",
+    "https://worktree-secret-broker.sociobot.in/fonts/fraunces-600-700.woff2",
+    "https://worktree-secret-broker.sociobot.in/assets/index-DPuurGYK.js",
+    "https://worktree-secret-broker.sociobot.in/assets/index-DpNs4Gwf.css",
+    "https://worktree-secret-broker.sociobot.in/fonts/atkinson-400.woff2",
+    "https://worktree-secret-broker.sociobot.in/fonts/atkinson-700.woff2",
+    "https://worktree-secret-broker.sociobot.in/key-orchard.webp",
+    "https://worktree-secret-broker.sociobot.in/demo",
+    "https://worktree-secret-broker.sociobot.in/fonts/fraunces-600-700.woff2",
+    "https://worktree-secret-broker.sociobot.in/assets/index-DPuurGYK.js",
+    "https://worktree-secret-broker.sociobot.in/assets/index-DpNs4Gwf.css",
+    "https://worktree-secret-broker.sociobot.in/fonts/atkinson-400.woff2",
+    "https://worktree-secret-broker.sociobot.in/fonts/atkinson-700.woff2",
+    "https://worktree-secret-broker.sociobot.in/demo",
+    "https://worktree-secret-broker.sociobot.in/fonts/fraunces-600-700.woff2",
+    "https://worktree-secret-broker.sociobot.in/assets/index-DPuurGYK.js",
+    "https://worktree-secret-broker.sociobot.in/assets/index-DpNs4Gwf.css",
+    "https://worktree-secret-broker.sociobot.in/fonts/atkinson-400.woff2",
+    "https://worktree-secret-broker.sociobot.in/fonts/atkinson-700.woff2",
+    "https://worktree-secret-broker.sociobot.in/demo",
+    "https://worktree-secret-broker.sociobot.in/fonts/fraunces-600-700.woff2",
+    "https://worktree-secret-broker.sociobot.in/assets/index-DPuurGYK.js",
+    "https://worktree-secret-broker.sociobot.in/assets/index-DpNs4Gwf.css",
+    "https://worktree-secret-broker.sociobot.in/fonts/atkinson-400.woff2",
+    "https://worktree-secret-broker.sociobot.in/fonts/atkinson-700.woff2"
+  ],
+  "mobile": {
+    "innerWidth": 390,
+    "scrollWidth": 390,
+    "actionBottom": 514.703125,
+    "actionWidth": 350,
+    "actionHeight": 50.34375,
+    "undersized": [],
+    "zoomScrollWidth": 390
+  },
+  "keyboard": {
+    "first": "Skip to main content",
+    "afterEnter": "main"
+  },
+  "motion": {
+    "duration": "1e-06s",
+    "iterations": "1"
+  },
+  "offline": {
+    "controlled": true,
+    "heading": "See the CLI run with sample worktree data",
+    "banner": "Demo — sample data, nothing is saved to your real data\nReset demo\nStart for real"
+  },
+  "license": {
+    "urlStripped": true,
+    "stored": true,
+    "status": "License no longer active. Check the token or buy a new license.",
+    "toolsHidden": true,
+    "verifyResponses": [
+      200
+    ],
+    "errors": []
+  },
+  "sameOriginOnly": true,
+  "cookies": [],
+  "errors": []
+}

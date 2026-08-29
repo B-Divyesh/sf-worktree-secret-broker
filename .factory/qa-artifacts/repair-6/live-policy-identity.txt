@@ -1,0 +1,27 @@
+route / 200
+route /demo 200
+route /privacy 200
+route /terms 200
+route /repair-6-missing 404
+identity index.html MATCH
+identity sw.js MATCH
+identity key-orchard.webp MATCH
+identity og-image.webp MATCH
+identity assets/index-DPuurGYK.js MATCH
+identity assets/index-DpNs4Gwf.css MATCH
+checkout 303 redirect_host=checkout.dodopayments.com
+verify valid=false reason=invalid
+catalog {"slug":"worktree-secret-broker","price_minor":1900,"currency":"USD","checkout_url":"https://api.sociobot.in/api/v1/products/worktree-secret-broker/checkout"}
+--- selected response headers ---
+HTTP/2 200 
+cache-control: public, must-revalidate, max-age=30
+strict-transport-security: max-age=10886400; includeSubDomains; preload
+referrer-policy: strict-origin-when-cross-origin
+x-content-type-options: nosniff
+content-security-policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.sociobot.in; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'
+permissions-policy: camera=(), microphone=(), geolocation=()
+--- selected asset headers ---
+HTTP/2 200 
+content-type: text/javascript
+cache-control: public, max-age=31536000, immutable
+etag: "44248432"
