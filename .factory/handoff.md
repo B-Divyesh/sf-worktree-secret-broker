@@ -71,14 +71,17 @@ Evidence from this repair:
 ## Deployment
 
 Static deployment uses the existing `dist/site` output and
-`site/public/staticwebapp.config.json`. Push commit `4e7be66` and this handoff
-commit to `main`; the factory static deployment is then verified at
-<https://worktree-secret-broker.sociobot.in> against the new production asset
-hash.
+`site/public/staticwebapp.config.json`. Commits `4e7be66` and `a252450` were
+pushed to `main` (`a252450b68723f27bbefb7cac71d48a740c00708`). There is no
+repository deployment workflow or credential/configuration for a direct static
+publish; this repository's deployment contract assigns publishing to the
+factory. The live site was checked after the push and still served the prior
+`assets/index-Bh2pT44p.js` asset, so factory propagation remains pending.
 
 ## Known gaps
 
-None in the product scope. There is no backend, authentication, analytics,
-payment endpoint, or AI runtime to verify. The standalone Axe CLI limitation
-above is environmental rather than a site failure; Playwright Axe coverage is
-the release check.
+The product has no known scope gaps. The external static publish propagation
+above remains pending. There is no backend, authentication, analytics, payment
+endpoint, or AI runtime to verify. The standalone Axe CLI limitation above is
+environmental rather than a site failure; Playwright Axe coverage is the
+release check.
