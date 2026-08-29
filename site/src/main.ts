@@ -22,7 +22,7 @@ function shell(content: string, demo = false): string {
     <footer>
       <p>Temporary secret leases for worktree processes.</p>
       <nav aria-label="Footer navigation"><a href="/privacy" data-link>Privacy</a><a href="/terms" data-link>Terms</a><a href="https://sociobot.in/" rel="external">Built by Param Factory <span class="sr-only">(external site)</span></a></nav>
-      <p>Version 0.1.0 · build 2026.08.28</p>
+      <p>Version 0.1.0 · build 2026.08.29</p>
     </footer>`;
 }
 
@@ -69,7 +69,7 @@ function home(): string {
         <li><span>02</span><div><h3>Name the worktree</h3><p>The broker checks the Git root before starting one child process.</p><code>wsb run --worktree ../agent-42 -- npm test</code></div></li>
         <li><span>03</span><div><h3>Read the receipt</h3><p>Expiry stops the child. The receipt lists names, timing, and outcome.</p><code>outcome: child-exited · names: NPM_TOKEN</code></div></li>
       </ol>
-      <div class="install-line"><code>cargo install --path .</code><button type="button" data-copy="cargo install --path .">Copy install command</button></div>
+      <div class="install-line"><div><code>cargo install --git https://github.com/B-Divyesh/sf-worktree-secret-broker.git --locked</code><a class="source-link" href="https://github.com/B-Divyesh/sf-worktree-secret-broker" rel="external">View source <span class="sr-only">(external site)</span></a></div><button type="button" data-copy="cargo install --git https://github.com/B-Divyesh/sf-worktree-secret-broker.git --locked">Copy install command</button></div>
     </section>
     <section class="limits" aria-labelledby="limits-heading">
       <div><p class="eyebrow">A narrow tool</p><h2 id="limits-heading">What the broker does not do</h2></div>
@@ -125,7 +125,23 @@ function notFound(): string {
   return shell(`<section class="lost"><div class="lost-key" aria-hidden="true">?</div><p class="eyebrow">404 · no lease here</p><h1 tabindex="-1">This path has no worktree</h1><p>The page may have moved. The broker itself is still where you left it.</p><a class="button" href="/" data-link>Return home</a></section>`);
 }
 
-function render(push = false): void {
+type RenderMode = 'initial' | 'navigate' | 'pop';
+
+function hashTarget(): HTMLElement | null {
+  return location.hash.length > 1 ? document.getElementById(decodeURIComponent(location.hash.slice(1))) : null;
+}
+
+function focusAndScroll(target: HTMLElement | null, top: number): void {
+  const focusTarget = target?.querySelector<HTMLElement>('h2') ?? document.querySelector<HTMLHeadingElement>('h1')!;
+  focusTarget.tabIndex = -1;
+  focusTarget.focus({ preventScroll: true });
+  window.scrollTo({ top, behavior: 'instant' });
+  document.querySelector('#route-status')!.textContent = focusTarget.textContent;
+}
+
+let restoringScroll = false;
+
+function render(mode: RenderMode = 'initial', savedScroll = 0): void {
   const route = routeFor(location.pathname);
   if (route !== '/privacy' && route !== '/terms') {
     const titles: Record<Route, string> = {
@@ -144,13 +160,15 @@ function render(push = false): void {
   const app = document.querySelector<HTMLDivElement>('#app')!;
   app.innerHTML = route === '/' ? home() : route === '/demo' ? demo() : route === '/privacy' ? privacy() : route === '/terms' ? terms() : notFound();
   bindActions();
-  if (push) {
-    const target = location.hash ? document.querySelector<HTMLElement>(location.hash) : null;
-    const focusTarget = target?.querySelector<HTMLElement>('h2') ?? document.querySelector<HTMLHeadingElement>('h1')!;
-    focusTarget.tabIndex = -1;
-    focusTarget.focus({ preventScroll: true });
-    window.scrollTo({ top: target?.offsetTop ?? 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
-    document.querySelector('#route-status')!.textContent = focusTarget.textContent;
+  const target = hashTarget();
+  if (mode === 'navigate' || (mode === 'initial' && target)) {
+    requestAnimationFrame(() => focusAndScroll(target, target?.offsetTop ?? 0));
+  } else if (mode === 'pop') {
+    restoringScroll = true;
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      focusAndScroll(target, target?.offsetTop ?? savedScroll);
+      requestAnimationFrame(() => { restoringScroll = false; });
+    }));
   }
 }
 
@@ -162,11 +180,11 @@ function bindActions(): void {
     if (link.closest('.demo-banner')) {
       Object.keys(sessionStorage).filter(key => key.startsWith('demo:')).forEach(key => sessionStorage.removeItem(key));
     }
-    history.pushState({ scrollY: 0 }, '', link.href); render(true);
+    history.pushState({ scrollY: 0 }, '', link.href); render('navigate');
   }));
   document.querySelector('[data-reset-demo]')?.addEventListener('click', () => {
     Object.keys(sessionStorage).filter(key => key.startsWith('demo:')).forEach(key => sessionStorage.removeItem(key));
-    sessionStorage.setItem('demo:reset', String(Date.now())); render(false);
+    sessionStorage.setItem('demo:reset', String(Date.now())); render();
     document.querySelector<HTMLButtonElement>('[data-reset-demo]')?.focus();
   });
   document.querySelector<HTMLButtonElement>('[data-copy]')?.addEventListener('click', async event => {
@@ -188,21 +206,18 @@ function bindActions(): void {
 }
 
 window.addEventListener('popstate', event => {
-  render(false);
-  requestAnimationFrame(() => {
-    window.scrollTo({ top: Number(event.state?.scrollY ?? 0), behavior: 'instant' });
-    const h1 = document.querySelector<HTMLHeadingElement>('h1')!;
-    h1.focus({ preventScroll: true });
-    document.querySelector('#route-status')!.textContent = h1.textContent;
-  });
+  render('pop', Number(event.state?.scrollY ?? 0));
 });
+history.scrollRestoration = 'manual';
 history.replaceState({ ...history.state, scrollY }, '', location.href);
 let scrollFrame = 0;
 addEventListener('scroll', () => {
   cancelAnimationFrame(scrollFrame);
-  scrollFrame = requestAnimationFrame(() => history.replaceState({ ...history.state, scrollY }, '', location.href));
+  scrollFrame = requestAnimationFrame(() => {
+    if (!restoringScroll) history.replaceState({ ...history.state, scrollY }, '', location.href);
+  });
 }, { passive: true });
-render();
+render('initial');
 if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
   void navigator.serviceWorker.register('/sw.js');
 }

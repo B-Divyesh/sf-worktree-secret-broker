@@ -1,6 +1,6 @@
 # Landing page copy audit
 
-Audited 2026-08-28. Counts split on spaces and treat hyphenated terms as one
+Audited 2026-08-29. Counts split on spaces and treat hyphenated terms as one
 word. No sentence exceeds 22 words. No banned term appears in rendered copy.
 
 | Copy | Words | Result |
@@ -43,6 +43,7 @@ word. No sentence exceeds 22 words. No banned term appears in rendered copy.
 | --- | ---: | --- |
 | Try it with sample data | 6 | Pass |
 | Copy install command | 3 | Pass |
+| View source | 2 | Pass |
 | Generate team policy | 3 | Pass |
 
 ## Terminology

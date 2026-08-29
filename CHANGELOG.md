@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Require explicit opt-in before `CI` reaches a leased child process.
+- Validate the full `op://VAULT/ITEM/FIELD` reference shape during `check`.
+- Add a public-source install command and complete the claim test inventory.
+- Restore accessible mobile targets, deep-link scrolling, back-scroll state, and HTTP 404 responses.
+
 ## 0.1.0 — 2026-08-28
 
 - Add keychain and 1Password reference providers.

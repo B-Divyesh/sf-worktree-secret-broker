@@ -170,7 +170,14 @@ fn parse_source(raw: &str) -> Result<Source> {
             account: account.into(),
         });
     }
-    if raw.starts_with("op://") && raw.len() > 5 {
+    if let Some(rest) = raw.strip_prefix("op://") {
+        let parts: Vec<_> = rest.split('/').collect();
+        if parts.len() != 3
+            || parts.iter().any(|part| part.is_empty())
+            || parts.iter().any(|part| part.contains(['?', '#']))
+        {
+            bail!("1Password reference must be op://VAULT/ITEM/FIELD");
+        }
         return Ok(Source::OnePassword(raw.into()));
     }
     bail!("unsupported source reference. Use keychain:// or op://");
@@ -291,7 +298,6 @@ const SAFE_ENV: &[&str] = &[
     "LC_ALL",
     "TERM",
     "COLORTERM",
-    "CI",
     "NO_COLOR",
     "SYSTEMROOT",
 ];
@@ -470,5 +476,27 @@ labels=["{label}"]"#
     fn template_is_valid() {
         let parsed: Config = toml::from_str(TEMPLATE).unwrap();
         assert!(validate(&parsed, false).is_ok());
+    }
+
+    #[test]
+    fn validates_the_documented_one_password_reference_shape() {
+        for malformed in [
+            "op://x",
+            "op://vault/item",
+            "op://vault//field",
+            "op:///item/field",
+            "op://vault/item/field/extra",
+            "op://vault/item/field?attribute=otp",
+        ] {
+            let mut value = config("development");
+            value.secrets[0].source = malformed.into();
+            let error = validate(&value, false).unwrap_err().to_string();
+            assert!(
+                error.contains("op://VAULT/ITEM/FIELD"),
+                "{malformed}: {error}"
+            );
+        }
+
+        assert!(parse_source("op://Development/API/token").is_ok());
     }
 }

@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
-import { execFile } from 'node:child_process';
+import { execFile, spawn as spawnProcess } from 'node:child_process';
 import { access, chmod, mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -43,11 +43,84 @@ test('@claim:demo-isolated CLI demo uses no provider and removes its temporary w
 
 test('@claim:approved-environment only approved values enter a cleared child environment', async () => {
   const item = await fixture();
-  const child = 'test "$API_TOKEN" = fixture-value-7x9 && test -z "$UNRELATED_TOKEN"';
-  const result = await exec(binary, ['run', '--config', item.config, '--worktree', item.root, '--', 'sh', '-c', child], {
-    env: { ...item.env, UNRELATED_TOKEN: 'must-not-pass' },
+  const safeNames = ['PATH', 'HOME', 'USER', 'LOGNAME', 'SHELL', 'TMPDIR', 'TEMP', 'TMP', 'LANG', 'LC_ALL', 'TERM', 'COLORTERM', 'NO_COLOR', 'SYSTEMROOT'];
+  const parentEnv = { ...item.env, CI: 'qa-ci-must-not-pass', UNRELATED_TOKEN: 'must-not-pass', GITHUB_TOKEN: 'must-not-pass' };
+  for (const name of safeNames) {
+    if (name !== 'PATH') parentEnv[name] = name === 'LANG' || name === 'LC_ALL' ? 'C' : `safe-${name}`;
+  }
+  const result = await exec(binary, ['run', '--config', item.config, '--worktree', item.root, '--', '/usr/bin/env'], {
+    env: parentEnv,
   });
   expect(result.stdout).toContain('names: API_TOKEN');
+  const childEnv = new Map(result.stdout.split('\n').filter(line => line.includes('=')).map(line => line.split(/=(.*)/s).slice(0, 2) as [string, string]));
+  expect([...childEnv.keys()].sort()).toEqual([...safeNames, 'API_TOKEN'].sort());
+  expect(childEnv.get('API_TOKEN')).toBe('fixture-value-7x9');
+  expect(childEnv.has('CI')).toBe(false);
+
+  await writeFile(item.config, `${await readFile(item.config, 'utf8')}\n[process]\ninherit = ["CI"]\n`);
+  const optedIn = await exec(binary, ['run', '--config', item.config, '--worktree', item.root, '--', 'sh', '-c', 'test "$CI" = qa-ci-must-not-pass'], { env: parentEnv });
+  expect(optedIn.stdout).toContain('names: API_TOKEN');
+  await rm(item.root, { recursive: true, force: true });
+});
+
+test('@claim:one-password-provider documented 1Password references use op read', async () => {
+  const root = await mkdtemp(join(tmpdir(), 'wsb-op-'));
+  const tools = join(root, 'tools');
+  await mkdir(tools);
+  await exec('git', ['init', '-q'], { cwd: root });
+  const op = join(tools, 'op');
+  await writeFile(op, '#!/bin/sh\ntest "$1" = read && test "$2" = op://Development/API/token && test "$3" = --no-newline || exit 41\nprintf op-fixture-value\n');
+  await chmod(op, 0o755);
+  const config = join(root, 'config.toml');
+  await writeFile(config, 'version=1\n[[secrets]]\nname="API_TOKEN"\nsource="op://Development/API/token"\nlabels=["development"]\n');
+  const env = { ...process.env, PATH: `${tools}:${process.env.PATH}` };
+  const checked = await exec(binary, ['check', '--config', config, '--json'], { env });
+  expect(JSON.parse(checked.stdout).providers).toEqual(['1password']);
+  const result = await exec(binary, ['run', '--config', config, '--worktree', root, '--', 'sh', '-c', 'test "$API_TOKEN" = op-fixture-value'], { env });
+  expect(result.stdout).toContain('names: API_TOKEN');
+  await rm(root, { recursive: true, force: true });
+});
+
+test('check rejects malformed 1Password references before provider access', async () => {
+  const root = await mkdtemp(join(tmpdir(), 'wsb-op-invalid-'));
+  const tools = join(root, 'tools');
+  await mkdir(tools);
+  const op = join(tools, 'op');
+  await writeFile(op, '#!/bin/sh\nexit 0\n');
+  await chmod(op, 0o755);
+  const config = join(root, 'config.toml');
+  await writeFile(config, 'version=1\n[[secrets]]\nname="API_TOKEN"\nsource="op://x"\nlabels=["development"]\n');
+  await expect(exec(binary, ['check', '--config', config], { env: { ...process.env, PATH: `${tools}:${process.env.PATH}` } }))
+    .rejects.toMatchObject({ stderr: expect.stringContaining('op://VAULT/ITEM/FIELD') });
+  await rm(root, { recursive: true, force: true });
+});
+
+test('@claim:broker-stop-revokes stopping the broker kills its leased child', async () => {
+  const item = await fixture();
+  const marker = join(item.root, 'child.pid');
+  const broker = spawnProcess(binary, ['run', '--config', item.config, '--worktree', item.root, '--', 'sh', '-c', `echo $$ > "${marker}"; exec sleep 30`], {
+    env: item.env,
+    stdio: ['ignore', 'pipe', 'pipe'],
+  });
+  let childPid = 0;
+  for (let attempt = 0; attempt < 50; attempt += 1) {
+    try {
+      childPid = Number((await readFile(marker, 'utf8')).trim());
+      break;
+    } catch {
+      await new Promise(resolve => setTimeout(resolve, 50));
+    }
+  }
+  expect(childPid).toBeGreaterThan(0);
+  broker.kill('SIGINT');
+  let stdout = '';
+  broker.stdout.on('data', chunk => { stdout += String(chunk); });
+  await new Promise<void>((resolve, reject) => {
+    broker.once('error', reject);
+    broker.once('close', () => resolve());
+  });
+  expect(stdout).toContain('outcome: broker-stopped');
+  expect(() => process.kill(childPid, 0)).toThrow();
   await rm(item.root, { recursive: true, force: true });
 });
 
@@ -127,6 +200,25 @@ test('@claim:policy-generator the local helper creates development-only referenc
   expect([...origins]).toEqual(['http://127.0.0.1:4173']);
 });
 
+test('@claim:demo-reset reset clears demo storage and restores the first output', async ({ page }) => {
+  await page.goto('/demo');
+  await page.evaluate(() => sessionStorage.setItem('demo:changed-frame', '9'));
+  await page.getByRole('button', { name: 'Reset demo' }).click();
+  expect(await page.evaluate(() => sessionStorage.getItem('demo:changed-frame'))).toBeNull();
+  expect(await page.evaluate(() => sessionStorage.getItem('demo:reset'))).not.toBeNull();
+  await expect(page.locator('.terminal')).toContainText('$ wsb demo');
+  await expect(page.getByRole('button', { name: 'Reset demo' })).toBeFocused();
+});
+
+test('@claim:copy-install-command copies an actionable public-source command', async ({ context, page }) => {
+  await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+  await page.goto('/#install');
+  await page.getByRole('button', { name: 'Copy install command' }).click();
+  await expect(page.getByRole('button', { name: 'Copied' })).toBeVisible();
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe('cargo install --git https://github.com/B-Divyesh/sf-worktree-secret-broker.git --locked');
+  await expect(page.getByRole('link', { name: /View source/ })).toHaveAttribute('href', 'https://github.com/B-Divyesh/sf-worktree-secret-broker');
+});
+
 test('regression: an unavailable checkout is not advertised', async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('a[href*="/checkout"]')).toHaveCount(0);
@@ -162,11 +254,48 @@ for (const path of ['/', '/demo', '/privacy', '/terms', '/missing']) {
   });
 }
 
+test('production output emits real routes and a designed HTTP 404 override', async () => {
+  await expect(access(join(process.cwd(), 'dist/site/404.html'))).resolves.toBeUndefined();
+  const config = JSON.parse(await readFile(join(process.cwd(), 'dist/site/staticwebapp.config.json'), 'utf8')) as {
+    navigationFallback?: unknown;
+    routes?: Array<{ route: string; rewrite?: string }>;
+    responseOverrides?: Record<string, { rewrite?: string }>;
+  };
+  expect(config.navigationFallback).toBeUndefined();
+  for (const route of ['/demo', '/privacy', '/terms']) {
+    expect(config.routes).toContainEqual({ route, rewrite: '/index.html' });
+  }
+  expect(config.responseOverrides?.['404']?.rewrite).toBe('/404.html');
+});
+
+test('cold hash links and browser Back restore their exact destinations', async ({ page }) => {
+  await page.goto('/#install');
+  await expect(page.locator('#install h2')).toBeFocused();
+  expect(await page.evaluate(() => scrollY)).toBeGreaterThan(1_000);
+
+  await page.goto('/');
+  await page.evaluate(() => scrollTo(0, 1_800));
+  await page.waitForFunction(() => scrollY > 1_700);
+  await page.evaluate(() => (document.querySelector('a[href="/demo"]') as HTMLAnchorElement).click());
+  await expect(page).toHaveURL(/\/demo$/);
+  await page.goBack();
+  await expect(page).toHaveURL(/\/$/);
+  await page.waitForFunction(() => scrollY > 1_700);
+});
+
 test('mobile first screen keeps the action visible and has no horizontal overflow', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
   await expect(page.getByRole('link', { name: 'Try it with sample data' })).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  const undersized = await page.locator('a').evaluateAll(links => links
+    .filter(link => {
+      const style = getComputedStyle(link);
+      return style.visibility !== 'hidden' && style.display !== 'none';
+    })
+    .map(link => ({ text: link.textContent?.trim(), width: link.getBoundingClientRect().width, height: link.getBoundingClientRect().height }))
+    .filter(box => box.width < 44 || box.height < 44));
+  expect(undersized).toEqual([]);
 });
 
 test('keyboard starts at the skip link and operates the policy helper', async ({ page }) => {

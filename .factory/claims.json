@@ -68,5 +68,33 @@
     "where": "landing policy helper and README",
     "test": "npm test -- --grep @claim:policy-generator",
     "sandbox": "fresh browser context with request origins recorded and a sentinel secret value"
+  },
+  {
+    "id": "broker-stop-revokes",
+    "claim": "Stopping the broker kills the leased child process and records broker-stopped.",
+    "where": "README exposure limits",
+    "test": "npm test -- --grep @claim:broker-stop-revokes",
+    "sandbox": "temp Git worktree, fake provider, long-running child, and SIGINT sent to the broker"
+  },
+  {
+    "id": "demo-reset",
+    "claim": "Reset demo clears demo-only session data and restores the first recorded output.",
+    "where": "demo banner, privacy page, and demo documentation",
+    "test": "npm test -- --grep @claim:demo-reset",
+    "sandbox": "fresh browser context with changed demo-prefixed session data"
+  },
+  {
+    "id": "copy-install-command",
+    "claim": "Copy install command copies the public-source Cargo command.",
+    "where": "landing install action",
+    "test": "npm test -- --grep @claim:copy-install-command",
+    "sandbox": "fresh browser context with clipboard permission"
+  },
+  {
+    "id": "one-password-provider",
+    "claim": "The broker reads a documented op://VAULT/ITEM/FIELD reference through 1Password CLI.",
+    "where": "README provider documentation",
+    "test": "npm test -- --grep @claim:one-password-provider",
+    "sandbox": "temp Git worktree and fake op executable that verifies the read arguments"
   }
 ]

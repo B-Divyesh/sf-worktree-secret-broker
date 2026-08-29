@@ -9,12 +9,15 @@ Version 0.1.0 is MIT licensed.
 
 ## Install
 
-Build the single binary with Rust 1.85 or newer:
+Install the single binary from its public source with Rust 1.85 or newer:
 
 ```sh
-cargo install --path .
+cargo install --git https://github.com/B-Divyesh/sf-worktree-secret-broker.git --locked
 wsb --help
 ```
+
+The [source repository](https://github.com/B-Divyesh/sf-worktree-secret-broker)
+also supports `cargo install --path .` after cloning it.
 
 The factory can prepare the release package with `cargo package --allow-dirty`.
 Registry publishing is handled outside this repository.
