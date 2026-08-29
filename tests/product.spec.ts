@@ -289,7 +289,7 @@ test('@claim:site-no-analytics the landing page makes no third-party request', a
   const origins = new Set<string>();
   page.on('request', request => origins.add(new URL(request.url()).origin));
   await page.goto('/');
-  await expect(page.getByRole('heading', { name: 'Lease secrets to one worktree process' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Give one worktree process approved variables' })).toBeVisible();
   expect([...origins]).toEqual(['http://127.0.0.1:4173']);
 });
 
@@ -458,6 +458,77 @@ test('@claim:paid-team-review purchase return, restore, cache, invalidation, and
   await expect(page.getByRole('heading', { name: 'Team review checklist' })).toBeVisible();
 });
 
+test('@claim:license-token-privacy license tokens stay local, leave URLs, and go only to Sociobot checks', async ({ context, page }) => {
+  const requests: string[] = [];
+  const verificationTokens: string[] = [];
+  page.on('request', request => requests.push(request.url()));
+  await page.route('https://api.sociobot.in/api/v1/products/worktree-secret-broker/verify?*', async route => {
+    const token = new URL(route.request().url()).searchParams.get('license');
+    verificationTokens.push(token ?? '');
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({ valid: token !== 'license_invalid', reason: token === 'license_invalid' ? 'invalid' : 'ok', expires_at: null }),
+    });
+  });
+
+  await page.goto('/?license=license_returned_123');
+  await expect(page).toHaveURL(/\/$/);
+  await expect(page.getByRole('status')).toHaveText('Team review tools are active on this device.');
+  expect(await page.evaluate(() => localStorage.getItem('sb_license:worktree-secret-broker'))).toBe('license_returned_123');
+  expect(new URL(page.url()).searchParams.has('license')).toBe(false);
+
+  await page.reload();
+  await expect(page.getByRole('status')).toHaveText('Team review tools are active on this device.');
+  expect(verificationTokens).toEqual(['license_returned_123']);
+
+  await page.getByLabel('Have a license? Paste it').fill('license_pasted_456');
+  await page.getByRole('button', { name: 'Verify license' }).click();
+  await expect(page.getByRole('status')).toHaveText('Team review tools are active on this device.');
+
+  await page.getByLabel('Have a license? Paste it').fill('license_invalid');
+  await page.getByRole('button', { name: 'Verify license' }).click();
+  await expect(page.getByRole('status')).toHaveText('License no longer active. Check the token or buy a new license.');
+  expect(verificationTokens).toEqual(['license_returned_123', 'license_pasted_456', 'license_invalid']);
+
+  await context.addInitScript(({ keys }: { keys: string[] }) => {
+    const accesses: string[] = [];
+    Object.defineProperty(window, '__wsbLicenseAccesses', { value: accesses });
+    for (const operation of ['getItem', 'setItem', 'removeItem'] as const) {
+      const original = Storage.prototype[operation];
+      Object.defineProperty(Storage.prototype, operation, {
+        configurable: true,
+        writable: true,
+        value(this: Storage, key: string, ...args: string[]) {
+          if (keys.includes(String(key))) accesses.push(`${operation}:${key}`);
+          return original.call(this, key, ...args);
+        },
+      });
+    }
+  }, { keys: ['sb_license:worktree-secret-broker', 'sb_license_verdict:worktree-secret-broker'] });
+  await page.goto('/?demo=1');
+  await expect(page.getByText('Demo — sample data, nothing is saved to your real data').first()).toBeVisible();
+  const demoStorage = await page.evaluate(() => {
+    const observed = [...((window as Window & { __wsbLicenseAccesses?: string[] }).__wsbLicenseAccesses ?? [])];
+    return {
+      observed,
+      license: localStorage.getItem('sb_license:worktree-secret-broker'),
+      verdict: localStorage.getItem('sb_license_verdict:worktree-secret-broker'),
+    };
+  });
+  expect(demoStorage.observed).toEqual([]);
+  expect(demoStorage.license).toBe('license_invalid');
+  expect(demoStorage.verdict).toContain('"valid":false');
+
+  const externalRequests = requests.filter(url => new URL(url).origin !== 'http://127.0.0.1:4173');
+  expect(externalRequests).toHaveLength(3);
+  for (const request of externalRequests) {
+    const url = new URL(request);
+    expect(url.origin).toBe('https://api.sociobot.in');
+    expect(url.pathname).toBe('/api/v1/products/worktree-secret-broker/verify');
+  }
+});
+
 test('@claim:offline-demo demo reloads offline after the first visit', async ({ context, page }) => {
   await page.goto('/demo');
   await page.evaluate(() => navigator.serviceWorker.ready);
@@ -476,10 +547,31 @@ test('regression: verifier V7 copy findings are removed or mapped to one claim t
   const publishedCopy = `${await readFile(join(process.cwd(), 'site/src/main.ts'), 'utf8')}\n${await readFile(join(process.cwd(), 'README.md'), 'utf8')}`;
   expect(publishedCopy).not.toContain('It does not host a vault.');
   expect(publishedCopy).not.toContain('It does not scan repositories.');
+  expect(publishedCopy).not.toContain('merchant of record');
+  expect(publishedCopy).not.toContain('Refunds are handled there.');
+  expect(publishedCopy).not.toContain('A refund revokes its license.');
   for (const id of claims.map(claim => claim.id)) {
     expect(source.match(new RegExp(`@claim:${id}(?![A-Za-z0-9-])`, 'g')) ?? []).toHaveLength(1);
   }
-  expect(claims.map(claim => claim.id)).toEqual(expect.arrayContaining(['public-source-install', 'json-output', 'offline-demo', 'paid-team-review']));
+  expect(claims.map(claim => claim.id)).toEqual(expect.arrayContaining(['public-source-install', 'json-output', 'offline-demo', 'paid-team-review', 'license-token-privacy']));
+});
+
+test('regression: review 3 copy names license data handling and avoids unprovable purchase promises', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.getByRole('heading', { level: 1, name: 'Give one worktree process approved variables' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 2, name: 'Team policy review checklist' })).toBeVisible();
+  await expect(page.locator('#license-help')).toHaveText('The site stores your license in this browser and sends it to Sociobot when it checks it.');
+  await expect(page.getByRole('status')).toHaveText('Team review tools cost $19 once. License checks use Sociobot.');
+  await expect(page.locator('main')).not.toContainText('merchant of record');
+  await expect(page.locator('main')).not.toContainText('Refunds are handled there.');
+
+  await page.goto('/privacy');
+  await expect(page.getByRole('heading', { level: 1, name: 'How license checks handle data' })).toBeVisible();
+  await expect(page.locator('main')).toContainText('It sends the token to Sociobot when it checks it.');
+
+  await page.goto('/terms');
+  await expect(page.locator('main')).toContainText('Team review tools cost $19 once. License checks use Sociobot.');
+  await expect(page.locator('main')).not.toContainText('refund');
 });
 
 test('first screen states privacy, offline, and price facts', async ({ page }) => {
@@ -518,8 +610,8 @@ test('production output emits real routes and a designed HTTP 404 override', asy
   expect(config.navigationFallback).toBeUndefined();
   const staticPages = [
     ['demo', 'Demo — Worktree Secret Broker', 'See the CLI run with isolated sample worktree data and a names-only receipt.'],
-    ['privacy', 'Privacy — Worktree Secret Broker', 'Read how the CLI and its isolated browser sample handle local data.'],
-    ['terms', 'Terms — Worktree Secret Broker', 'Read the MIT license terms and safe-use limits for Worktree Secret Broker.'],
+    ['privacy', 'Privacy — Worktree Secret Broker', 'Read how the browser sample and license checks handle local data.'],
+    ['terms', 'Terms — Worktree Secret Broker', 'Read license and purchase terms for Worktree Secret Broker.'],
     ['404', 'Page not found — Worktree Secret Broker', 'Return to Worktree Secret Broker from a path that does not exist.'],
   ] as const;
   for (const [route, title, description] of staticPages) {
@@ -535,10 +627,10 @@ test('production output emits real routes and a designed HTTP 404 override', asy
 
 test('each route updates its social metadata after client navigation', async ({ page }) => {
   const expected = [
-    ['/', 'Worktree Secret Broker — Lease development secrets', 'Give one worktree process only the development secrets it needs, without copying a secret file.'],
+    ['/', 'Worktree Secret Broker — Approve worktree variables', 'Give one worktree process only approved development variables, without copying a secret file.'],
     ['/demo', 'Demo — Worktree Secret Broker', 'See the CLI run with isolated sample worktree data and a names-only receipt.'],
-    ['/privacy', 'Privacy — Worktree Secret Broker', 'Read how the CLI and its isolated browser sample handle local data.'],
-    ['/terms', 'Terms — Worktree Secret Broker', 'Read the MIT license terms and safe-use limits for Worktree Secret Broker.'],
+    ['/privacy', 'Privacy — Worktree Secret Broker', 'Read how the browser sample and license checks handle local data.'],
+    ['/terms', 'Terms — Worktree Secret Broker', 'Read license and purchase terms for Worktree Secret Broker.'],
     ['/missing', 'Page not found — Worktree Secret Broker', 'Return to Worktree Secret Broker from a path that does not exist.'],
   ] as const;
   for (const [path, title, description] of expected) {

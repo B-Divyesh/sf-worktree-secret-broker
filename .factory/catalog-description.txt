@@ -1,1 +1,1 @@
-Give one worktree process only its approved development secrets.
+Give worktree processes approved development variables.

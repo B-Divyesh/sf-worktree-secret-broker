@@ -17,18 +17,18 @@ const pages = {
   },
   '/privacy': {
     title: 'Privacy — Worktree Secret Broker',
-    description: 'Read how the CLI and its isolated browser sample handle local data.',
-    heading: 'Privacy stays local',
+    description: 'Read how the browser sample and license checks handle local data.',
+    heading: 'How license checks handle data',
   },
   '/terms': {
     title: 'Terms — Worktree Secret Broker',
-    description: 'Read the MIT license terms and safe-use limits for Worktree Secret Broker.',
+    description: 'Read license and purchase terms for Worktree Secret Broker.',
     heading: 'Terms for using the broker',
   },
   '/404': {
     title: 'Page not found — Worktree Secret Broker',
     description: 'Return to Worktree Secret Broker from a path that does not exist.',
-    heading: 'This path has no worktree',
+    heading: 'This page does not exist',
   },
 };
 

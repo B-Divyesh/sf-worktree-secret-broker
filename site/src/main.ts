@@ -13,8 +13,8 @@ type Metadata = { title: string; description: string; canonical: string };
 
 const metadata: Record<Route, Metadata> = {
   '/': {
-    title: 'Worktree Secret Broker — Lease development secrets',
-    description: 'Give one worktree process only the development secrets it needs, without copying a secret file.',
+    title: 'Worktree Secret Broker — Approve worktree variables',
+    description: 'Give one worktree process only approved development variables, without copying a secret file.',
     canonical: '/',
   },
   '/demo': {
@@ -24,12 +24,12 @@ const metadata: Record<Route, Metadata> = {
   },
   '/privacy': {
     title: 'Privacy — Worktree Secret Broker',
-    description: 'Read how the CLI and its isolated browser sample handle local data.',
+    description: 'Read how the browser sample and license checks handle local data.',
     canonical: '/privacy',
   },
   '/terms': {
     title: 'Terms — Worktree Secret Broker',
-    description: 'Read the MIT license terms and safe-use limits for Worktree Secret Broker.',
+    description: 'Read license and purchase terms for Worktree Secret Broker.',
     canonical: '/terms',
   },
   '/not-found': {
@@ -57,7 +57,7 @@ function shell(content: string, demo = false): string {
     </header>
     <main id="main" tabindex="-1">${content}</main>
     <footer>
-      <p>Temporary secret leases for worktree processes.</p>
+      <p>Approved variables for worktree processes.</p>
       <nav aria-label="Footer navigation"><a href="/privacy" data-link>Privacy</a><a href="/terms" data-link>Terms</a><a href="https://sociobot.in/" rel="external">Built by Param Factory <span class="sr-only">(external site)</span></a></nav>
       <p>Version 0.1.0 · build 2026.08.29</p>
     </footer>`;
@@ -88,7 +88,7 @@ function home(): string {
     <section class="hero">
       <div class="hero-copy">
         <p class="eyebrow">Local CLI · v0.1.0</p>
-        <h1 tabindex="-1">Lease secrets to one worktree process</h1>
+        <h1 tabindex="-1">Give one worktree process approved variables</h1>
         <p class="lede">For developers running coding agents, each worktree gets only approved development variables.</p>
         <div class="hero-action"><a class="button" href="/?demo=1" data-link>Try it with sample data</a><span>Opens an isolated recorded CLI run.</span></div>
         <ul class="plain-facts"><li>The site has no analytics.</li><li>The demo reloads offline after your first visit.</li><li>Free CLI. Team review tools cost $19 once.</li></ul>
@@ -139,9 +139,9 @@ function hasCachedLicense(): boolean {
 function paidSection(): string {
   const active = hasCachedLicense();
   return `<section class="paid" aria-labelledby="paid-heading">
-    <div><p class="eyebrow">Optional team tools</p><h2 id="paid-heading">Add a repeatable review step</h2><p>Pay once for a reusable policy review checklist. Every CLI safety feature stays free.</p><p><a href="/privacy" data-link>Read the privacy terms</a> and <a href="/terms" data-link>purchase terms</a>.</p></div>
+    <div><p class="eyebrow">Optional team tools</p><h2 id="paid-heading">Team policy review checklist</h2><p>Pay once for a reusable policy review checklist. Every CLI safety feature stays free.</p><p><a href="/privacy" data-link>Read the privacy terms</a> and <a href="/terms" data-link>purchase terms</a>.</p></div>
     <div class="price"><strong>$19</strong><span>one-time purchase</span><a class="button secondary" href="${CHECKOUT_URL}">Buy team review tools <span class="sr-only">from Sociobot checkout</span></a></div>
-    <form id="license-form" class="license-form"><label for="license">Have a license? Paste it</label><div><input id="license" name="license" autocomplete="off" spellcheck="false" aria-describedby="license-help license-status"><button type="submit">Verify license</button></div><p id="license-help">The token stays in this browser and goes only to Sociobot for verification.</p><p id="license-status" role="status">Sociobot and Dodo are the merchant of record. Refunds are handled there.</p></form>
+    <form id="license-form" class="license-form"><label for="license">Have a license? Paste it</label><div><input id="license" name="license" autocomplete="off" spellcheck="false" aria-describedby="license-help license-status"><button type="submit">Verify license</button></div><p id="license-help">The site stores your license in this browser and sends it to Sociobot when it checks it.</p><p id="license-status" role="status">Team review tools cost $19 once. License checks use Sociobot.</p></form>
     <section id="team-tools" class="team-tools" aria-labelledby="team-tools-heading"${active ? '' : ' hidden'}>
       <h3 id="team-tools-heading">Team review checklist</h3><p>Create a checklist from the free policy helper’s current names, provider, and lease length.</p>
       <button type="button" data-generate-review>Create review checklist</button><pre id="review-output" tabindex="0" aria-live="polite"><code>Your review checklist will appear here.</code></pre>
@@ -163,10 +163,10 @@ lease_minutes = 15</code></pre></section><section><h2>Observable result</h2><p>T
 }
 
 function privacy(): string {
-  return legal('Privacy — Worktree Secret Broker', 'Privacy stays local', `
+  return legal('Privacy — Worktree Secret Broker', 'How license checks handle data', `
     <p>The CLI resolves only the provider references in your config. It passes resolved values to the child process you start.</p>
     <h2>Site data</h2><p>The site has no analytics. The browser demo uses bundled sample text. Reset demo returns the recording to its first frame.</p>
-    <h2>License checks</h2><p>The site stores a license only after you paste one or return from checkout. It sends that token only to Sociobot for verification.</p>
+    <h2>License checks</h2><p>The site stores a license after you paste one or return from checkout. It sends the token to Sociobot when it checks it.</p>
     <h2>Contact</h2><p>Questions can go to <a href="mailto:privacy@sociobot.in">privacy@sociobot.in</a>.</p>`);
 }
 
@@ -174,7 +174,7 @@ function terms(): string {
   return legal('Terms — Worktree Secret Broker', 'Terms for using the broker', `
     <p>Worktree Secret Broker is provided under the MIT License, without warranty. You remain responsible for the credentials and commands you use.</p>
     <h2>Safe use</h2><p>Use development credentials. Review each mapping. Do not treat a process environment as a vault.</p>
-    <h2>Purchases</h2><p>Team review tools cost $19 once. Sociobot and Dodo are the merchant of record. A refund revokes its license.</p>
+    <h2>Purchases</h2><p>Team review tools cost $19 once. License checks use Sociobot.</p>
     <h2>Changes</h2><p>These terms apply to version 0.1.0 and were updated on 29 August 2026.</p>`);
 }
 
@@ -183,7 +183,7 @@ function legal(_title: string, heading: string, body: string): string {
 }
 
 function notFound(): string {
-  return shell(`<section class="lost"><div class="lost-key" aria-hidden="true">?</div><p class="eyebrow">404 · no lease here</p><h1 tabindex="-1">This path has no worktree</h1><p>The page may have moved. The broker itself is still where you left it.</p><a class="button" href="/" data-link>Return home</a></section>`);
+  return shell(`<section class="lost"><div class="lost-key" aria-hidden="true">?</div><p class="eyebrow">404 · page not found</p><h1 tabindex="-1">This page does not exist</h1><p>The page may have moved. Return to the broker home.</p><a class="button" href="/" data-link>Return home</a></section>`);
 }
 
 type RenderMode = 'initial' | 'navigate' | 'pop';

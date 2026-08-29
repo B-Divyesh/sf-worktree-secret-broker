@@ -152,5 +152,12 @@
     "where": "landing first-screen facts and paid section, privacy page, terms page, README",
     "test": "npm test -- --grep @claim:paid-team-review",
     "sandbox": "fresh browser context with recorded valid and invalid Sociobot responses; exercise checkout link, return token capture, local storage, daily cache, restore, invalidation, and review output"
+  },
+  {
+    "id": "license-token-privacy",
+    "claim": "The site stores license tokens in this browser, removes them from the URL, and sends them only to Sociobot for verification.",
+    "where": "landing license form, privacy page, and README",
+    "test": "npm test -- --grep @claim:license-token-privacy",
+    "sandbox": "fresh browser context with intercepted Sociobot responses; record every request through returned-token, pasted-token, cache, invalidation, and demo flows"
   }
 ]

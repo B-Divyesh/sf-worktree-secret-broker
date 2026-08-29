@@ -5,7 +5,7 @@ word. No sentence exceeds 22 words. No banned term appears in rendered copy.
 
 | Copy | Words | Result |
 | --- | ---: | --- |
-| Lease secrets to one worktree process | 6 | Pass |
+| Give one worktree process approved variables | 6 | Pass |
 | For developers running coding agents, each worktree gets only approved development variables. | 12 | Pass |
 | Opens an isolated recorded CLI run. | 6 | Pass |
 | The site has no analytics. | 5 | Pass |
@@ -28,15 +28,15 @@ word. No sentence exceeds 22 words. No banned term appears in rendered copy.
 | Enter variable names. | 3 | Pass |
 | The helper creates development-only provider references in this browser. | 9 | Pass |
 | Your names-only config will appear here. | 6 | Pass |
-| Add a repeatable review step | 5 | Pass |
+| Team policy review checklist | 4 | Pass |
 | Pay once for a reusable policy review checklist. | 8 | Pass |
 | Every CLI safety feature stays free. | 6 | Pass |
-| The token stays in this browser and goes only to Sociobot for verification. | 12 | Pass |
-| Sociobot and Dodo are the merchant of record. | 8 | Pass |
-| Refunds are handled there. | 4 | Pass |
+| The site stores your license in this browser and sends it to Sociobot when it checks it. | 16 | `license-token-privacy` |
+| Team review tools cost $19 once. | 6 | `paid-team-review` |
+| License checks use Sociobot. | 4 | `license-token-privacy` |
 | Create a checklist from the free policy helper’s current names, provider, and lease length. | 14 | Pass |
 | Your review checklist will appear here. | 6 | Pass |
-| Temporary secret leases for worktree processes. | 6 | Pass |
+| Approved variables for worktree processes. | 5 | `approved-environment` |
 
 ## Labels and actions
 
@@ -66,5 +66,5 @@ word. No sentence exceeds 22 words. No banned term appears in rendered copy.
 | paid output | team review checklist |
 | purchase proof | license |
 
-Catalog description: “Give one worktree process only its approved development
-secrets.” It is 64 characters, starts with a verb, and has no banned term.
+Catalog description: “Give worktree processes approved development variables.”
+It is 53 characters, starts with a verb, and has no banned term.

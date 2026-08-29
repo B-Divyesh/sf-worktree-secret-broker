@@ -1,6 +1,6 @@
 # Worktree Secret Broker
 
-Give one worktree process only the development secrets it needs. The broker
+Give one worktree process approved development variables. The broker
 reads approved values from your OS keychain or 1Password CLI. It never writes
 those values to the worktree.
 
@@ -134,14 +134,13 @@ $19 once and add a reusable policy review checklist.
 [Buy team review tools through Sociobot](https://api.sociobot.in/api/v1/products/worktree-secret-broker/checkout).
 After checkout, the site stores the returned license in this browser and checks
 it with Sociobot. Existing buyers can paste a license on the product page.
-Sociobot and Dodo are the merchant of record. Refunds are handled there.
 
 ## Privacy
 
 The site has no analytics. The browser demo uses bundled sample text and keeps
-its session state under `demo:` keys. The site sends a stored license only to
-Sociobot for verification. The CLI only resolves the provider references in
-your config for the child process you start. See the published
+its session state under `demo:` keys. The site stores a license in this browser
+and sends it to Sociobot when it checks it. The CLI only resolves the provider
+references in your config for the child process you start. See the published
 [privacy](https://worktree-secret-broker.sociobot.in/privacy) and
 [terms](https://worktree-secret-broker.sociobot.in/terms) pages.
 
