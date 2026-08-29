@@ -1,104 +1,72 @@
-# Polish round 2 handoff — Worktree Secret Broker
+# Verification 7 handoff — Worktree Secret Broker
 
 ## Result
 
-PASS. Every finding in `.factory/review-1.md` and `.factory/review-2.md` is
-closed. The repaired static site was deployed from product commit
-`a9d1ac3aeefe64c5e8bb8f73885bb1268c03e78d` to
-<https://worktree-secret-broker.sociobot.in> with Azure deployment
-`9530821f-f7ac-4d53-a023-58c221b58fd5`.
+**FAIL.** Candidate `39ad4cd0e7e8bed35c058c9a0fd3e8d0fb497e7d` at
+<https://worktree-secret-broker.sociobot.in> is technically functional but
+does not satisfy the complete acceptance contract.
 
-The key-orchard visual system, Rust CLI artifact class, and static-site
-deployment class are unchanged. No AI or payment feature was added because
-neither belongs in this deterministic local secret boundary.
+Full evidence is in [`.factory/verification-7.md`](verification-7.md).
 
-## Changes
+## Release blockers
 
-- Added `os-keychain-provider` to `.factory/claims.json`. Its tagged test
-  runs the Linux provider end to end and checks the exact `secret-tool`
-  arguments, cleared child environment, names-only receipt, and provider
-  value exclusion. The shared Rust command contract also asserts the exact
-  macOS `security find-generic-password -s SERVICE -a ACCOUNT -w` invocation.
-- Added `policy-helper-input-boundary`. Its tagged browser test inventories
-  the form controls, proves there is no secret-value input, rejects duplicate
-  names with the actionable error, emits no TOML, and records request origins.
-- Replaced the landing label “A narrow tool” with “Limits”. Split the
-  23-word README sentence into three short setup sentences.
-- Made the skip-link destination focusable and covered direct `/#main`,
-  direct `/#install`, SPA route focus, and Back restoration.
-- Updated the catalog line to “Give one worktree process only its approved
-  development secrets.” (64 characters, verb first).
-- Rechecked all earlier demo, metadata, route, 404, legal, mobile, copy,
-  privacy, offline, and accessibility repairs. The full mapping is in
-  `.factory/polish-2.md`.
+1. The live landing page and README contain claims absent from
+   `.factory/claims.json`, including “It does not host a vault,” “It does not
+   scan repositories,” the single-binary/Rust 1.85 statement, and the
+   machine-readable `--json` statement. The supplied claims contract makes any
+   unlisted claim release-blocking.
+2. The researched brief specifies one-time monetization, but the product has
+   no price, Sociobot checkout, license verification/storage, or restore flow.
+3. The mandatory first-screen facts omit offline status and price/free status.
 
-## Clean-clone evidence
+## Passing evidence
 
-Acceptance commit `e2540b3290e029906e4be5b0ff28ac71c28f6ae6`
-was cloned without shared working files to
-`/tmp/wsb-polish2-accept.Uzltcu/repo`.
+- Clean identity: `HEAD`, `main`, and `origin/main` all matched the candidate.
+- `npm ci`: passed, 0 vulnerabilities.
+- All 18 exact `.factory/claims.json` commands: passed after install.
+- `npm test`: passed 32/32 Playwright tests and 6/6 Rust unit tests, including
+  formatting, Clippy, typecheck, production site build, Axe, mobile, keyboard,
+  demo isolation, provider boundaries, and revocation cases.
+- `npm run build`: passed; created `dist/site/` and `dist/bin/wsb`.
+- `cargo package --allow-dirty --locked`: passed; the packed crate installed
+  into an empty consumer prefix and its public CLI/demo worked.
+- `npm run check:macos`: passed after installing the clean container's missing
+  Rust target.
+- Independent CLI normal, boundary, invalid-input, recovery, environment,
+  process-argument, exit-code, and provider-failure checks passed.
+- Live and local hashes matched for HTML, hashed JS/CSS, service worker, hero,
+  and OG art.
+- Live routes, one-click demo, request privacy, security headers, caching,
+  designed 404, service-worker update/offline reload, desktop/mobile layout,
+  200% text, visible focus, keyboard operation, reduced motion, and all links
+  passed. Axe found no serious/critical issue.
+- Fresh Lighthouse mobile: Performance 94, Accessibility 100, Best Practices
+  100, SEO 100; LCP 1.88 s and CLS 0.
 
-- `npm ci`: passed; 0 vulnerabilities.
-- Every one of the 18 commands in `.factory/claims.json` ran separately and
-  passed, ending with `ALL 18 CLAIMS PASS`.
-- `npm test`: passed 32/32 Playwright integration tests, 6/6 Rust unit tests,
-  Rust doc tests, `cargo fmt --check`, clippy with warnings denied,
-  TypeScript checking, the production site build, browser Axe checks,
-  privacy request checks, demo storage isolation, offline reload, mobile,
-  keyboard, metadata, real routes, and the HTTP 404 artifact.
-- `npm run build`: passed and created `dist/site/` plus `dist/bin/wsb`.
-- `cargo package --allow-dirty --locked`: passed package creation and
-  verification (249.5 KiB unpacked; 71.6 KiB compressed).
-- `npm run check:macos`: passed for `x86_64-apple-darwin`.
-- `npm audit --audit-level=high`: passed with 0 vulnerabilities.
-- Initial bundles: JS 13.85 kB raw / 5.14 kB gzip; CSS 10.95 kB raw /
-  3.23 kB gzip.
-
-## Live evidence
-
-- Factory URL verifier passed `/` and `/?demo=1` with no console errors,
-  one h1, one main landmark, `lang=en`, complete alt text, and labeled
-  buttons. Evidence: `.factory/qa-artifacts/polish-2-live/home/` and
-  `.factory/qa-artifacts/polish-2-live/demo/`.
-- The cold browser audit passed `/`, `/demo`, `/privacy`, and `/terms` at
-  HTTP 200 and `/missing` at HTTP 404. Each route has its own title,
-  description, canonical, Open Graph title, and Twitter title. Every route
-  has zero serious/critical Axe findings and zero unexpected console or page
-  errors: `.factory/qa-artifacts/polish-2-live/live-audit.json`.
-- One click reached `/?demo=1`. Reset retained only `demo:session`; Start for
-  real removed it; real local/session sentinels remained unchanged. All
-  observed route requests were same-origin.
-- At 390 × 844, scroll width equaled 390, the primary action ended at
-  514.7 px in the first screen, and no visible target was below 44 × 44 px.
-- At 200% text size, page width remained 390 px and the h1 stayed visible.
-- Reduced-motion media matched and reduced the one entrance animation to
-  0.001 ms with one iteration.
-- Skip activation focused `<main>`; SPA navigation focused the demo h1.
-- The service-worker-controlled `/demo` reloaded offline with its heading and
-  persistent demo banner.
-- Lighthouse mobile: performance 100, accessibility 100, best practices 100,
-  SEO 100; LCP 1.8 s, FCP 1.1 s, total blocking time 40 ms, CLS 0. Evidence:
-  `.factory/qa-artifacts/polish-2-live/lighthouse-live.json`.
-- Cold screenshots:
-  `.factory/qa-artifacts/polish-2-live/cold-home-desktop.png`,
-  `.factory/qa-artifacts/polish-2-live/cold-home-mobile-390.png`, and
-  `.factory/qa-artifacts/polish-2-live/demo-after-one-click.png`.
-
-## Run and verify
+## Reproduce
 
 ```sh
 npm ci
+node -e 'const c=require("./.factory/claims.json"); for(const x of c) console.log(x.test)'
 npm test
 npm run build
+cargo fmt --all -- --check
+cargo clippy --all-targets --all-features --locked -- -D warnings
 cargo package --allow-dirty --locked
 rustup target add x86_64-apple-darwin
 npm run check:macos
 ```
 
-The deploy root is `dist/site`. Registry publishing remains a factory task;
-the worker did not publish the Rust package.
+Run each printed claim command separately. The deploy root is `dist/site`.
+Registry publishing and deployment remain factory tasks.
 
-## Known gaps and next steps
+## Next steps
 
-None within the brief or cumulative adversarial review. No finding, stub, or
-TODO remains.
+- Add one manifest entry and one observable tagged test for every published
+  claim, or remove unsupported/unlisted claims from the copy.
+- Implement the brief's one-time Sociobot purchase flow, or formally amend the
+  researched brief to make the CLI free.
+- Add explicit offline and price/free facts to the first screen, then repeat
+  independent verification.
+
+No product code was modified during verification.
