@@ -1,0 +1,59 @@
+
+> worktree-secret-broker-site@0.1.0 test
+> node scripts/test.mjs
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.06s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.12s
+     Running unittests src/lib.rs (target/debug/deps/worktree_secret_broker-4c557ad522bc759c)
+
+running 5 tests
+test tests::denies_production_by_default ... ok
+test tests::rejects_duplicate_and_invalid_names ... ok
+test tests::template_is_valid ... ok
+test tests::validates_a_development_mapping ... ok
+test tests::validates_the_documented_one_password_reference_shape ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/wsb-df657a4c0097e942)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests worktree_secret_broker
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+> worktree-secret-broker-site@0.1.0 typecheck
+> tsc --noEmit
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.04s
+
+> worktree-secret-broker-site@0.1.0 build:site
+> vite build --config vite.config.ts && node scripts/prepare-site.mjs
+
+vite v7.3.6 building client environment for production...
+transforming...
+✓ 4 modules transformed.
+rendering chunks...
+computing gzip size...
+../dist/site/index.html                  2.01 kB │ gzip: 0.73 kB
+../dist/site/assets/index-DVfGD9a3.css  10.95 kB │ gzip: 3.23 kB
+../dist/site/assets/index-Bh2pT44p.js   13.71 kB │ gzip: 5.08 kB │ map: 21.64 kB
+✓ built in 199ms
+[WebServer] (node:7711) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:7725) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 29 tests using 1 worker
+(node:7743) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7743) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·····························
+  29 passed (27.9s)

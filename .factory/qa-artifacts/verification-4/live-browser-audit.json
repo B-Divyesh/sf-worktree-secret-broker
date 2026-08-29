@@ -1,0 +1,1133 @@
+{
+  "routes": {
+    "/": {
+      "status": 200,
+      "title": "Worktree Secret Broker — Lease development secrets",
+      "lang": "en",
+      "h1Count": 1,
+      "h1": [
+        "Lease secrets to one worktree process"
+      ],
+      "mainCount": 1,
+      "missingAlts": 0,
+      "unlabeledButtons": 0,
+      "requestOrigins": [
+        "https://worktree-secret-broker.sociobot.in"
+      ],
+      "requestUrls": [
+        "https://worktree-secret-broker.sociobot.in/",
+        "https://worktree-secret-broker.sociobot.in/fonts/fraunces-600-700.woff2",
+        "https://worktree-secret-broker.sociobot.in/key-orchard.webp",
+        "https://worktree-secret-broker.sociobot.in/assets/index-Bh2pT44p.js",
+        "https://worktree-secret-broker.sociobot.in/assets/index-DVfGD9a3.css",
+        "https://worktree-secret-broker.sociobot.in/fonts/atkinson-400.woff2",
+        "https://worktree-secret-broker.sociobot.in/fonts/atkinson-700.woff2"
+      ],
+      "cookies": [],
+      "seriousCriticalAxe": [],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "headers": {
+        "cache-control": "public, must-revalidate, max-age=30",
+        "content-encoding": "br",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'",
+        "content-type": "text/html",
+        "date": "Sat, 29 Aug 2026 06:14:23 GMT",
+        "etag": "\"14711002\"",
+        "last-modified": "Sat, 29 Aug 2026 05:49:51 GMT",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=10886400; includeSubDomains; preload",
+        "vary": "Accept-Encoding",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-xss-protection": "1; mode=block"
+      }
+    },
+    "/demo": {
+      "status": 200,
+      "title": "Demo — Worktree Secret Broker",
+      "lang": "en",
+      "h1Count": 1,
+      "h1": [
+        "See the CLI run with sample worktree data"
+      ],
+      "mainCount": 1,
+      "missingAlts": 0,
+      "unlabeledButtons": 0,
+      "requestOrigins": [
+        "https://worktree-secret-broker.sociobot.in"
+      ],
+      "requestUrls": [
+        "https://worktree-secret-broker.sociobot.in/demo",
+        "https://worktree-secret-broker.sociobot.in/fonts/fraunces-600-700.woff2",
+        "https://worktree-secret-broker.sociobot.in/key-orchard.webp",
+        "https://worktree-secret-broker.sociobot.in/assets/index-Bh2pT44p.js",
+        "https://worktree-secret-broker.sociobot.in/assets/index-DVfGD9a3.css",
+        "https://worktree-secret-broker.sociobot.in/fonts/atkinson-400.woff2",
+        "https://worktree-secret-broker.sociobot.in/fonts/atkinson-700.woff2"
+      ],
+      "cookies": [],
+      "seriousCriticalAxe": [],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "headers": {
+        "cache-control": "public, must-revalidate, max-age=30",
+        "content-encoding": "br",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'",
+        "content-type": "text/html",
+        "date": "Sat, 29 Aug 2026 06:14:25 GMT",
+        "etag": "\"14711002\"",
+        "last-modified": "Sat, 29 Aug 2026 05:49:51 GMT",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=10886400; includeSubDomains; preload",
+        "vary": "Accept-Encoding",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-xss-protection": "1; mode=block"
+      }
+    },
+    "/privacy": {
+      "status": 200,
+      "title": "Privacy — Worktree Secret Broker",
+      "lang": "en",
+      "h1Count": 1,
+      "h1": [
+        "Privacy stays local"
+      ],
+      "mainCount": 1,
+      "missingAlts": 0,
+      "unlabeledButtons": 0,
+      "requestOrigins": [
+        "https://worktree-secret-broker.sociobot.in"
+      ],
+      "requestUrls": [
+        "https://worktree-secret-broker.sociobot.in/privacy",
+        "https://worktree-secret-broker.sociobot.in/fonts/fraunces-600-700.woff2",
+        "https://worktree-secret-broker.sociobot.in/key-orchard.webp",
+        "https://worktree-secret-broker.sociobot.in/assets/index-Bh2pT44p.js",
+        "https://worktree-secret-broker.sociobot.in/assets/index-DVfGD9a3.css",
+        "https://worktree-secret-broker.sociobot.in/fonts/atkinson-400.woff2",
+        "https://worktree-secret-broker.sociobot.in/fonts/atkinson-700.woff2"
+      ],
+      "cookies": [],
+      "seriousCriticalAxe": [],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "headers": {
+        "cache-control": "public, must-revalidate, max-age=30",
+        "content-encoding": "br",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'",
+        "content-type": "text/html",
+        "date": "Sat, 29 Aug 2026 06:14:27 GMT",
+        "etag": "\"14711002\"",
+        "last-modified": "Sat, 29 Aug 2026 05:49:51 GMT",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=10886400; includeSubDomains; preload",
+        "vary": "Accept-Encoding",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-xss-protection": "1; mode=block"
+      }
+    },
+    "/terms": {
+      "status": 200,
+      "title": "Terms — Worktree Secret Broker",
+      "lang": "en",
+      "h1Count": 1,
+      "h1": [
+        "Terms for using the broker"
+      ],
+      "mainCount": 1,
+      "missingAlts": 0,
+      "unlabeledButtons": 0,
+      "requestOrigins": [
+        "https://worktree-secret-broker.sociobot.in"
+      ],
+      "requestUrls": [
+        "https://worktree-secret-broker.sociobot.in/terms",
+        "https://worktree-secret-broker.sociobot.in/fonts/fraunces-600-700.woff2",
+        "https://worktree-secret-broker.sociobot.in/key-orchard.webp",
+        "https://worktree-secret-broker.sociobot.in/assets/index-Bh2pT44p.js",
+        "https://worktree-secret-broker.sociobot.in/assets/index-DVfGD9a3.css",
+        "https://worktree-secret-broker.sociobot.in/fonts/atkinson-400.woff2",
+        "https://worktree-secret-broker.sociobot.in/fonts/atkinson-700.woff2"
+      ],
+      "cookies": [],
+      "seriousCriticalAxe": [],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "headers": {
+        "cache-control": "public, must-revalidate, max-age=30",
+        "content-encoding": "br",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'",
+        "content-type": "text/html",
+        "date": "Sat, 29 Aug 2026 06:14:28 GMT",
+        "etag": "\"14711002\"",
+        "last-modified": "Sat, 29 Aug 2026 05:49:51 GMT",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=10886400; includeSubDomains; preload",
+        "vary": "Accept-Encoding",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-xss-protection": "1; mode=block"
+      }
+    },
+    "/missing": {
+      "status": 404,
+      "title": "Page not found — Worktree Secret Broker",
+      "lang": "en",
+      "h1Count": 1,
+      "h1": [
+        "This path has no worktree"
+      ],
+      "mainCount": 1,
+      "missingAlts": 0,
+      "unlabeledButtons": 0,
+      "requestOrigins": [
+        "https://worktree-secret-broker.sociobot.in"
+      ],
+      "requestUrls": [
+        "https://worktree-secret-broker.sociobot.in/missing",
+        "https://worktree-secret-broker.sociobot.in/fonts/fraunces-600-700.woff2",
+        "https://worktree-secret-broker.sociobot.in/key-orchard.webp",
+        "https://worktree-secret-broker.sociobot.in/assets/index-Bh2pT44p.js",
+        "https://worktree-secret-broker.sociobot.in/assets/index-DVfGD9a3.css",
+        "https://worktree-secret-broker.sociobot.in/fonts/atkinson-400.woff2",
+        "https://worktree-secret-broker.sociobot.in/fonts/atkinson-700.woff2"
+      ],
+      "cookies": [],
+      "seriousCriticalAxe": [],
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 404 ()"
+      ],
+      "pageErrors": [],
+      "headers": {
+        "cache-control": "public, must-revalidate, max-age=30",
+        "content-length": "2076",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'",
+        "content-type": "text/html",
+        "date": "Sat, 29 Aug 2026 06:14:29 GMT",
+        "etag": "\"14711002\"",
+        "last-modified": "Sat, 29 Aug 2026 05:49:51 GMT",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=10886400; includeSubDomains; preload",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-xss-protection": "1; mode=block"
+      }
+    }
+  },
+  "firstRead": {
+    "heading": "Lease secrets to one worktree process",
+    "audienceSentence": "For developers running coding agents, each worktree gets only approved development variables.",
+    "primaryAction": "Try it with sample data",
+    "actionVisible": true,
+    "actionCompanion": "Opens an isolated recorded CLI run.",
+    "firstScreenFacts": [
+      "Only approved variables enter the child.",
+      "Receipts list names, never values.",
+      "Production labels are denied by default."
+    ],
+    "afterOneClick": {
+      "url": "https://worktree-secret-broker.sociobot.in/?demo=1",
+      "heading": "See the CLI run with sample worktree data",
+      "banner": "Demo — sample data, nothing is saved to your real data\nReset demo\nStart for real",
+      "terminal": "$ wsb demo\nDemo — sample data, nothing is saved\nTemporary worktree: /tmp/wsb-demo-4821\nApproved: DATABASE_URL, NPM_TOKEN\nLease: 15 minutes → sample check\n✓ child received 2 approved variable names\nReceipt demo-1787913600\n  worktree: /tmp/wsb-demo-4821\n  names: DATABASE_URL, NPM_TOKEN\n  started: 1787913600\n  expires: 1787914500\n  outcome: demo-complete\n  revoked: 1787913601\nTemporary worktree removed."
+    }
+  },
+  "mobile": {
+    "viewport": [
+      390,
+      844
+    ],
+    "scrollWidth": 390,
+    "horizontalOverflow": false,
+    "primaryActionVisible": true,
+    "undersizedTargets": [],
+    "targetCount": 14
+  },
+  "keyboard": {
+    "firstTab": {
+      "text": "Skip to main content",
+      "href": "#main",
+      "outline": "rgb(255, 128, 102) solid 3px",
+      "outlineOffset": "4px"
+    },
+    "afterSkip": {
+      "id": "",
+      "tag": "BODY",
+      "text": "Skip to main content\n    \n    \n    \n      WorktreeSecret Broker\n      DemoInstallPrivacy\n    \n    \n    \n      \n        Local CLI · v0.1.0\n        Lease secrets to one worktree process\n        For developers running coding agents, each worktree gets only approved development variables.\n        Try it with sample dataOpens an isolated recorded CLI run.\n        Only approved variables enter the child.Receipts list names, never values.Production labels are denied by default.\n      \n      Only approved variables reach the named worktree process.\n    \n    \n      Sample names-only receiptThe receipt shows names, never valuesThe recording uses the demo’s two bundled names.\n      \n  \n    wsb demo · isolated sample00:00:01\n    $ wsb demo\nDemo — sample data, nothing is saved\nTemporary worktree: /tmp/wsb-demo-4821\nApproved: DATABASE_URL, NPM_TOKEN\nLease: 15 minutes → sample check\n✓ child received 2 approved variable names\nReceipt demo-1787913600\n  worktree: /tmp/wsb-demo-4821\n  names: DATABASE_URL, NPM_TOKEN\n  started: 1787913600\n  expires: 1787914500\n  outcome: demo-complete\n  revoked: 1787913601\nTemporary worktree removed.\n    \n  \n    \n    \n      How it worksRun one worktree process in three steps\n      \n        01Map approved namesPoint each variable name at Keychain, Secret Service, or 1Password.DATABASE_URL → keychain://my-app/database-url\n        02Name the worktreeThe broker checks the Git root before starting one child process.wsb run --worktree ../agent-42 -- npm test\n        03Read the receiptExpiry stops the child. The receipt lists names, timing, and outcome.outcome: child-exited · names: NPM_TOKEN\n      \n      cargo install --git https://github.com/B-Divyesh/sf-worktree-secret-broker.git --lockedView source (external site)Copy install command\n    \n    \n      A narrow toolWhat the broker does not do\n      It does not host a vault.It does not scan repositories.It denies production-labelled entries by default.It cannot hide variables from the child that needs them.\n    \n    \n    Local policy helperGenerate a names-only team policyEnter variable names. The helper creates development-only provider references in this browser.\n    \n      Approved variable names DATABASE_URL\nNPM_TOKENProvider OS keychain1PasswordLease length 5 minutes15 minutes30 minutes60 minutes\n      Generate team policyYour names-only config will appear here.\n    \n  \n  \n    \n      Temporary secret leases for worktree processes.\n      PrivacyTermsBuilt by Param Factory (external site)\n      Version 0.1.0 · build 2026.08.29"
+    },
+    "afterSkipThenTab": {
+      "href": "/?demo=1",
+      "text": "Try it with sample data"
+    },
+    "policy": {
+      "focusStyle": {
+        "outline": "rgb(255, 128, 102) solid 3px",
+        "outlineOffset": "4px"
+      },
+      "invalid": "bad-name is not a valid variable name.",
+      "recoveredOutput": "# Team review: production labels remain denied by default.\nversion = 1\nlease_minutes = 15\n\n[[secrets]]\nname = \"SERVICE_TOKEN\"\nsource = \"keychain://team/service_token\"\nlabels = [\"development\"]"
+    }
+  },
+  "reducedMotion": {
+    "mediaMatches": true,
+    "activeAnimations": 0,
+    "nonTrivialDurations": [
+      {
+        "tag": "HTML",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "HEAD",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "META",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "META",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "TITLE",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "META",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "LINK",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "META",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "META",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "META",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "META",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "META",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "META",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "META",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "META",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "META",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "META",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "META",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "LINK",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "LINK",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "LINK",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "LINK",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "SCRIPT",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "LINK",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "BODY",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "A",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "DIV",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "HEADER",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "A",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "SPAN",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "SPAN",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "BR",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "NAV",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "A",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "A",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "A",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "MAIN",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "SECTION",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "DIV",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "P",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "H1",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "P",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "DIV",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "A",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "SPAN",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "UL",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "LI",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "LI",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "LI",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "FIGURE",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "IMG",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "FIGCAPTION",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "SECTION",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "DIV",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "P",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "H2",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "P",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "SECTION",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "DIV",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "SPAN",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "SPAN",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "SPAN",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "PRE",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "CODE",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "SPAN",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "SPAN",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "SPAN",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "SPAN",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "SECTION",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "P",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "H2",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "OL",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "LI",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "SPAN",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "DIV",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "H3",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "P",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "CODE",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "LI",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "SPAN",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "DIV",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "H3",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "P",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "CODE",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "LI",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "SPAN",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "DIV",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "H3",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "P",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "CODE",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "DIV",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "DIV",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "CODE",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "A",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "SPAN",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "BUTTON",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "SECTION",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "DIV",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "P",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "H2",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "UL",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "LI",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "LI",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "LI",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "LI",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "SECTION",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "DIV",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "P",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "H2",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "P",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "FORM",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "DIV",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "LABEL",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "TEXTAREA",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "LABEL",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "SELECT",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "OPTION",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "OPTION",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "LABEL",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "SELECT",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "OPTION",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "OPTION",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "OPTION",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "OPTION",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "BUTTON",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "PRE",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "CODE",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "FOOTER",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "P",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "NAV",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "A",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "A",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "A",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "SPAN",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "P",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "tag": "DIV",
+        "animationDuration": "1e-06s",
+        "transitionDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      }
+    ],
+    "htmlScrollBehavior": "auto"
+  },
+  "privacyFlow": {
+    "origins": [
+      "https://worktree-secret-broker.sociobot.in"
+    ],
+    "requests": [
+      "https://worktree-secret-broker.sociobot.in/?demo=1",
+      "https://worktree-secret-broker.sociobot.in/fonts/fraunces-600-700.woff2",
+      "https://worktree-secret-broker.sociobot.in/key-orchard.webp",
+      "https://worktree-secret-broker.sociobot.in/assets/index-Bh2pT44p.js",
+      "https://worktree-secret-broker.sociobot.in/assets/index-DVfGD9a3.css",
+      "https://worktree-secret-broker.sociobot.in/fonts/atkinson-400.woff2",
+      "https://worktree-secret-broker.sociobot.in/fonts/atkinson-700.woff2"
+    ],
+    "failures": [],
+    "errors": [],
+    "cookies": [],
+    "localStorage": {},
+    "sessionStorage": {}
+  },
+  "serviceWorker": {
+    "update": {
+      "scope": "https://worktree-secret-broker.sociobot.in/",
+      "hasActive": true,
+      "hasWaiting": false
+    },
+    "offline": {
+      "url": "https://worktree-secret-broker.sociobot.in/demo",
+      "heading": "See the CLI run with sample worktree data",
+      "bannerVisible": true
+    }
+  }
+}

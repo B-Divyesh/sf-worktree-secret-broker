@@ -1,0 +1,6 @@
+{
+  "empty": "Add at least one variable name.",
+  "invalid": "BAD-NAME is not a valid variable name.",
+  "duplicate": "# Team review: production labels remain denied by default.\nversion = 1\nlease_minutes = 15\n\n[[secrets]]\nname = \"TOKEN\"\nsource = \"keychain://team/token\"\nlabels = [\"development\"]\n\n[[secrets]]\nname = \"TOKEN\"\nsource = \"keychain://team/token\"\nlabels = [\"development\"]",
+  "validAlternative": "# Team review: production labels remain denied by default.\nversion = 1\nlease_minutes = 60\n\n[[secrets]]\nname = \"SERVICE_TOKEN\"\nsource = \"op://Development/SERVICE_TOKEN/value\"\nlabels = [\"development\"]"
+}

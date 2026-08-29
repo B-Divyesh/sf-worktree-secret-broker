@@ -1,61 +1,68 @@
-# Handoff — polish round 1
+# Handoff — independent verification 4
 
 ## Result
 
-All findings in `review-1.md` are fixed and deployed. Repair commit:
-`fcc511287d6a9aa530b5404adfa26ccfe01b2eaa`.
+**FAIL — do not release candidate `930ba0c68b085d57b7f4e3418bc799a59e31228e`.**
 
-The static deployment completed as Azure Static Web Apps deployment
-`8ab19a49-41bb-44a9-ae82-fe2f883dcaed`. Live URL:
-<https://worktree-secret-broker.sociobot.in>.
+Verified on 2026-08-29 UTC against
+<https://worktree-secret-broker.sociobot.in>. The live static product matches
+the candidate build, so the earlier deployment-only concern is resolved. No
+product code was modified during this verification.
 
-## What changed
+## Release blocker
 
-- The first-screen sample action now opens the isolated `?demo=1` path.
-  Demo storage is limited to explicit `demo:` session keys; Reset and Start
-  for real do not read, enumerate, or alter real browser data.
-- The demo’s displayed names, timing, outcome, and revocation fields are
-  tested against `wsb demo --json`; its temporary worktree cleanup is also
-  tested.
-- Added the two missing claims and their observable browser/CLI tests.
-- Added route metadata for client navigation and emitted static documents for
-  Demo, Privacy, Terms, and 404. Every route now has its own title,
-  description, canonical, Open Graph, and Twitter metadata.
-- Rewrote all four review-flagged headings/captions in plain words while
-  preserving the key-orchard visual system.
-- Added the required verb-first catalog description and updated demo/readme
-  documentation and copy audit.
+The core short-lived lease does not survive broker termination safely.
+`SIGTERM` or `SIGHUP` terminates `wsb`, but its child continues beyond a
+one-second lease with the fake secret still present. No revocation receipt is
+printed. `SIGINT` behaves correctly and kills the child, which explains why
+the current `broker-stop-revokes` claim test passes.
 
-## How to run and verify
+Repair all ordinary termination and parent-death paths so the child process
+group cannot outlive its broker. Add claim coverage for `SIGTERM`, `SIGHUP`,
+and expiry after broker death.
+
+## Additional defect
+
+The browser policy helper accepts duplicate variable names and generates a
+config that `wsb check` rejects with “TOKEN is approved more than once.” Reject
+duplicates in the helper or deduplicate them before output.
+
+## Verification summary
+
+- All 16 exact `.factory/claims.json` commands pass after `npm ci`; the broad
+  broker-stop claim is nevertheless disproved by the independent signal test.
+- Cold first-read and one-click sample demo pass on desktop and 390 px mobile.
+- `npm test` passes 5 Rust and 29 Playwright tests.
+- Typecheck, fmt, clippy, npm audit, exact build, crate packaging, local clean
+  install, and the public Git install all pass.
+- The public install resolves to candidate `930ba0c6`; `wsb --help`,
+  `wsb --version`, and `wsb demo --json` work.
+- All live publishable files match the local production build byte-for-byte.
+- Live privacy, headers, cache behavior, routing, keyboard, reduced-motion,
+  mobile, Axe, link, service-worker update, and offline reload checks pass.
+- Lighthouse: Performance 94, Accessibility 100, Best Practices 100, SEO 100;
+  LCP 1.8 s and CLS 0.
+
+## How to reproduce
 
 ```sh
 npm ci
 npm test
 npm run build
-cargo package --allow-dirty --locked
+node .factory/qa-artifacts/verification-4/cli-adversarial.mjs
+node .factory/qa-artifacts/verification-4/live-browser-audit.mjs
 ```
 
-Run the CLI sample with `target/debug/wsb demo` after `npm test`, or install
-from source as documented in the README. Open the browser sample at
-`https://worktree-secret-broker.sociobot.in/?demo=1`.
-
-## Exact evidence
-
-- A fresh clone at `fcc511287d6a9aa530b5404adfa26ccfe01b2eaa` passed `npm ci`,
-  `npm test` (5 Rust tests and 29 browser tests), `npm run build`,
-  `cargo package --allow-dirty --locked`, and `npm audit --audit-level=high`.
-- All 16 exact claim commands from `.factory/claims.json` were run separately
-  in that fresh clone and passed; the run ended with `ALL_CLAIMS_PASS`.
-- Production build: 13.71 KB raw / 5.08 KB gzip JavaScript and 10.95 KB raw /
-  3.23 KB gzip CSS. It emits `dist/site/` and `dist/bin/wsb`.
-- Live `verify-url.sh` passed at `?demo=1`; evidence is
-  `qa-artifacts/polish-1-live/verify.json`. Live desktop and mobile screenshots
-  are `home-desktop.png` and `live-demo-mobile.png` in that same directory.
-- Live Playwright + Axe checks found zero serious/critical issues on home,
-  demo, privacy, terms, and the 404 route. The direct live 404 response is
-  HTTP 404 with the designed page and route-specific metadata.
+The signal probe cleans up its surviving fake children. Full results,
+screenshots, hashes, headers, logs, and Lighthouse JSON are in
+`.factory/qa-artifacts/verification-4/`. See `.factory/verification-4.md` for
+the exact acceptance evidence and severity rationale.
 
 ## Known gaps / next steps
 
-None. The product remains a local-first Rust CLI with a static documentation
-site; it has no telemetry, paid checkout, backend, or AI runtime by design.
+1. Fix the release-blocking signal/parent-death lease behavior.
+2. Fix duplicate-name validation in the browser policy helper.
+3. Rerun every claim and the independent signal probe before release.
+
+Backend rate limiting, Entra sign-in, and paid-unlock checks are not applicable:
+the product has no backend, authentication, payment, or product API endpoint.

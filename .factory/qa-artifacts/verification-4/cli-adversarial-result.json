@@ -1,0 +1,97 @@
+{
+  "normal_check": {
+    "valid": true,
+    "secret_names": [
+      "API_TOKEN"
+    ],
+    "providers": [
+      "os-keychain"
+    ],
+    "lease_minutes": 15
+  },
+  "normal_run": {
+    "lease_id": "lease-1787984435-13055",
+    "worktree": "/tmp/wsb-verification-4-CjS43v/worktree",
+    "secret_names": [
+      "API_TOKEN"
+    ],
+    "started_at_unix": 1787984435,
+    "expires_at_unix": 1787985335,
+    "revoked_at_unix": 1787984435,
+    "outcome": "child-exited",
+    "child_exit_code": 0
+  },
+  "lease_boundaries": [
+    1,
+    1440
+  ],
+  "invalid_lease_values_rejected": [
+    0,
+    1441
+  ],
+  "production_default_deny_and_explicit_override": true,
+  "invalid_worktree_and_missing_command_rejected": true,
+  "provider_error_recovers_after_correction": true,
+  "child_exit_code_propagated": 37,
+  "init_refuses_overwrite": true,
+  "sigint": {
+    "signal": "SIGINT",
+    "ttlSeconds": 10,
+    "childPid": 13088,
+    "childAlive": false,
+    "childHadSecretBeforeSignal": true,
+    "childHasSecretAfterSignal": false,
+    "brokerCmdline": "/work/repo/dist/bin/wsb\u0000run\u0000--config\u0000/tmp/wsb-verification-4-CjS43v/config.toml\u0000--worktree\u0000/tmp/wsb-verification-4-CjS43v/worktree\u0000--json\u0000--ttl-seconds\u000010\u0000--\u0000sh\u0000-c\u0000echo $$ > \"/tmp/wsb-verification-4-CjS43v/child-SIGINT.pid\"; exec sleep 30\u0000",
+    "childCmdline": "sleep\u000030\u0000",
+    "stdout": "{\"lease_id\":\"lease-1787984436-13085\",\"worktree\":\"/tmp/wsb-verification-4-CjS43v/worktree\",\"secret_names\":[\"API_TOKEN\"],\"started_at_unix\":1787984436,\"expires_at_unix\":1787984446,\"revoked_at_unix\":1787984436,\"outcome\":\"broker-stopped\",\"child_exit_code\":null}\n",
+    "stderr": "",
+    "exited": {
+      "code": 1,
+      "signal": null
+    },
+    "closed": {
+      "code": 1,
+      "signal": null
+    }
+  },
+  "sigterm": {
+    "signal": "SIGTERM",
+    "ttlSeconds": 1,
+    "childPid": 13093,
+    "childAlive": true,
+    "childHadSecretBeforeSignal": true,
+    "childHasSecretAfterSignal": true,
+    "brokerCmdline": "/work/repo/dist/bin/wsb\u0000run\u0000--config\u0000/tmp/wsb-verification-4-CjS43v/config.toml\u0000--worktree\u0000/tmp/wsb-verification-4-CjS43v/worktree\u0000--json\u0000--ttl-seconds\u00001\u0000--\u0000sh\u0000-c\u0000echo $$ > \"/tmp/wsb-verification-4-CjS43v/child-SIGTERM.pid\"; exec sleep 30\u0000",
+    "childCmdline": "sleep\u000030\u0000",
+    "stdout": "",
+    "stderr": "",
+    "exited": {
+      "code": null,
+      "signal": "SIGTERM"
+    },
+    "closed": {
+      "code": null,
+      "signal": "TIMEOUT"
+    }
+  },
+  "sighup": {
+    "signal": "SIGHUP",
+    "ttlSeconds": 1,
+    "childPid": 13114,
+    "childAlive": true,
+    "childHadSecretBeforeSignal": true,
+    "childHasSecretAfterSignal": true,
+    "brokerCmdline": "/work/repo/dist/bin/wsb\u0000run\u0000--config\u0000/tmp/wsb-verification-4-CjS43v/config.toml\u0000--worktree\u0000/tmp/wsb-verification-4-CjS43v/worktree\u0000--json\u0000--ttl-seconds\u00001\u0000--\u0000sh\u0000-c\u0000echo $$ > \"/tmp/wsb-verification-4-CjS43v/child-SIGHUP.pid\"; exec sleep 30\u0000",
+    "childCmdline": "sleep\u000030\u0000",
+    "stdout": "",
+    "stderr": "",
+    "exited": {
+      "code": null,
+      "signal": "SIGHUP"
+    },
+    "closed": {
+      "code": null,
+      "signal": "TIMEOUT"
+    }
+  }
+}
