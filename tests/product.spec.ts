@@ -444,6 +444,9 @@ test('each route updates its social metadata after client navigation', async ({ 
 });
 
 test('cold hash links and browser Back restore their exact destinations', async ({ page }) => {
+  await page.goto('/#main');
+  await expect(page.locator('main')).toBeFocused();
+
   await page.goto('/#install');
   await expect(page.locator('#install h2')).toBeFocused();
   expect(await page.evaluate(() => scrollY)).toBeGreaterThan(1_000);

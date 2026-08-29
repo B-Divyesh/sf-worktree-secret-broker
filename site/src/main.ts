@@ -161,7 +161,9 @@ function hashTarget(): HTMLElement | null {
 }
 
 function focusAndScroll(target: HTMLElement | null, top: number): void {
-  const focusTarget = target?.querySelector<HTMLElement>('h2') ?? document.querySelector<HTMLHeadingElement>('h1')!;
+  const focusTarget = target?.id === 'main'
+    ? target
+    : target?.querySelector<HTMLElement>('h2') ?? document.querySelector<HTMLHeadingElement>('h1')!;
   focusTarget.tabIndex = -1;
   focusTarget.focus({ preventScroll: true });
   window.scrollTo({ top, behavior: 'instant' });
