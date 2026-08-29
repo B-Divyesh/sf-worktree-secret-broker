@@ -124,5 +124,33 @@
     "where": "README team policy helper",
     "test": "npm test -- --grep @claim:policy-helper-input-boundary",
     "sandbox": "fresh browser context; inspect every form control, submit duplicate names, assert actionable error, no TOML, and same-origin requests"
+  },
+  {
+    "id": "public-source-install",
+    "claim": "The public-source package requires Rust 1.85 and installs one wsb binary.",
+    "where": "README install section",
+    "test": "npm test -- --grep @claim:public-source-install",
+    "sandbox": "clean checkout; inspect locked Cargo metadata for rust-version and binary targets, then run the bundled demo"
+  },
+  {
+    "id": "json-output",
+    "claim": "The --json option emits machine-readable checks and receipts.",
+    "where": "README configuration section",
+    "test": "npm test -- --grep @claim:json-output",
+    "sandbox": "temporary Git worktree and fake provider; parse check and run output as JSON and assert their observable fields"
+  },
+  {
+    "id": "offline-demo",
+    "claim": "The browser demo reloads offline after the first visit.",
+    "where": "landing first-screen facts",
+    "test": "npm test -- --grep @claim:offline-demo",
+    "sandbox": "fresh browser context; wait for service-worker control, disable browser network and HTTP cache, then reload /demo"
+  },
+  {
+    "id": "paid-team-review",
+    "claim": "The CLI and local policy helper work without a license; team review tools cost $19 once and activate after Sociobot verification.",
+    "where": "landing first-screen facts and paid section, privacy page, terms page, README",
+    "test": "npm test -- --grep @claim:paid-team-review",
+    "sandbox": "fresh browser context with recorded valid and invalid Sociobot responses; exercise checkout link, return token capture, local storage, daily cache, restore, invalidation, and review output"
   }
 ]

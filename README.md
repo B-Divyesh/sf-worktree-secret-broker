@@ -126,11 +126,22 @@ The site includes a local policy helper. It turns unique variable names into
 development-only provider references without a network request. The helper
 rejects duplicate names and does not ask for secret values.
 
+## Team review tools
+
+The CLI and local policy helper work without a license. Team review tools cost
+$19 once and add a reusable policy review checklist.
+
+[Buy team review tools through Sociobot](https://api.sociobot.in/api/v1/products/worktree-secret-broker/checkout).
+After checkout, the site stores the returned license in this browser and checks
+it with Sociobot. Existing buyers can paste a license on the product page.
+Sociobot and Dodo are the merchant of record. Refunds are handled there.
+
 ## Privacy
 
 The site has no analytics. The browser demo uses bundled sample text and keeps
-its session state under `demo:` keys. The CLI only resolves the provider
-references in your config for the child process you start. See the published
+its session state under `demo:` keys. The site sends a stored license only to
+Sociobot for verification. The CLI only resolves the provider references in
+your config for the child process you start. See the published
 [privacy](https://worktree-secret-broker.sociobot.in/privacy) and
 [terms](https://worktree-secret-broker.sociobot.in/terms) pages.
 

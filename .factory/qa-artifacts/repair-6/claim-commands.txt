@@ -1,0 +1,44 @@
+RUN demo-isolated: npm test -- --grep @claim:demo-isolated
+PASS demo-isolated
+RUN approved-environment: npm test -- --grep @claim:approved-environment
+PASS approved-environment
+RUN names-only-receipt: npm test -- --grep @claim:names-only-receipt
+PASS names-only-receipt
+RUN production-denied: npm test -- --grep @claim:production-denied
+PASS production-denied
+RUN lease-expiry: npm test -- --grep @claim:lease-expiry
+PASS lease-expiry
+RUN worktree-root-required: npm test -- --grep @claim:worktree-root-required
+PASS worktree-root-required
+RUN demo-same-origin: npm test -- --grep @claim:demo-same-origin
+PASS demo-same-origin
+RUN recorded-demo-sample: npm test -- --grep @claim:recorded-demo-sample
+PASS recorded-demo-sample
+RUN site-no-analytics: npm test -- --grep @claim:site-no-analytics
+PASS site-no-analytics
+RUN policy-generator: npm test -- --grep @claim:policy-generator
+PASS policy-generator
+RUN broker-stop-revokes: npm test -- --grep @claim:broker-stop-revokes
+PASS broker-stop-revokes
+RUN demo-reset: npm test -- --grep @claim:demo-reset
+PASS demo-reset
+RUN demo-browser-isolation: npm test -- --grep @claim:demo-browser-isolation
+PASS demo-browser-isolation
+RUN recorded-demo-receipt: npm test -- --grep @claim:recorded-demo-receipt
+PASS recorded-demo-receipt
+RUN copy-install-command: npm test -- --grep @claim:copy-install-command
+PASS copy-install-command
+RUN one-password-provider: npm test -- --grep @claim:one-password-provider
+PASS one-password-provider
+RUN os-keychain-provider: npm test -- --grep @claim:os-keychain-provider
+PASS os-keychain-provider
+RUN policy-helper-input-boundary: npm test -- --grep @claim:policy-helper-input-boundary
+PASS policy-helper-input-boundary
+RUN public-source-install: npm test -- --grep @claim:public-source-install
+PASS public-source-install
+RUN json-output: npm test -- --grep @claim:json-output
+PASS json-output
+RUN offline-demo: npm test -- --grep @claim:offline-demo
+PASS offline-demo
+RUN paid-team-review: npm test -- --grep @claim:paid-team-review
+PASS paid-team-review

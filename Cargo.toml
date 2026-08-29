@@ -2,6 +2,7 @@
 name = "worktree-secret-broker"
 version = "0.1.0"
 edition = "2024"
+rust-version = "1.85"
 description = "Short-lived, least-privilege secret leases for Git worktree processes"
 license = "MIT"
 repository = "https://github.com/B-Divyesh/sf-worktree-secret-broker"

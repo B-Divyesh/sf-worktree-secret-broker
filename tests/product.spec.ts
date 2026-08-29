@@ -242,6 +242,32 @@ test('@claim:worktree-root-required nested paths are refused before the child st
   await rm(item.root, { recursive: true, force: true });
 });
 
+test('@claim:public-source-install package declares Rust 1.85 and one working wsb binary', async () => {
+  const { stdout } = await exec('cargo', ['metadata', '--locked', '--format-version', '1', '--no-deps']);
+  const metadata = JSON.parse(stdout) as {
+    packages: Array<{ name: string; rust_version: string; targets: Array<{ name: string; kind: string[] }> }>;
+  };
+  const packageInfo = metadata.packages.find(item => item.name === 'worktree-secret-broker');
+  expect(packageInfo?.rust_version).toBe('1.85');
+  expect(packageInfo?.targets.filter(target => target.kind.includes('bin')).map(target => target.name)).toEqual(['wsb']);
+  const demo = JSON.parse((await exec(binary, ['demo', '--json'])).stdout) as { outcome: string };
+  expect(demo.outcome).toBe('demo-complete');
+});
+
+test('@claim:json-output --json emits parseable checks and receipts', async () => {
+  const item = await fixture();
+  try {
+    const check = JSON.parse((await exec(binary, ['check', '--config', item.config, '--json'], { env: item.env })).stdout) as { valid: boolean; secret_names: string[] };
+    expect(check.valid).toBe(true);
+    expect(check.secret_names).toEqual(['API_TOKEN']);
+    const receipt = JSON.parse((await exec(binary, ['run', '--config', item.config, '--worktree', item.root, '--json', '--', 'true'], { env: item.env })).stdout) as { outcome: string; secret_names: string[] };
+    expect(receipt.outcome).toBe('child-exited');
+    expect(receipt.secret_names).toEqual(['API_TOKEN']);
+  } finally {
+    await rm(item.root, { recursive: true, force: true });
+  }
+});
+
 test('@claim:demo-same-origin browser demo makes only same-origin requests', async ({ page }) => {
   const origins = new Set<string>();
   page.on('request', request => origins.add(new URL(request.url()).origin));
@@ -364,14 +390,75 @@ test('@claim:copy-install-command copies an actionable public-source command', a
   await expect(page.getByRole('link', { name: /View source/ })).toHaveAttribute('href', 'https://github.com/B-Divyesh/sf-worktree-secret-broker');
 });
 
-test('regression: an unavailable checkout is not advertised', async ({ page }) => {
+test('@claim:paid-team-review purchase return, restore, cache, invalidation, and review output work', async ({ page }) => {
+  let requestCount = 0;
+  let apiOffline = false;
+  await page.route('https://api.sociobot.in/api/v1/products/worktree-secret-broker/verify?*', async route => {
+    requestCount += 1;
+    if (apiOffline) { await route.abort('internetdisconnected'); return; }
+    const token = new URL(route.request().url()).searchParams.get('license');
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({ valid: token !== 'license_invalid', reason: token === 'license_invalid' ? 'invalid' : 'ok', expires_at: null }),
+    });
+  });
+
   await page.goto('/');
-  await expect(page.locator('a[href*="/checkout"]')).toHaveCount(0);
-  await expect(page.getByRole('link', { name: /buy/i })).toHaveCount(0);
-  expect(await page.locator('body').innerText()).not.toContain('$19');
+  await expect(page.getByRole('button', { name: 'Generate team policy' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Team review checklist' })).toBeHidden();
+  expect(requestCount).toBe(0);
+  expect(JSON.parse((await exec(binary, ['demo', '--json'])).stdout)).toMatchObject({ outcome: 'demo-complete' });
+
+  await page.goto('/?license=license_returned_123');
+  await expect(page).toHaveURL(/\/$/);
+  await expect(page.getByText('$19', { exact: true })).toBeVisible();
+  await expect(page.getByText('one-time purchase', { exact: true })).toBeVisible();
+  await expect(page.getByRole('link', { name: /Buy team review tools/ })).toHaveAttribute('href', 'https://api.sociobot.in/api/v1/products/worktree-secret-broker/checkout');
+  await expect(page.getByRole('link', { name: 'Read the privacy terms' })).toHaveAttribute('href', '/privacy');
+  await expect(page.getByRole('link', { name: 'purchase terms' })).toHaveAttribute('href', '/terms');
+  await expect(page.getByRole('status')).toHaveText('Team review tools are active on this device.');
+  expect(await page.evaluate(() => localStorage.getItem('sb_license:worktree-secret-broker'))).toBe('license_returned_123');
+  expect(new URL(page.url()).searchParams.has('license')).toBe(false);
+  await expect(page.getByRole('heading', { name: 'Team review checklist' })).toBeVisible();
+
+  await page.getByLabel('Approved variable names').fill('DATABASE_URL\nNPM_TOKEN\nSENTRY_DSN');
+  await page.getByLabel('Provider').selectOption('op');
+  await page.getByLabel('Lease length').selectOption('30');
+  await page.getByRole('button', { name: 'Create review checklist' }).click();
+  await expect(page.locator('#review-output')).toContainText('Approved names (3): DATABASE_URL, NPM_TOKEN, SENTRY_DSN');
+  await expect(page.locator('#review-output')).toContainText('Provider: 1Password');
+  await expect(page.locator('#review-output')).toContainText('Lease: 30 minutes');
+
+  await page.reload();
+  await expect(page.getByRole('heading', { name: 'Team review checklist' })).toBeVisible();
+  expect(requestCount).toBe(1);
+
+  await page.evaluate(() => {
+    const key = 'sb_license_verdict:worktree-secret-broker';
+    const verdict = JSON.parse(localStorage.getItem(key)!);
+    localStorage.setItem(key, JSON.stringify({ ...verdict, checkedAt: 0 }));
+  });
+  apiOffline = true;
+  await page.reload();
+  await expect(page.getByRole('heading', { name: 'Team review checklist' })).toBeVisible();
+  await expect(page.getByRole('status')).toHaveText('The license check is offline. The free CLI still works. Try again later.');
+
+  apiOffline = false;
+
+  await page.getByLabel('Have a license? Paste it').fill('license_invalid');
+  await page.getByRole('button', { name: 'Verify license' }).click();
+  await expect(page.getByRole('status')).toHaveText('License no longer active. Check the token or buy a new license.');
+  await expect(page.getByRole('heading', { name: 'Team review checklist' })).toBeHidden();
+  expect(await page.evaluate(() => localStorage.getItem('sb_license:worktree-secret-broker'))).toBe('license_invalid');
+
+  await page.getByLabel('Have a license? Paste it').fill('license_restored_456');
+  await page.getByRole('button', { name: 'Verify license' }).click();
+  await expect(page.getByRole('status')).toHaveText('Team review tools are active on this device.');
+  await expect(page.getByRole('heading', { name: 'Team review checklist' })).toBeVisible();
 });
 
-test('offline reload works after the service worker controls the built demo', async ({ context, page }) => {
+test('@claim:offline-demo demo reloads offline after the first visit', async ({ context, page }) => {
   await page.goto('/demo');
   await page.evaluate(() => navigator.serviceWorker.ready);
   await page.reload({ waitUntil: 'domcontentloaded' });
@@ -381,6 +468,28 @@ test('offline reload works after the service worker controls the built demo', as
   await expect(page.getByRole('heading', { name: 'See the CLI run with sample worktree data' })).toBeVisible();
   await expect(page.getByText('Demo — sample data, nothing is saved to your real data').first()).toBeVisible();
   await context.setOffline(false);
+});
+
+test('regression: verifier V7 copy findings are removed or mapped to one claim test', async () => {
+  const claims = JSON.parse(await readFile(join(process.cwd(), '.factory/claims.json'), 'utf8')) as Array<{ id: string }>;
+  const source = await readFile(join(process.cwd(), 'tests/product.spec.ts'), 'utf8');
+  const publishedCopy = `${await readFile(join(process.cwd(), 'site/src/main.ts'), 'utf8')}\n${await readFile(join(process.cwd(), 'README.md'), 'utf8')}`;
+  expect(publishedCopy).not.toContain('It does not host a vault.');
+  expect(publishedCopy).not.toContain('It does not scan repositories.');
+  for (const id of claims.map(claim => claim.id)) {
+    expect(source.match(new RegExp(`@claim:${id}(?![A-Za-z0-9-])`, 'g')) ?? []).toHaveLength(1);
+  }
+  expect(claims.map(claim => claim.id)).toEqual(expect.arrayContaining(['public-source-install', 'json-output', 'offline-demo', 'paid-team-review']));
+});
+
+test('first screen states privacy, offline, and price facts', async ({ page }) => {
+  await page.goto('/');
+  const facts = page.locator('.plain-facts li');
+  await expect(facts).toHaveText([
+    'The site has no analytics.',
+    'The demo reloads offline after your first visit.',
+    'Free CLI. Team review tools cost $19 once.',
+  ]);
 });
 
 for (const path of ['/', '/demo', '/privacy', '/terms', '/missing']) {

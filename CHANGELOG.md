@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Restore the $19 Sociobot license flow and add a paid team review checklist.
+- Cover the verifier's missing install, JSON, offline, and purchase claims.
 - Require explicit opt-in before `CI` reaches a leased child process.
 - Validate the full `op://VAULT/ITEM/FIELD` reference shape during `check`.
 - Add a public-source install command and complete the claim test inventory.
