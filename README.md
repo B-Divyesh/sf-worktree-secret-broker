@@ -32,8 +32,8 @@ The command creates a temporary sample worktree and uses in-memory sample
 values. It prints a names-only receipt and deletes the directory when done.
 It does not read a keychain, contact a network, or save sample data.
 
-The recorded browser demo is at
-<https://worktree-secret-broker.sociobot.in/demo>.
+Open the browser sample directly at
+<https://worktree-secret-broker.sociobot.in/?demo=1>.
 
 ## Configure a real worktree
 
@@ -122,9 +122,9 @@ does not ask for secret values.
 
 ## Privacy
 
-The site has no analytics. The browser demo uses bundled sample text. The CLI
-only resolves the provider references in your config for the child process you
-start. See the published
+The site has no analytics. The browser demo uses bundled sample text and keeps
+its session state under `demo:` keys. The CLI only resolves the provider
+references in your config for the child process you start. See the published
 [privacy](https://worktree-secret-broker.sociobot.in/privacy) and
 [terms](https://worktree-secret-broker.sociobot.in/terms) pages.
 

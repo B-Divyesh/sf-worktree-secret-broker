@@ -2,6 +2,36 @@ import './style.css';
 
 type Route = '/' | '/demo' | '/privacy' | '/terms' | '/not-found';
 
+type Metadata = { title: string; description: string; canonical: string };
+
+const metadata: Record<Route, Metadata> = {
+  '/': {
+    title: 'Worktree Secret Broker — Lease development secrets',
+    description: 'Give one worktree process only the development secrets it needs, without copying a secret file.',
+    canonical: '/',
+  },
+  '/demo': {
+    title: 'Demo — Worktree Secret Broker',
+    description: 'See the CLI run with isolated sample worktree data and a names-only receipt.',
+    canonical: '/demo',
+  },
+  '/privacy': {
+    title: 'Privacy — Worktree Secret Broker',
+    description: 'Read how the CLI and its isolated browser sample handle local data.',
+    canonical: '/privacy',
+  },
+  '/terms': {
+    title: 'Terms — Worktree Secret Broker',
+    description: 'Read the MIT license terms and safe-use limits for Worktree Secret Broker.',
+    canonical: '/terms',
+  },
+  '/not-found': {
+    title: 'Page not found — Worktree Secret Broker',
+    description: 'Return to Worktree Secret Broker from a path that does not exist.',
+    canonical: '/404',
+  },
+};
+
 const escapeHtml = (value: string) => value.replace(/[&<>'"]/g, char => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;',
 }[char] ?? char));
@@ -13,7 +43,7 @@ function routeFor(path: string): Route {
 
 function shell(content: string, demo = false): string {
   return `
-    ${demo ? `<aside class="demo-banner" aria-label="Demo mode"><span>Demo — sample data, nothing is saved</span><span class="demo-actions"><button type="button" data-reset-demo>Reset demo</button><a href="/" data-link>Start for real</a></span></aside>` : ''}
+    ${demo ? `<aside class="demo-banner" aria-label="Demo mode"><span>Demo — sample data, nothing is saved to your real data</span><span class="demo-actions"><button type="button" data-reset-demo>Reset demo</button><a href="/" data-link>Start for real</a></span></aside>` : ''}
     <header class="site-header">
       <a class="wordmark" href="/" data-link aria-label="Worktree Secret Broker home"><span class="key-mark" aria-hidden="true"></span><span>Worktree<br>Secret Broker</span></a>
       <nav aria-label="Main navigation"><a href="/demo" data-link>Demo</a><a href="/#install" data-link>Install</a><a href="/privacy" data-link>Privacy</a></nav>
@@ -43,7 +73,7 @@ Receipt demo-1787913600
   outcome: demo-complete
   revoked: 1787913601
 <span class="muted">Temporary worktree removed.</span></code></pre>
-    ${live ? '<p class="terminal-note">This recording matches <code>wsb demo</code>. The CLI creates and removes its own temporary directory.</p>' : ''}
+    ${live ? '<p class="terminal-note">This sample uses the bundled names and receipt fields from <code>wsb demo</code>. The CLI creates and removes its own temporary directory.</p>' : ''}
   </section>`;
 
 function home(): string {
@@ -53,17 +83,17 @@ function home(): string {
         <p class="eyebrow">Local CLI · v0.1.0</p>
         <h1 tabindex="-1">Lease secrets to one worktree process</h1>
         <p class="lede">For developers running coding agents, each worktree gets only approved development variables.</p>
-        <div class="hero-action"><a class="button" href="/demo" data-link>Try it with sample data</a><span>Opens an isolated recorded CLI run.</span></div>
+        <div class="hero-action"><a class="button" href="/?demo=1" data-link>Try it with sample data</a><span>Opens an isolated recorded CLI run.</span></div>
         <ul class="plain-facts"><li>Only approved variables enter the child.</li><li>Receipts list names, never values.</li><li>Production labels are denied by default.</li></ul>
       </div>
-      <figure class="hero-art"><img src="/key-orchard.webp" width="1200" height="800" alt="Three brass keys descend toward one lit worktree while distant keyholes stay dark." fetchpriority="high"><figcaption>Only named keys reach the temporary root chamber.</figcaption></figure>
+      <figure class="hero-art"><img src="/key-orchard.webp" width="1200" height="800" alt="Three brass keys descend toward one lit worktree while distant keyholes stay dark." fetchpriority="high"><figcaption>Only approved variables reach the named worktree process.</figcaption></figure>
     </section>
     <section class="product-preview" aria-labelledby="preview-heading">
-      <div class="section-intro"><p class="eyebrow">See the boundary</p><h2 id="preview-heading">The receipt shows names, never values</h2><p>The recording uses the demo’s two bundled names.</p></div>
+      <div class="section-intro"><p class="eyebrow">Sample names-only receipt</p><h2 id="preview-heading">The receipt shows names, never values</h2><p>The recording uses the demo’s two bundled names.</p></div>
       ${terminal()}
     </section>
     <section class="steps" id="install" aria-labelledby="steps-heading">
-      <p class="eyebrow">How it works</p><h2 id="steps-heading">Approve, run, revoke</h2>
+      <p class="eyebrow">How it works</p><h2 id="steps-heading">Run one worktree process in three steps</h2>
       <ol>
         <li><span>01</span><div><h3>Map approved names</h3><p>Point each variable name at Keychain, Secret Service, or 1Password.</p><code>DATABASE_URL → keychain://my-app/database-url</code></div></li>
         <li><span>02</span><div><h3>Name the worktree</h3><p>The broker checks the Git root before starting one child process.</p><code>wsb run --worktree ../agent-42 -- npm test</code></div></li>
@@ -92,7 +122,7 @@ function policySection(): string {
 function demo(): string {
   return shell(`
     <section class="demo-page">
-      <p class="eyebrow">One-click sandbox</p><h1 tabindex="-1">Watch a secret lease finish cleanly</h1>
+      <p class="eyebrow">One-click sandbox</p><h1 tabindex="-1">See the CLI run with sample worktree data</h1>
       <p class="lede">This recording uses bundled sample names and an isolated temporary Git worktree.</p>
       ${terminal(true)}
       <div class="demo-grid"><section><h2>Sample input</h2><pre><code>DATABASE_URL
@@ -116,8 +146,7 @@ function terms(): string {
     <h2>Changes</h2><p>These terms apply to version 0.1.0 and were updated on 28 August 2026.</p>`);
 }
 
-function legal(title: string, heading: string, body: string): string {
-  document.title = title;
+function legal(_title: string, heading: string, body: string): string {
   return shell(`<article class="legal"><p class="eyebrow">Plain terms</p><h1 tabindex="-1">${heading}</h1>${body}</article>`);
 }
 
@@ -140,23 +169,38 @@ function focusAndScroll(target: HTMLElement | null, top: number): void {
 }
 
 let restoringScroll = false;
+const demoSessionKeys = ['demo:session', 'demo:changed-frame'];
+
+function isDemoEntry(): boolean {
+  return location.pathname === '/demo' || new URLSearchParams(location.search).get('demo') === '1';
+}
+
+function clearDemoStorage(): void {
+  // Keep this list explicit: reset must not enumerate, read, or mutate real
+  // browser storage while the sample banner is visible.
+  demoSessionKeys.forEach(key => sessionStorage.removeItem(key));
+}
+
+function enterDemoStorage(): void {
+  sessionStorage.setItem('demo:session', 'sample-receipt');
+}
+
+function setMetadata(route: Route): void {
+  const current = metadata[route];
+  const origin = 'https://worktree-secret-broker.sociobot.in';
+  document.title = current.title;
+  document.querySelector<HTMLMetaElement>('meta[name="description"]')!.content = current.description;
+  document.querySelector<HTMLLinkElement>('link[rel="canonical"]')!.href = `${origin}${current.canonical}`;
+  document.querySelector<HTMLMetaElement>('meta[property="og:title"]')!.content = current.title;
+  document.querySelector<HTMLMetaElement>('meta[property="og:description"]')!.content = current.description;
+  document.querySelector<HTMLMetaElement>('meta[name="twitter:title"]')!.content = current.title;
+  document.querySelector<HTMLMetaElement>('meta[name="twitter:description"]')!.content = current.description;
+}
 
 function render(mode: RenderMode = 'initial', savedScroll = 0): void {
-  const route = routeFor(location.pathname);
-  if (route !== '/privacy' && route !== '/terms') {
-    const titles: Record<Route, string> = {
-      '/': 'Worktree Secret Broker — Lease development secrets',
-      '/demo': 'Demo — Worktree Secret Broker',
-      '/privacy': 'Privacy — Worktree Secret Broker',
-      '/terms': 'Terms — Worktree Secret Broker',
-      '/not-found': 'Page not found — Worktree Secret Broker',
-    };
-    document.title = titles[route];
-  }
-  document.querySelector<HTMLMetaElement>('meta[name="description"]')!.content = route === '/demo'
-    ? 'Watch the real CLI run with isolated sample data and a names-only lease receipt.'
-    : 'Give one worktree process only the development secrets it needs, without copying a secret file.';
-  document.querySelector<HTMLLinkElement>('link[rel="canonical"]')!.href = `https://worktree-secret-broker.sociobot.in${route === '/not-found' ? location.pathname : route}`;
+  const route = isDemoEntry() ? '/demo' : routeFor(location.pathname);
+  if (route === '/demo') enterDemoStorage();
+  setMetadata(route);
   const app = document.querySelector<HTMLDivElement>('#app')!;
   app.innerHTML = route === '/' ? home() : route === '/demo' ? demo() : route === '/privacy' ? privacy() : route === '/terms' ? terms() : notFound();
   bindActions();
@@ -177,14 +221,13 @@ function bindActions(): void {
     if (event.button || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     event.preventDefault();
     history.replaceState({ ...history.state, scrollY }, '', location.href);
-    if (link.closest('.demo-banner')) {
-      Object.keys(sessionStorage).filter(key => key.startsWith('demo:')).forEach(key => sessionStorage.removeItem(key));
-    }
+    if (link.closest('.demo-banner')) clearDemoStorage();
     history.pushState({ scrollY: 0 }, '', link.href); render('navigate');
   }));
   document.querySelector('[data-reset-demo]')?.addEventListener('click', () => {
-    Object.keys(sessionStorage).filter(key => key.startsWith('demo:')).forEach(key => sessionStorage.removeItem(key));
-    sessionStorage.setItem('demo:reset', String(Date.now())); render();
+    clearDemoStorage();
+    enterDemoStorage();
+    render();
     document.querySelector<HTMLButtonElement>('[data-reset-demo]')?.focus();
   });
   document.querySelector<HTMLButtonElement>('[data-copy]')?.addEventListener('click', async event => {

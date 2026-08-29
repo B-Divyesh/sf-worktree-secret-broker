@@ -135,6 +135,10 @@ fn execute() -> Result<u8> {
 }
 
 fn demo(json: bool) -> Result<u8> {
+    // The shipped browser recording is a stable, bundled sample. Keeping its
+    // receipt timestamps fixed lets people compare every shown receipt field
+    // with `wsb demo --json` without exposing a machine-specific path.
+    const SAMPLE_STARTED_AT: u64 = 1_787_913_600;
     let root = env::temp_dir().join(format!(
         "wsb-demo-{}-{}",
         std::process::id(),
@@ -176,14 +180,13 @@ fn demo(json: bool) -> Result<u8> {
     if !json {
         println!("✓ child received 2 approved variable names");
     }
-    let now = worktree_secret_broker::unix_now();
     let receipt = Receipt {
-        lease_id: format!("demo-{now}"),
+        lease_id: format!("demo-{SAMPLE_STARTED_AT}"),
         worktree: root.display().to_string(),
         secret_names: vec!["DATABASE_URL".into(), "NPM_TOKEN".into()],
-        started_at_unix: now,
-        expires_at_unix: now + 900,
-        revoked_at_unix: now,
+        started_at_unix: SAMPLE_STARTED_AT,
+        expires_at_unix: SAMPLE_STARTED_AT + 900,
+        revoked_at_unix: SAMPLE_STARTED_AT + 1,
         outcome: "demo-complete".into(),
         child_exit_code: Some(0),
     };

@@ -84,6 +84,20 @@
     "sandbox": "fresh browser context with changed demo-prefixed session data"
   },
   {
+    "id": "demo-browser-isolation",
+    "claim": "The browser demo changes only demo-prefixed storage and Start for real removes that demo storage.",
+    "where": "demo banner and demo documentation",
+    "test": "npm test -- --grep @claim:demo-browser-isolation",
+    "sandbox": "fresh browser context with real-data sentinels, entered through ?demo=1, then reset and exited"
+  },
+  {
+    "id": "recorded-demo-receipt",
+    "claim": "The browser recording shows the bundled CLI demo receipt names, timing, outcome, and revocation fields.",
+    "where": "demo recording and landing step 3",
+    "test": "npm test -- --grep @claim:recorded-demo-receipt",
+    "sandbox": "fresh browser context at ?demo=1 plus wsb demo --json; compare every shown receipt field and verify CLI cleanup"
+  },
+  {
     "id": "copy-install-command",
     "claim": "Copy install command copies the public-source Cargo command.",
     "where": "landing install action",

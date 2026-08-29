@@ -165,8 +165,8 @@ test('@claim:worktree-root-required nested paths are refused before the child st
 test('@claim:demo-same-origin browser demo makes only same-origin requests', async ({ page }) => {
   const origins = new Set<string>();
   page.on('request', request => origins.add(new URL(request.url()).origin));
-  await page.goto('/demo');
-  await expect(page.getByText('Demo — sample data, nothing is saved').first()).toBeVisible();
+  await page.goto('/?demo=1');
+  await expect(page.getByText('Demo — sample data, nothing is saved to your real data').first()).toBeVisible();
   expect([...origins]).toEqual(['http://127.0.0.1:4173']);
 });
 
@@ -201,13 +201,60 @@ test('@claim:policy-generator the local helper creates development-only referenc
 });
 
 test('@claim:demo-reset reset clears demo storage and restores the first output', async ({ page }) => {
-  await page.goto('/demo');
+  await page.goto('/?demo=1');
   await page.evaluate(() => sessionStorage.setItem('demo:changed-frame', '9'));
   await page.getByRole('button', { name: 'Reset demo' }).click();
   expect(await page.evaluate(() => sessionStorage.getItem('demo:changed-frame'))).toBeNull();
-  expect(await page.evaluate(() => sessionStorage.getItem('demo:reset'))).not.toBeNull();
+  expect(await page.evaluate(() => sessionStorage.getItem('demo:session'))).toBe('sample-receipt');
   await expect(page.locator('.terminal')).toContainText('$ wsb demo');
   await expect(page.getByRole('button', { name: 'Reset demo' })).toBeFocused();
+});
+
+test('@claim:demo-browser-isolation demo storage never alters real browser data', async ({ page }) => {
+  await page.goto('/');
+  await page.evaluate(() => {
+    localStorage.setItem('real:local-sentinel', 'do-not-change');
+    sessionStorage.setItem('real:session-sentinel', 'do-not-change');
+  });
+  await page.getByRole('link', { name: 'Try it with sample data' }).click();
+  await expect(page).toHaveURL(/\/?demo=1$/);
+  await expect(page.getByText('Demo — sample data, nothing is saved to your real data').first()).toBeVisible();
+  expect(await page.evaluate(() => ({
+    local: localStorage.getItem('real:local-sentinel'),
+    session: sessionStorage.getItem('real:session-sentinel'),
+    demo: sessionStorage.getItem('demo:session'),
+  }))).toEqual({ local: 'do-not-change', session: 'do-not-change', demo: 'sample-receipt' });
+  await page.getByRole('button', { name: 'Reset demo' }).click();
+  expect(await page.evaluate(() => ({
+    local: localStorage.getItem('real:local-sentinel'),
+    session: sessionStorage.getItem('real:session-sentinel'),
+    demoKeys: [...Object.keys(sessionStorage), ...Object.keys(localStorage)].filter(key => key.startsWith('demo:')).sort(),
+  }))).toEqual({ local: 'do-not-change', session: 'do-not-change', demoKeys: ['demo:session'] });
+  await page.getByRole('link', { name: 'Start for real' }).click();
+  await expect(page).toHaveURL(/\/$/);
+  expect(await page.evaluate(() => ({
+    local: localStorage.getItem('real:local-sentinel'),
+    session: sessionStorage.getItem('real:session-sentinel'),
+    demoKeys: [...Object.keys(sessionStorage), ...Object.keys(localStorage)].filter(key => key.startsWith('demo:')),
+  }))).toEqual({ local: 'do-not-change', session: 'do-not-change', demoKeys: [] });
+});
+
+test('@claim:recorded-demo-receipt browser recording matches every bundled CLI receipt field', async ({ page }) => {
+  await page.goto('/?demo=1');
+  const { stdout } = await exec(binary, ['demo', '--json']);
+  const receipt = JSON.parse(stdout) as {
+    lease_id: string; worktree: string; secret_names: string[]; started_at_unix: number;
+    expires_at_unix: number; outcome: string; revoked_at_unix: number;
+  };
+  const transcript = await page.locator('.terminal').innerText();
+  expect(transcript).toContain(`Receipt ${receipt.lease_id}`);
+  expect(transcript).toContain(`names: ${receipt.secret_names.join(', ')}`);
+  expect(transcript).toContain(`started: ${receipt.started_at_unix}`);
+  expect(transcript).toContain(`expires: ${receipt.expires_at_unix}`);
+  expect(transcript).toContain(`outcome: ${receipt.outcome}`);
+  expect(transcript).toContain(`revoked: ${receipt.revoked_at_unix}`);
+  expect(transcript).toContain('Temporary worktree removed.');
+  await expect(access(receipt.worktree)).rejects.toThrow();
 });
 
 test('@claim:copy-install-command copies an actionable public-source command', async ({ context, page }) => {
@@ -233,8 +280,8 @@ test('offline reload works after the service worker controls the built demo', as
   await page.waitForFunction(() => navigator.serviceWorker.controller !== null);
   await context.setOffline(true);
   await page.reload({ waitUntil: 'commit', timeout: 5_000 });
-  await expect(page.getByRole('heading', { name: 'Watch a secret lease finish cleanly' })).toBeVisible();
-  await expect(page.getByText('Demo — sample data, nothing is saved').first()).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'See the CLI run with sample worktree data' })).toBeVisible();
+  await expect(page.getByText('Demo — sample data, nothing is saved to your real data').first()).toBeVisible();
   await context.setOffline(false);
 });
 
@@ -262,10 +309,40 @@ test('production output emits real routes and a designed HTTP 404 override', asy
     responseOverrides?: Record<string, { rewrite?: string }>;
   };
   expect(config.navigationFallback).toBeUndefined();
-  for (const route of ['/demo', '/privacy', '/terms']) {
-    expect(config.routes).toContainEqual({ route, rewrite: '/index.html' });
+  const staticPages = [
+    ['demo', 'Demo — Worktree Secret Broker', 'See the CLI run with isolated sample worktree data and a names-only receipt.'],
+    ['privacy', 'Privacy — Worktree Secret Broker', 'Read how the CLI and its isolated browser sample handle local data.'],
+    ['terms', 'Terms — Worktree Secret Broker', 'Read the MIT license terms and safe-use limits for Worktree Secret Broker.'],
+    ['404', 'Page not found — Worktree Secret Broker', 'Return to Worktree Secret Broker from a path that does not exist.'],
+  ] as const;
+  for (const [route, title, description] of staticPages) {
+    const path = route === '404' ? 'dist/site/404.html' : `dist/site/${route}/index.html`;
+    const page = await readFile(join(process.cwd(), path), 'utf8');
+    expect(page).toContain(`<title>${title}</title>`);
+    expect(page).toContain(`content="${description}"`);
+    expect(page).toContain(`<link rel="canonical" href="https://worktree-secret-broker.sociobot.in/${route}">`);
   }
+  expect(config.routes?.some(route => route.rewrite === '/index.html')).toBe(false);
   expect(config.responseOverrides?.['404']?.rewrite).toBe('/404.html');
+});
+
+test('each route updates its social metadata after client navigation', async ({ page }) => {
+  const expected = [
+    ['/', 'Worktree Secret Broker — Lease development secrets', 'Give one worktree process only the development secrets it needs, without copying a secret file.'],
+    ['/demo', 'Demo — Worktree Secret Broker', 'See the CLI run with isolated sample worktree data and a names-only receipt.'],
+    ['/privacy', 'Privacy — Worktree Secret Broker', 'Read how the CLI and its isolated browser sample handle local data.'],
+    ['/terms', 'Terms — Worktree Secret Broker', 'Read the MIT license terms and safe-use limits for Worktree Secret Broker.'],
+    ['/missing', 'Page not found — Worktree Secret Broker', 'Return to Worktree Secret Broker from a path that does not exist.'],
+  ] as const;
+  for (const [path, title, description] of expected) {
+    await page.goto(path);
+    await expect(page).toHaveTitle(title);
+    await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', description);
+    await expect(page.locator('meta[property="og:title"]')).toHaveAttribute('content', title);
+    await expect(page.locator('meta[property="og:description"]')).toHaveAttribute('content', description);
+    await expect(page.locator('meta[name="twitter:title"]')).toHaveAttribute('content', title);
+    await expect(page.locator('meta[name="twitter:description"]')).toHaveAttribute('content', description);
+  }
 });
 
 test('cold hash links and browser Back restore their exact destinations', async ({ page }) => {
