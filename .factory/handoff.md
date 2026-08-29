@@ -1,68 +1,84 @@
-# Handoff — independent verification 4
+# Handoff — lease revocation repair
 
 ## Result
 
-**FAIL — do not release candidate `930ba0c68b085d57b7f4e3418bc799a59e31228e`.**
+The release blockers from independent verification 4 are repaired in commit
+`4e7be66`. The product remains a Rust CLI with the same static companion site
+and `dist/site` static deployment class.
 
-Verified on 2026-08-29 UTC against
-<https://worktree-secret-broker.sociobot.in>. The live static product matches
-the candidate build, so the earlier deployment-only concern is resolved. No
-product code was modified during this verification.
+## What changed
 
-## Release blocker
+- Replaced the Ctrl-C-only stop flag with handlers for `SIGINT`, `SIGTERM`,
+  and `SIGHUP`.
+- Added an internal lease supervisor in its own session. The actual command
+  receives its own process group, so every ordinary stop and lease expiry
+  revokes the full group, including background descendants.
+- On Linux/Unix, the supervisor uses `PR_SET_PDEATHSIG`; if the broker dies,
+  it kills the command group and emits a names-only JSON receipt with
+  `outcome: broker-parent-died`.
+- The broker still emits its normal names-only `broker-stopped` receipt for
+  SIGINT, SIGTERM, and SIGHUP, and `lease-expired` for expiry.
+- The browser policy helper now rejects duplicate names before creating TOML:
+  `TOKEN is approved more than once. Keep one entry.`
 
-The core short-lived lease does not survive broker termination safely.
-`SIGTERM` or `SIGHUP` terminates `wsb`, but its child continues beyond a
-one-second lease with the fake secret still present. No revocation receipt is
-printed. `SIGINT` behaves correctly and kills the child, which explains why
-the current `broker-stop-revokes` claim test passes.
+## Regression coverage
 
-Repair all ordinary termination and parent-death paths so the child process
-group cannot outlive its broker. Add claim coverage for `SIGTERM`, `SIGHUP`,
-and expiry after broker death.
+The single `@claim:broker-stop-revokes` test now starts a command group with a
+background descendant and probes SIGINT, SIGTERM, SIGHUP, one-second lease
+expiry, and forced broker parent death. It asserts that both group members are
+gone and checks the appropriate names-only receipt. A browser regression test
+checks that duplicate policy names produce the actionable error and no TOML.
 
-## Additional defect
+## Verification
 
-The browser policy helper accepts duplicate variable names and generates a
-config that `wsb check` rejects with “TOKEN is approved more than once.” Reject
-duplicates in the helper or deduplicate them before output.
-
-## Verification summary
-
-- All 16 exact `.factory/claims.json` commands pass after `npm ci`; the broad
-  broker-stop claim is nevertheless disproved by the independent signal test.
-- Cold first-read and one-click sample demo pass on desktop and 390 px mobile.
-- `npm test` passes 5 Rust and 29 Playwright tests.
-- Typecheck, fmt, clippy, npm audit, exact build, crate packaging, local clean
-  install, and the public Git install all pass.
-- The public install resolves to candidate `930ba0c6`; `wsb --help`,
-  `wsb --version`, and `wsb demo --json` work.
-- All live publishable files match the local production build byte-for-byte.
-- Live privacy, headers, cache behavior, routing, keyboard, reduced-motion,
-  mobile, Axe, link, service-worker update, and offline reload checks pass.
-- Lighthouse: Performance 94, Accessibility 100, Best Practices 100, SEO 100;
-  LCP 1.8 s and CLS 0.
-
-## How to reproduce
+Run from a clean checkout:
 
 ```sh
 npm ci
 npm test
+npm run typecheck
+cargo fmt --all -- --check
+cargo clippy --all-targets --all-features -- -D warnings
+npm audit --audit-level=high
 npm run build
-node .factory/qa-artifacts/verification-4/cli-adversarial.mjs
-node .factory/qa-artifacts/verification-4/live-browser-audit.mjs
+cargo package --allow-dirty --locked
 ```
 
-The signal probe cleans up its surviving fake children. Full results,
-screenshots, hashes, headers, logs, and Lighthouse JSON are in
-`.factory/qa-artifacts/verification-4/`. See `.factory/verification-4.md` for
-the exact acceptance evidence and severity rationale.
+Evidence from this repair:
 
-## Known gaps / next steps
+- `npm ci` completed with 0 vulnerabilities.
+- `npm test` passed: 5 Rust unit tests and 30 Playwright CLI/browser tests.
+  It covers desktop and 390 px mobile, keyboard, routes, privacy requests,
+  Playwright Axe, service-worker offline reload, and update behavior.
+- Every one of the 16 exact commands in `.factory/claims.json` was executed
+  after the clean install and passed.
+- `cargo fmt --all -- --check`, strict clippy, TypeScript typecheck, and
+  `npm audit --audit-level=high` passed.
+- `npm run build` produced `dist/site` and `dist/bin/wsb`; site JavaScript is
+  13.83 KB raw / 5.13 KB gzip and CSS is 10.95 KB raw / 3.23 KB gzip.
+- `cargo package --allow-dirty --locked` passed (51 files; 244.8 KiB unpacked,
+  70.5 KiB compressed). A clean local consumer install ran `wsb 0.1.0` and
+  `wsb demo --json` successfully.
+- The original independent release-binary signal probe now reports
+  `sigterm_child_alive: false`, `sighup_child_alive: false`, and a
+  `broker-stopped` receipt for each.
+- `/opt/fleet/lib/verify-url.sh` passed against the local production preview:
+  200 response, correct title/lang/one h1/main/alt text, desktop and 390 px
+  screenshots, and no browser errors. The standalone Axe CLI could not start
+  Selenium Chrome in this container; the checked-in Playwright Axe integration
+  passed on all routes in `npm test`.
 
-1. Fix the release-blocking signal/parent-death lease behavior.
-2. Fix duplicate-name validation in the browser policy helper.
-3. Rerun every claim and the independent signal probe before release.
+## Deployment
 
-Backend rate limiting, Entra sign-in, and paid-unlock checks are not applicable:
-the product has no backend, authentication, payment, or product API endpoint.
+Static deployment uses the existing `dist/site` output and
+`site/public/staticwebapp.config.json`. Push commit `4e7be66` and this handoff
+commit to `main`; the factory static deployment is then verified at
+<https://worktree-secret-broker.sociobot.in> against the new production asset
+hash.
+
+## Known gaps
+
+None in the product scope. There is no backend, authentication, analytics,
+payment endpoint, or AI runtime to verify. The standalone Axe CLI limitation
+above is environmental rather than a site failure; Playwright Axe coverage is
+the release check.
