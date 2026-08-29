@@ -477,9 +477,13 @@ test('keyboard starts at the skip link and operates the policy helper', async ({
   await page.goto('/');
   await page.keyboard.press('Tab');
   await expect(page.getByRole('link', { name: 'Skip to main content' })).toBeFocused();
-  await page.getByLabel('Approved variable names').focus();
-  await page.keyboard.press('Control+A');
-  await page.keyboard.type('SERVICE_TOKEN');
+  await page.keyboard.press('Enter');
+  await expect(page.locator('main')).toBeFocused();
+  const names = page.getByLabel('Approved variable names');
+  await names.focus();
+  await expect(names).toBeFocused();
+  await names.press(process.platform === 'darwin' ? 'Meta+A' : 'Control+A');
+  await page.keyboard.insertText('SERVICE_TOKEN');
   await page.getByRole('button', { name: 'Generate team policy' }).focus();
   await page.keyboard.press('Enter');
   await expect(page.locator('#policy-output')).toContainText('name = "SERVICE_TOKEN"');

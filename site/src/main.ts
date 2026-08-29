@@ -48,7 +48,7 @@ function shell(content: string, demo = false): string {
       <a class="wordmark" href="/" data-link aria-label="Worktree Secret Broker home"><span class="key-mark" aria-hidden="true"></span><span>Worktree<br>Secret Broker</span></a>
       <nav aria-label="Main navigation"><a href="/demo" data-link>Demo</a><a href="/#install" data-link>Install</a><a href="/privacy" data-link>Privacy</a></nav>
     </header>
-    <main id="main">${content}</main>
+    <main id="main" tabindex="-1">${content}</main>
     <footer>
       <p>Temporary secret leases for worktree processes.</p>
       <nav aria-label="Footer navigation"><a href="/privacy" data-link>Privacy</a><a href="/terms" data-link>Terms</a><a href="https://sociobot.in/" rel="external">Built by Param Factory <span class="sr-only">(external site)</span></a></nav>
