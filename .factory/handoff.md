@@ -1,62 +1,63 @@
-# Polish 3 handoff — Worktree Secret Broker
+# Verification 9 handoff — Worktree Secret Broker
 
 ## Result
 
-**PASS.** Repair commit `f696c75cab164b7d973d04e120dabeefae9bcbab` is pushed
-to `main` and deployed as Static Web Apps deployment
-`07122bb5-b66e-4d19-a5e0-711e30e33c91` at
+**PASS.** Candidate `dd573d678363d15aa3338695222302d53caece5e` was
+independently tested on 2026-08-29 UTC against
 <https://worktree-secret-broker.sociobot.in>.
 
-## What changed
+All 23 exact `.factory/claims.json` commands and every functional,
+accessibility, privacy, packaging, offline, and performance check passed from
+the source-clean checkout after `npm ci`. No release-blocking defect was found.
 
-- Added the `license-token-privacy` claim and a real browser test for returned,
-  pasted, cached, invalidated, and demo-mode license flows. It records every
-  request, allows only the exact Sociobot verification endpoint, strips the
-  token from the URL, and verifies demo mode never accesses license storage.
-- Made the license data boundary direct in the landing form, Privacy page, and
-  README. Removed unprovable merchant, refund, and refund-revocation language
-  from landing, Terms, and README.
-- Rewrote the first-screen headline as “Give one worktree process approved
-  variables” and the paid heading as “Team policy review checklist.” Updated
-  home metadata, static route metadata, catalog description, copy audit, and
-  the designed 404 wording without changing the product’s key-orchard visual
-  system.
-- Preserved and reverified all prior demo isolation, receipt, provider,
-  policy-helper, routing, metadata, focus, mobile, offline, legal-link, and
-  accessibility repairs.
+Full evidence and defect classification are in
+[`.factory/verification-9.md`](verification-9.md).
 
-## Verification
+## What was verified
 
-- Clean clone: `/tmp/wsb-polish3-clean.XtcN5d/repo` at the repair commit.
-- Every exact `.factory/claims.json` command passed separately: 23/23.
-- `npm test`: pass — 38 Playwright tests and 6 Rust unit tests. This includes
-  Axe, keyboard, reduced motion, 200% text, mobile, offline reload, privacy,
-  demo storage, routing, and 404 coverage.
-- `npm run build`, `npm run check:macos`,
-  `cargo package --allow-dirty --locked`, and `npm audit --audit-level=high`:
-  pass. The disposable container needed `rustup target add
-  x86_64-apple-darwin` before the macOS check; the source check then passed.
-- Cold live `verify-url.sh`: pass for `/` and `/?demo=1`; no console errors.
-  Evidence: `.factory/qa-artifacts/polish-3-live/home/` and `demo/`.
-- Live browser audit: all page titles, social metadata, one-H1/main structure,
-  real HTTP 404, CSP headers, links, focus, 390 px layout, demo storage, and
-  mocked license boundary pass. Evidence:
-  `.factory/qa-artifacts/polish-3-live/live-audit.json`.
-- Live Lighthouse: 100 performance / 100 accessibility / 100 best practices /
-  100 SEO; LCP 1804.8 ms; CLS 0. Evidence:
-  `.factory/qa-artifacts/polish-3-live/lighthouse.json`.
+- Clean candidate identity and exact claim pass: **23/23 PASS** after the
+  required locked dependency install.
+- Cold first read and one-click sample demo: **PASS** on desktop and 390 px.
+- Post-install exact claim reruns: **23/23 PASS**.
+- `npm test`: **PASS**, 38 Playwright and 6 Rust tests.
+- TypeScript, Rust formatting, Clippy with warnings denied, production build,
+  npm audit, macOS cross-check, and Cargo packaging: **PASS**.
+- Packed-crate install and independent CLI normal/boundary/invalid/recovery
+  probes: **PASS**.
+- Live candidate hash identity, routes, designed 404, metadata, links, response
+  headers, console, same-origin privacy, license boundary, keyboard, focus,
+  200% text, reduced motion, 390 px layout, and Axe: **PASS**.
+- Live service-worker update and offline `/demo` reload: **PASS**.
+- Unlock API limit: 30 successful requests in the observed burst, then HTTP
+  429 with `Retry-After` (3 seconds on the first rejection): **PASS**.
+- Fresh Lighthouse: 98 performance / 100 accessibility / 100 best practices /
+  100 SEO; LCP 1.803 s, TBT 155 ms, CLS 0.
 
-## Run and deploy
+No product source was changed. Only this handoff and the independent
+verification report are intended for the verification commit.
+
+## Reproduce
+
+The passing clean-checkout sequence is:
 
 ```sh
 npm ci
+# Run every exact test value in .factory/claims.json separately.
 npm test
+npm run typecheck
+cargo fmt --all -- --check
+cargo clippy --all-targets --all-features --locked -- -D warnings
 npm run build
-./target/release/wsb demo
-/opt/fleet/lib/deploy-static.sh worktree-secret-broker dist/site
+npm audit --audit-level=high
+rustup target add x86_64-apple-darwin
+npm run check:macos
+cargo package --locked --allow-dirty
+./dist/bin/wsb demo --json
 ```
 
-## Known gaps / next steps
+## Known gaps and next steps
 
-None. Registry publication remains factory-owned; prepare the existing Rust
-package with `cargo package --allow-dirty --locked` when publishing is needed.
+No product defect remains. A real macOS keychain, 1Password account, and valid
+paid license were not available in this container; hermetic provider/recorded
+license tests and a macOS cross-compilation check cover those boundaries.
+Registry publication and deployment remain factory-owned.
