@@ -334,6 +334,7 @@ pub fn run_lease(
     let started = unix_now();
     let expires = started.saturating_add(duration_seconds);
     let lease_id = format!("lease-{started}-{}", std::process::id());
+    let broker_pid = std::process::id();
     let mut supervisor =
         Command::new(env::current_exe().context("could not locate the broker binary")?);
     supervisor
@@ -349,6 +350,8 @@ pub fn run_lease(
             &started.to_string(),
             "--expires-at-unix",
             &expires.to_string(),
+            "--broker-pid",
+            &broker_pid.to_string(),
         ])
         .current_dir(&worktree)
         .env_clear();
@@ -366,21 +369,25 @@ pub fn run_lease(
         supervisor.args(["--secret-name", name]);
     }
     supervisor.arg("--").args(command);
-    #[cfg(unix)]
+    #[cfg(any(target_os = "linux", target_os = "macos"))]
     {
         use std::os::unix::process::CommandExt;
-        let broker_pid = unsafe { libc::getpid() };
         unsafe {
             supervisor.pre_exec(move || {
                 if libc::setsid() == -1 {
                     return Err(std::io::Error::last_os_error());
                 }
-                if libc::prctl(libc::PR_SET_PDEATHSIG, libc::SIGTERM) == -1 {
-                    return Err(std::io::Error::last_os_error());
+                #[cfg(target_os = "linux")]
+                {
+                    if libc::prctl(libc::PR_SET_PDEATHSIG, libc::SIGTERM) == -1 {
+                        return Err(std::io::Error::last_os_error());
+                    }
                 }
-                // The parent can die between fork and prctl. In that case do
-                // not start a secret-bearing command without a broker.
-                if libc::getppid() != broker_pid {
+                // Linux asks the kernel to send SIGTERM through prctl above.
+                // macOS installs a kqueue watcher after exec, so both targets
+                // must reject the fork-to-watch setup race before running a
+                // secret-bearing command.
+                if libc::getppid() != broker_pid as libc::pid_t {
                     libc::raise(libc::SIGTERM);
                 }
                 Ok(())
@@ -429,7 +436,7 @@ pub fn run_lease(
     Ok((receipt, status))
 }
 
-#[cfg(unix)]
+#[cfg(any(target_os = "linux", target_os = "macos"))]
 fn revoke_process_group(id: u32) {
     // A negative PID addresses the child's group, including descendants which
     // still hold the leased environment.
@@ -438,7 +445,7 @@ fn revoke_process_group(id: u32) {
     }
 }
 
-#[cfg(not(unix))]
+#[cfg(not(any(target_os = "linux", target_os = "macos")))]
 fn revoke_process_group(_id: u32) {}
 
 fn install_stop_handler() -> Result<Arc<AtomicBool>> {
@@ -450,7 +457,7 @@ fn install_stop_handler() -> Result<Arc<AtomicBool>> {
     Ok(stop)
 }
 
-#[cfg(unix)]
+#[cfg(any(target_os = "linux", target_os = "macos"))]
 fn request_supervisor_revocation(id: u32) {
     // SIGUSR1 is private to the supervisor. Unlike killing its session, it
     // lets the supervisor kill and reap the separate child process group.
@@ -459,8 +466,64 @@ fn request_supervisor_revocation(id: u32) {
     }
 }
 
-#[cfg(not(unix))]
+#[cfg(not(any(target_os = "linux", target_os = "macos")))]
 fn request_supervisor_revocation(_id: u32) {}
+
+/// macOS has no `PR_SET_PDEATHSIG`. Its kqueue process filter observes the
+/// broker directly and flips the same flag used by the supervisor's normal
+/// signal path. Registration occurs before the leased command starts; if the
+/// broker dies during setup, the supervisor fails closed and never starts it.
+#[cfg(target_os = "macos")]
+fn install_macos_parent_death_watch(
+    broker_pid: u32,
+    parent_stopped: Arc<AtomicBool>,
+) -> Result<()> {
+    if unsafe { libc::getppid() } != broker_pid as libc::pid_t {
+        parent_stopped.store(true, Ordering::SeqCst);
+        return Ok(());
+    }
+
+    let queue = unsafe { libc::kqueue() };
+    if queue == -1 {
+        bail!(
+            "could not create the macOS broker-death watcher: {}",
+            std::io::Error::last_os_error()
+        );
+    }
+    let change = libc::kevent {
+        ident: broker_pid as libc::uintptr_t,
+        filter: libc::EVFILT_PROC,
+        flags: libc::EV_ADD | libc::EV_ENABLE | libc::EV_ONESHOT,
+        fflags: libc::NOTE_EXIT,
+        data: 0,
+        udata: std::ptr::null_mut(),
+    };
+    let registered =
+        unsafe { libc::kevent(queue, &change, 1, std::ptr::null_mut(), 0, std::ptr::null()) };
+    if registered == -1 {
+        let error = std::io::Error::last_os_error();
+        unsafe { libc::close(queue) };
+        if unsafe { libc::getppid() } != broker_pid as libc::pid_t {
+            parent_stopped.store(true, Ordering::SeqCst);
+            return Ok(());
+        }
+        bail!("could not watch the broker for macOS parent death: {error}");
+    }
+    if unsafe { libc::getppid() } != broker_pid as libc::pid_t {
+        parent_stopped.store(true, Ordering::SeqCst);
+    }
+
+    thread::spawn(move || {
+        let mut event: libc::kevent = unsafe { std::mem::zeroed() };
+        let received =
+            unsafe { libc::kevent(queue, std::ptr::null(), 0, &mut event, 1, std::ptr::null()) };
+        unsafe { libc::close(queue) };
+        if received == 1 {
+            parent_stopped.store(true, Ordering::SeqCst);
+        }
+    });
+    Ok(())
+}
 
 /// Run the internal lease supervisor. It lives in its own session and gives
 /// the command a distinct process group so it can revoke every descendant if
@@ -471,6 +534,7 @@ pub fn run_lease_supervisor(
     secret_names: Vec<String>,
     started_at_unix: u64,
     expires_at_unix: u64,
+    broker_pid: u32,
     command: Vec<String>,
 ) -> Result<(Option<Receipt>, ExitStatus)> {
     if command.is_empty() {
@@ -484,10 +548,17 @@ pub fn run_lease_supervisor(
         signal_hook::flag::register(signal, Arc::clone(&parent_stopped))
             .context("could not install the parent-death handler")?;
     }
+    #[cfg(target_os = "macos")]
+    install_macos_parent_death_watch(broker_pid, Arc::clone(&parent_stopped))?;
+    #[cfg(not(target_os = "macos"))]
+    let _ = broker_pid;
+    if parent_stopped.load(Ordering::SeqCst) {
+        bail!("the broker exited before the lease supervisor could start the command");
+    }
 
     let mut child_command = Command::new(&command[0]);
     child_command.args(&command[1..]).current_dir(&worktree);
-    #[cfg(unix)]
+    #[cfg(any(target_os = "linux", target_os = "macos"))]
     {
         use std::os::unix::process::CommandExt;
         child_command.process_group(0);

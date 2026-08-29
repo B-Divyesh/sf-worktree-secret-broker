@@ -1,65 +1,86 @@
-# Handoff — independent verification 5
+# Handoff — repair 5
 
 ## Result
 
-**FAIL — candidate `acf1463ab6a281cb7f163da93b52ce56311cfd11` is not releasable.**
+**READY FOR STATIC DEPLOYMENT.** This repair addresses the release blocker in
+independent verification commit `eb64f7293a5ab5b0ba190617fa333cba4cdfe77c`
+for candidate `acf1463ab6a281cb7f163da93b52ce56311cfd11`.
 
-The live deployment at <https://worktree-secret-broker.sociobot.in> now
-matches the candidate byte-for-byte, so the builder's deployment-only concern
-is resolved. Independent QA found a different release blocker: the documented
-macOS build fails in Linux-only revocation code.
+The exact failure was reproduced before the repair:
 
-## Release blocker
-
-`cargo check --target x86_64-apple-darwin --locked` exits 101 at
-`src/lib.rs:378` because `libc::prctl` and `libc::PR_SET_PDEATHSIG` do not exist
-on macOS. The code is guarded by `cfg(unix)` even though those APIs are
-Linux-specific. This prevents the README's macOS Keychain path from being
-installed.
-
-Repair this with target-specific parent-death handling and keep the guarantee
-that forced broker death revokes the whole leased process group. Add a macOS
-target check to CI before retesting.
-
-## What was verified
-
-- All 16 exact claim commands pass after `npm ci`; each claim has one test tag.
-- Cold first-read and one-click populated demo pass on desktop and 390 px.
-- `npm test`, typecheck, format, strict Clippy, audit, and production build pass.
-- Package creation, packed-crate consumer install, and public Git install pass
-  on Linux. The public install resolves this candidate.
-- Independent Linux normal, invalid, boundary, recovery, expiry, concurrency,
-  signal, forced-parent-death, and process-group tests pass.
-- Every live deployable file matches the local candidate build by SHA-256.
-- Live privacy, headers, caching, link, keyboard, mobile, 200% text, reduced
-  motion, Axe, service-worker update, and offline checks pass.
-- Lighthouse mobile: 97 performance, 100 accessibility, 100 best practices,
-  100 SEO; LCP 1.81 s, TBT 173 ms, CLS 0.
-
-This verification changed no product code. It added
-`.factory/verification-5.md`, refreshed this handoff, and retained evidence in
-`.factory/verification-artifacts/`.
-
-## Run the verification
-
-```sh
-npm ci
-npm test
-npm run typecheck
-cargo fmt --all -- --check
-cargo clippy --all-targets --all-features -- -D warnings
-npm audit --audit-level=high
-npm run build
-cargo package --allow-dirty --locked
-rustup target add x86_64-apple-darwin
-cargo check --target x86_64-apple-darwin --locked
+```text
+$ rustup target add x86_64-apple-darwin
+$ cargo check --target x86_64-apple-darwin --locked
+error[E0425]: cannot find function `prctl` in crate `libc`
+error[E0425]: cannot find value `PR_SET_PDEATHSIG` in crate `libc`
 ```
 
-See `.factory/verification-5.md` for the complete evidence and retest scope.
+## Repair
 
-## Applicability and known gaps
+- Linux keeps `prctl(PR_SET_PDEATHSIG, SIGTERM)` and its fork-to-setup race
+  check.
+- macOS now starts the supervisor in its own session, registers a `kqueue`
+  `EVFILT_PROC`/`NOTE_EXIT` watch for the broker before starting the leased
+  command, and routes a broker exit through the existing complete child
+  process-group revocation path. It fails closed if the broker died during
+  watcher setup.
+- Process-group creation and revocation are now explicitly limited to the two
+  supported native-provider targets, Linux and macOS. Linux-only `prctl`
+  symbols are compiled only on Linux.
+- `npm run check:macos` is the exact cross-target regression command.
+  `.github/workflows/ci.yml` installs `x86_64-apple-darwin` and runs that
+  command on every push and pull request. The README documents it.
 
-There is no backend, server-side unlock, authentication, analytics, payment, or
-AI runtime, so API rate-limit and Entra checks do not apply. The sole known
-release blocker is supported macOS compilation and equivalent lease-revocation
-behavior there.
+## Verification
+
+All checks below ran from this repair worktree after `npm ci`:
+
+```text
+npm ci                                              PASS (24 packages, 0 vulnerabilities)
+npm run check:macos                                 PASS
+npm test                                            PASS (5 Rust unit tests; 30 Playwright tests)
+npm run typecheck                                   PASS
+cargo fmt --all -- --check                          PASS
+cargo clippy --all-targets --all-features -- -D warnings  PASS
+npm audit --audit-level=high                        PASS (0 vulnerabilities)
+npm run build                                       PASS (dist/site and dist/bin/wsb)
+cargo package --allow-dirty --locked                PASS (51 files; 71.2 KiB compressed)
+fresh unpacked-crate cargo install --locked         PASS
+installed wsb --help; installed wsb demo --json     PASS
+```
+
+The macOS regression command was run again after the change and completed
+successfully. The full Linux broker-stop claim still exercises SIGINT,
+SIGTERM, SIGHUP, expiry, forced broker death, leader cleanup, descendant
+cleanup, and the `broker-parent-died` receipt.
+
+Each required claim command was replayed from the shipped demo/test entry
+point and passed: `demo-isolated`, `approved-environment`,
+`names-only-receipt`, `production-denied`, `lease-expiry`,
+`worktree-root-required`, `demo-same-origin`, `recorded-demo-sample`,
+`site-no-analytics`, `policy-generator`, `broker-stop-revokes`, `demo-reset`,
+`demo-browser-isolation`, `recorded-demo-receipt`, `copy-install-command`,
+and `one-password-provider`.
+
+The full Playwright run covers desktop, 390 px mobile/reflow, keyboard skip
+link and policy-helper operation, every route's console/error baseline and
+serious/critical Axe scan, service-worker offline reload, reduced motion,
+privacy request isolation, and updateable static output. The test suite uses
+the bundled Playwright Axe integration, so no external runtime script is
+loaded. Production static output remains under `dist/site/`.
+
+## Deployment
+
+Deployment class is unchanged: static. Push this repair to `main`; the
+configured static deployment consumes `dist/site/`. After the push, verify
+the live asset identity and `/`, `/demo`, `/privacy`, `/terms`, and the
+designed 404 response against the new revision.
+
+## Known gaps
+
+The Linux worker cannot execute a native macOS process test. The macOS code is
+compiled by the exact failing target check in CI; its runtime design uses the
+platform-native `kqueue` parent-exit facility and preserves the tested Linux
+forced-death/process-group behavior. No backend, analytics, payment, AI, or
+external product runtime applies to this local CLI and static documentation
+site.

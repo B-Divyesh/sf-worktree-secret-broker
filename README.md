@@ -108,11 +108,14 @@ revoke the complete child process group immediately.
 npm install
 npm test
 npm run build
+rustup target add x86_64-apple-darwin
+npm run check:macos
 ```
 
 `npm test` runs Rust tests, builds the static site, and runs browser claim and
 accessibility checks. `npm run build` creates the binary in `dist/bin/` and the
-deployable site in `dist/site/`. The static deploy root is `dist/site`.
+deployable site in `dist/site/`. `npm run check:macos` is the supported macOS
+target compilation regression check. The static deploy root is `dist/site`.
 
 See [`.factory/demo.md`](.factory/demo.md),
 [`CONTRIBUTING.md`](CONTRIBUTING.md), and [`CHANGELOG.md`](CHANGELOG.md).

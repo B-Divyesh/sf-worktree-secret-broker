@@ -69,6 +69,8 @@ enum Commands {
         started_at_unix: u64,
         #[arg(long)]
         expires_at_unix: u64,
+        #[arg(long)]
+        broker_pid: u32,
         #[arg(last = true, required = true)]
         command: Vec<String>,
     },
@@ -153,6 +155,7 @@ fn execute() -> Result<u8> {
             secret_names,
             started_at_unix,
             expires_at_unix,
+            broker_pid,
             command,
         } => {
             let (receipt, status) = run_lease_supervisor(
@@ -161,6 +164,7 @@ fn execute() -> Result<u8> {
                 secret_names,
                 started_at_unix,
                 expires_at_unix,
+                broker_pid,
                 command,
             )?;
             if let Some(receipt) = receipt {
