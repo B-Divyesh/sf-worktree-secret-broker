@@ -1,0 +1,85 @@
+{
+  "binary": "/work/repo/dist/bin/wsb",
+  "results": [
+    {
+      "case": "provider failure",
+      "result": "PASS",
+      "evidence": "exit 1; provider could not resolve"
+    },
+    {
+      "case": "normal least-privilege run",
+      "result": "PASS",
+      "evidence": "approved value reached child; CI and unrelated token cleared; names-only receipt and clean git diff"
+    },
+    {
+      "case": "nested worktree refusal",
+      "result": "PASS",
+      "evidence": "exit 1; name the worktree root"
+    },
+    {
+      "case": "lease boundary 0",
+      "result": "PASS",
+      "evidence": "exit 1; between 1 and 1440"
+    },
+    {
+      "case": "lease boundary 1441",
+      "result": "PASS",
+      "evidence": "exit 1; between 1 and 1440"
+    },
+    {
+      "case": "lease boundary 1440",
+      "result": "PASS",
+      "evidence": "accepted"
+    },
+    {
+      "case": "production default deny",
+      "result": "PASS",
+      "evidence": "exit 1; denied by default"
+    },
+    {
+      "case": "explicit production override",
+      "result": "PASS",
+      "evidence": "accepted only with --allow-production"
+    },
+    {
+      "case": "child exit propagation",
+      "result": "PASS",
+      "evidence": "exit 37; \"child_exit_code\":37"
+    },
+    {
+      "case": "one-second expiry",
+      "result": "PASS",
+      "evidence": "exit 124; \"outcome\":\"lease-expired\""
+    },
+    {
+      "case": "SIGTERM revocation",
+      "result": "PASS",
+      "evidence": "leader and background descendant gone; names-only broker-stopped receipt"
+    },
+    {
+      "case": "SIGHUP revocation",
+      "result": "PASS",
+      "evidence": "leader and background descendant gone; names-only broker-stopped receipt"
+    },
+    {
+      "case": "SIGINT revocation",
+      "result": "PASS",
+      "evidence": "leader and background descendant gone; names-only broker-stopped receipt"
+    },
+    {
+      "case": "forced broker death",
+      "result": "PASS",
+      "evidence": "supervisor killed leader and descendant; names-only broker-parent-died receipt"
+    },
+    {
+      "case": "two concurrent leases",
+      "result": "PASS",
+      "evidence": "both exited 0 with independent receipts"
+    },
+    {
+      "case": "init overwrite refusal",
+      "result": "PASS",
+      "evidence": "exit 1; already exists"
+    }
+  ]
+}

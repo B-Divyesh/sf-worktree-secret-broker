@@ -1,0 +1,1009 @@
+
+CLAIM demo-isolated: The CLI demo reads no provider, makes no network connection, and removes its temporary worktree.
+COMMAND: npm test -- --grep @claim:demo-isolated
+
+> worktree-secret-broker-site@0.1.0 test
+> node scripts/test.mjs --grep @claim:demo-isolated
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.07s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.07s
+     Running unittests src/lib.rs (target/debug/deps/worktree_secret_broker-90e852657c737119)
+
+running 5 tests
+test tests::denies_production_by_default ... ok
+test tests::rejects_duplicate_and_invalid_names ... ok
+test tests::template_is_valid ... ok
+test tests::validates_a_development_mapping ... ok
+test tests::validates_the_documented_one_password_reference_shape ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/wsb-57a7b9485ffebdad)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests worktree_secret_broker
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+> worktree-secret-broker-site@0.1.0 typecheck
+> tsc --noEmit
+
+   Compiling worktree-secret-broker v0.1.0 (/work/repo)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1.00s
+
+> worktree-secret-broker-site@0.1.0 build:site
+> vite build --config vite.config.ts && node scripts/prepare-site.mjs
+
+vite v7.3.6 building client environment for production...
+transforming...
+✓ 4 modules transformed.
+rendering chunks...
+computing gzip size...
+../dist/site/index.html                  2.01 kB │ gzip: 0.73 kB
+../dist/site/assets/index-DVfGD9a3.css  10.95 kB │ gzip: 3.23 kB
+../dist/site/assets/index-Cn21DOj6.js   13.83 kB │ gzip: 5.13 kB │ map: 21.99 kB
+✓ built in 245ms
+[WebServer] (node:3087) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:3100) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:3118) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3118) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (3.5s)
+RESULT: exit 0
+
+CLAIM approved-environment: Only approved values enter a cleared child environment.
+COMMAND: npm test -- --grep @claim:approved-environment
+
+> worktree-secret-broker-site@0.1.0 test
+> node scripts/test.mjs --grep @claim:approved-environment
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.07s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.07s
+     Running unittests src/lib.rs (target/debug/deps/worktree_secret_broker-90e852657c737119)
+
+running 5 tests
+test tests::denies_production_by_default ... ok
+test tests::rejects_duplicate_and_invalid_names ... ok
+test tests::template_is_valid ... ok
+test tests::validates_a_development_mapping ... ok
+test tests::validates_the_documented_one_password_reference_shape ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/wsb-57a7b9485ffebdad)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests worktree_secret_broker
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+> worktree-secret-broker-site@0.1.0 typecheck
+> tsc --noEmit
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.06s
+
+> worktree-secret-broker-site@0.1.0 build:site
+> vite build --config vite.config.ts && node scripts/prepare-site.mjs
+
+vite v7.3.6 building client environment for production...
+transforming...
+✓ 4 modules transformed.
+rendering chunks...
+computing gzip size...
+../dist/site/index.html                  2.01 kB │ gzip: 0.73 kB
+../dist/site/assets/index-DVfGD9a3.css  10.95 kB │ gzip: 3.23 kB
+../dist/site/assets/index-Cn21DOj6.js   13.83 kB │ gzip: 5.13 kB │ map: 21.99 kB
+✓ built in 214ms
+[WebServer] (node:3289) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:3302) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:3320) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3320) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (3.0s)
+RESULT: exit 0
+
+CLAIM names-only-receipt: Receipts, worktrees, and provider-reference config contain names or references, never resolved values.
+COMMAND: npm test -- --grep @claim:names-only-receipt
+
+> worktree-secret-broker-site@0.1.0 test
+> node scripts/test.mjs --grep @claim:names-only-receipt
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.07s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.08s
+     Running unittests src/lib.rs (target/debug/deps/worktree_secret_broker-90e852657c737119)
+
+running 5 tests
+test tests::denies_production_by_default ... ok
+test tests::rejects_duplicate_and_invalid_names ... ok
+test tests::template_is_valid ... ok
+test tests::validates_a_development_mapping ... ok
+test tests::validates_the_documented_one_password_reference_shape ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/wsb-57a7b9485ffebdad)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests worktree_secret_broker
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+> worktree-secret-broker-site@0.1.0 typecheck
+> tsc --noEmit
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.03s
+
+> worktree-secret-broker-site@0.1.0 build:site
+> vite build --config vite.config.ts && node scripts/prepare-site.mjs
+
+vite v7.3.6 building client environment for production...
+transforming...
+✓ 4 modules transformed.
+rendering chunks...
+computing gzip size...
+../dist/site/index.html                  2.01 kB │ gzip: 0.73 kB
+../dist/site/assets/index-DVfGD9a3.css  10.95 kB │ gzip: 3.23 kB
+../dist/site/assets/index-Cn21DOj6.js   13.83 kB │ gzip: 5.13 kB │ map: 21.99 kB
+✓ built in 212ms
+[WebServer] (node:3512) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:3525) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:3546) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3546) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (2.9s)
+RESULT: exit 0
+
+CLAIM production-denied: Production-labelled mappings are denied by default.
+COMMAND: npm test -- --grep @claim:production-denied
+
+> worktree-secret-broker-site@0.1.0 test
+> node scripts/test.mjs --grep @claim:production-denied
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.07s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.07s
+     Running unittests src/lib.rs (target/debug/deps/worktree_secret_broker-90e852657c737119)
+
+running 5 tests
+test tests::denies_production_by_default ... ok
+test tests::rejects_duplicate_and_invalid_names ... ok
+test tests::template_is_valid ... ok
+test tests::validates_a_development_mapping ... ok
+test tests::validates_the_documented_one_password_reference_shape ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/wsb-57a7b9485ffebdad)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests worktree_secret_broker
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+> worktree-secret-broker-site@0.1.0 typecheck
+> tsc --noEmit
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.07s
+
+> worktree-secret-broker-site@0.1.0 build:site
+> vite build --config vite.config.ts && node scripts/prepare-site.mjs
+
+vite v7.3.6 building client environment for production...
+transforming...
+✓ 4 modules transformed.
+rendering chunks...
+computing gzip size...
+../dist/site/index.html                  2.01 kB │ gzip: 0.73 kB
+../dist/site/assets/index-DVfGD9a3.css  10.95 kB │ gzip: 3.23 kB
+../dist/site/assets/index-Cn21DOj6.js   13.83 kB │ gzip: 5.13 kB │ map: 21.99 kB
+✓ built in 219ms
+[WebServer] (node:3716) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:3729) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:3747) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3747) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (2.8s)
+RESULT: exit 0
+
+CLAIM lease-expiry: Expiry stops the child process and records lease-expired.
+COMMAND: npm test -- --grep @claim:lease-expiry
+
+> worktree-secret-broker-site@0.1.0 test
+> node scripts/test.mjs --grep @claim:lease-expiry
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.07s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.07s
+     Running unittests src/lib.rs (target/debug/deps/worktree_secret_broker-90e852657c737119)
+
+running 5 tests
+test tests::denies_production_by_default ... ok
+test tests::rejects_duplicate_and_invalid_names ... ok
+test tests::template_is_valid ... ok
+test tests::validates_a_development_mapping ... ok
+test tests::validates_the_documented_one_password_reference_shape ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/wsb-57a7b9485ffebdad)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests worktree_secret_broker
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+> worktree-secret-broker-site@0.1.0 typecheck
+> tsc --noEmit
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.03s
+
+> worktree-secret-broker-site@0.1.0 build:site
+> vite build --config vite.config.ts && node scripts/prepare-site.mjs
+
+vite v7.3.6 building client environment for production...
+transforming...
+✓ 4 modules transformed.
+rendering chunks...
+computing gzip size...
+../dist/site/index.html                  2.01 kB │ gzip: 0.73 kB
+../dist/site/assets/index-DVfGD9a3.css  10.95 kB │ gzip: 3.23 kB
+../dist/site/assets/index-Cn21DOj6.js   13.83 kB │ gzip: 5.13 kB │ map: 21.99 kB
+✓ built in 249ms
+[WebServer] (node:3911) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:3924) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:3942) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3942) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (3.8s)
+RESULT: exit 0
+
+CLAIM worktree-root-required: The broker refuses to start a child outside a named Git worktree root.
+COMMAND: npm test -- --grep @claim:worktree-root-required
+
+> worktree-secret-broker-site@0.1.0 test
+> node scripts/test.mjs --grep @claim:worktree-root-required
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.07s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.07s
+     Running unittests src/lib.rs (target/debug/deps/worktree_secret_broker-90e852657c737119)
+
+running 5 tests
+test tests::denies_production_by_default ... ok
+test tests::rejects_duplicate_and_invalid_names ... ok
+test tests::template_is_valid ... ok
+test tests::validates_a_development_mapping ... ok
+test tests::validates_the_documented_one_password_reference_shape ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/wsb-57a7b9485ffebdad)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests worktree_secret_broker
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+> worktree-secret-broker-site@0.1.0 typecheck
+> tsc --noEmit
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.03s
+
+> worktree-secret-broker-site@0.1.0 build:site
+> vite build --config vite.config.ts && node scripts/prepare-site.mjs
+
+vite v7.3.6 building client environment for production...
+transforming...
+✓ 4 modules transformed.
+rendering chunks...
+computing gzip size...
+../dist/site/index.html                  2.01 kB │ gzip: 0.73 kB
+../dist/site/assets/index-DVfGD9a3.css  10.95 kB │ gzip: 3.23 kB
+../dist/site/assets/index-Cn21DOj6.js   13.83 kB │ gzip: 5.13 kB │ map: 21.99 kB
+✓ built in 240ms
+[WebServer] (node:4133) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:4146) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:4164) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4164) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (2.8s)
+RESULT: exit 0
+
+CLAIM demo-same-origin: The browser demo uses bundled sample text and contacts no third party.
+COMMAND: npm test -- --grep @claim:demo-same-origin
+
+> worktree-secret-broker-site@0.1.0 test
+> node scripts/test.mjs --grep @claim:demo-same-origin
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.07s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.07s
+     Running unittests src/lib.rs (target/debug/deps/worktree_secret_broker-90e852657c737119)
+
+running 5 tests
+test tests::denies_production_by_default ... ok
+test tests::rejects_duplicate_and_invalid_names ... ok
+test tests::template_is_valid ... ok
+test tests::validates_a_development_mapping ... ok
+test tests::validates_the_documented_one_password_reference_shape ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/wsb-57a7b9485ffebdad)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests worktree_secret_broker
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+> worktree-secret-broker-site@0.1.0 typecheck
+> tsc --noEmit
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.06s
+
+> worktree-secret-broker-site@0.1.0 build:site
+> vite build --config vite.config.ts && node scripts/prepare-site.mjs
+
+vite v7.3.6 building client environment for production...
+transforming...
+✓ 4 modules transformed.
+rendering chunks...
+computing gzip size...
+../dist/site/index.html                  2.01 kB │ gzip: 0.73 kB
+../dist/site/assets/index-DVfGD9a3.css  10.95 kB │ gzip: 3.23 kB
+../dist/site/assets/index-Cn21DOj6.js   13.83 kB │ gzip: 5.13 kB │ map: 21.99 kB
+✓ built in 240ms
+[WebServer] (node:4331) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:4344) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:4362) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4362) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (3.8s)
+RESULT: exit 0
+
+CLAIM recorded-demo-sample: The landing recording uses the CLI demo’s two bundled names.
+COMMAND: npm test -- --grep @claim:recorded-demo-sample
+
+> worktree-secret-broker-site@0.1.0 test
+> node scripts/test.mjs --grep @claim:recorded-demo-sample
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.07s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.07s
+     Running unittests src/lib.rs (target/debug/deps/worktree_secret_broker-90e852657c737119)
+
+running 5 tests
+test tests::denies_production_by_default ... ok
+test tests::rejects_duplicate_and_invalid_names ... ok
+test tests::template_is_valid ... ok
+test tests::validates_a_development_mapping ... ok
+test tests::validates_the_documented_one_password_reference_shape ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/wsb-57a7b9485ffebdad)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests worktree_secret_broker
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+> worktree-secret-broker-site@0.1.0 typecheck
+> tsc --noEmit
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.08s
+
+> worktree-secret-broker-site@0.1.0 build:site
+> vite build --config vite.config.ts && node scripts/prepare-site.mjs
+
+vite v7.3.6 building client environment for production...
+transforming...
+✓ 4 modules transformed.
+rendering chunks...
+computing gzip size...
+../dist/site/index.html                  2.01 kB │ gzip: 0.73 kB
+../dist/site/assets/index-DVfGD9a3.css  10.95 kB │ gzip: 3.23 kB
+../dist/site/assets/index-Cn21DOj6.js   13.83 kB │ gzip: 5.13 kB │ map: 21.99 kB
+✓ built in 215ms
+[WebServer] (node:4603) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:4616) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:4634) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4634) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (4.0s)
+RESULT: exit 0
+
+CLAIM site-no-analytics: The site has no analytics and makes no third-party request on the landing page.
+COMMAND: npm test -- --grep @claim:site-no-analytics
+
+> worktree-secret-broker-site@0.1.0 test
+> node scripts/test.mjs --grep @claim:site-no-analytics
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.07s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.08s
+     Running unittests src/lib.rs (target/debug/deps/worktree_secret_broker-90e852657c737119)
+
+running 5 tests
+test tests::denies_production_by_default ... ok
+test tests::rejects_duplicate_and_invalid_names ... ok
+test tests::template_is_valid ... ok
+test tests::validates_a_development_mapping ... ok
+test tests::validates_the_documented_one_password_reference_shape ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/wsb-57a7b9485ffebdad)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests worktree_secret_broker
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+> worktree-secret-broker-site@0.1.0 typecheck
+> tsc --noEmit
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.06s
+
+> worktree-secret-broker-site@0.1.0 build:site
+> vite build --config vite.config.ts && node scripts/prepare-site.mjs
+
+vite v7.3.6 building client environment for production...
+transforming...
+✓ 4 modules transformed.
+rendering chunks...
+computing gzip size...
+../dist/site/index.html                  2.01 kB │ gzip: 0.73 kB
+../dist/site/assets/index-DVfGD9a3.css  10.95 kB │ gzip: 3.23 kB
+../dist/site/assets/index-Cn21DOj6.js   13.83 kB │ gzip: 5.13 kB │ map: 21.99 kB
+✓ built in 227ms
+[WebServer] (node:4866) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:4879) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:4897) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4897) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (3.9s)
+RESULT: exit 0
+
+CLAIM policy-generator: The local policy helper turns variable names into development-only provider references without a network request.
+COMMAND: npm test -- --grep @claim:policy-generator
+
+> worktree-secret-broker-site@0.1.0 test
+> node scripts/test.mjs --grep @claim:policy-generator
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.07s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.08s
+     Running unittests src/lib.rs (target/debug/deps/worktree_secret_broker-90e852657c737119)
+
+running 5 tests
+test tests::denies_production_by_default ... ok
+test tests::rejects_duplicate_and_invalid_names ... ok
+test tests::template_is_valid ... ok
+test tests::validates_a_development_mapping ... ok
+test tests::validates_the_documented_one_password_reference_shape ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/wsb-57a7b9485ffebdad)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests worktree_secret_broker
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+> worktree-secret-broker-site@0.1.0 typecheck
+> tsc --noEmit
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.03s
+
+> worktree-secret-broker-site@0.1.0 build:site
+> vite build --config vite.config.ts && node scripts/prepare-site.mjs
+
+vite v7.3.6 building client environment for production...
+transforming...
+✓ 4 modules transformed.
+rendering chunks...
+computing gzip size...
+../dist/site/index.html                  2.01 kB │ gzip: 0.73 kB
+../dist/site/assets/index-DVfGD9a3.css  10.95 kB │ gzip: 3.23 kB
+../dist/site/assets/index-Cn21DOj6.js   13.83 kB │ gzip: 5.13 kB │ map: 21.99 kB
+✓ built in 230ms
+[WebServer] (node:5121) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:5134) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:5152) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5152) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (5.8s)
+RESULT: exit 0
+
+CLAIM broker-stop-revokes: Stopping the broker kills the leased child process and records broker-stopped.
+COMMAND: npm test -- --grep @claim:broker-stop-revokes
+
+> worktree-secret-broker-site@0.1.0 test
+> node scripts/test.mjs --grep @claim:broker-stop-revokes
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.07s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.07s
+     Running unittests src/lib.rs (target/debug/deps/worktree_secret_broker-90e852657c737119)
+
+running 5 tests
+test tests::denies_production_by_default ... ok
+test tests::rejects_duplicate_and_invalid_names ... ok
+test tests::template_is_valid ... ok
+test tests::validates_a_development_mapping ... ok
+test tests::validates_the_documented_one_password_reference_shape ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/wsb-57a7b9485ffebdad)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests worktree_secret_broker
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+> worktree-secret-broker-site@0.1.0 typecheck
+> tsc --noEmit
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.03s
+
+> worktree-secret-broker-site@0.1.0 build:site
+> vite build --config vite.config.ts && node scripts/prepare-site.mjs
+
+vite v7.3.6 building client environment for production...
+transforming...
+✓ 4 modules transformed.
+rendering chunks...
+computing gzip size...
+../dist/site/index.html                  2.01 kB │ gzip: 0.73 kB
+../dist/site/assets/index-DVfGD9a3.css  10.95 kB │ gzip: 3.23 kB
+../dist/site/assets/index-Cn21DOj6.js   13.83 kB │ gzip: 5.13 kB │ map: 21.99 kB
+✓ built in 205ms
+[WebServer] (node:5394) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:5407) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:5425) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5425) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (4.2s)
+RESULT: exit 0
+
+CLAIM demo-reset: Reset demo clears demo-only session data and restores the first recorded output.
+COMMAND: npm test -- --grep @claim:demo-reset
+
+> worktree-secret-broker-site@0.1.0 test
+> node scripts/test.mjs --grep @claim:demo-reset
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.07s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.08s
+     Running unittests src/lib.rs (target/debug/deps/worktree_secret_broker-90e852657c737119)
+
+running 5 tests
+test tests::denies_production_by_default ... ok
+test tests::rejects_duplicate_and_invalid_names ... ok
+test tests::template_is_valid ... ok
+test tests::validates_a_development_mapping ... ok
+test tests::validates_the_documented_one_password_reference_shape ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/wsb-57a7b9485ffebdad)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests worktree_secret_broker
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+> worktree-secret-broker-site@0.1.0 typecheck
+> tsc --noEmit
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.07s
+
+> worktree-secret-broker-site@0.1.0 build:site
+> vite build --config vite.config.ts && node scripts/prepare-site.mjs
+
+vite v7.3.6 building client environment for production...
+transforming...
+✓ 4 modules transformed.
+rendering chunks...
+computing gzip size...
+../dist/site/index.html                  2.01 kB │ gzip: 0.73 kB
+../dist/site/assets/index-DVfGD9a3.css  10.95 kB │ gzip: 3.23 kB
+../dist/site/assets/index-Cn21DOj6.js   13.83 kB │ gzip: 5.13 kB │ map: 21.99 kB
+✓ built in 231ms
+[WebServer] (node:5629) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:5642) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:5660) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5660) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (3.8s)
+RESULT: exit 0
+
+CLAIM demo-browser-isolation: The browser demo changes only demo-prefixed storage and Start for real removes that demo storage.
+COMMAND: npm test -- --grep @claim:demo-browser-isolation
+
+> worktree-secret-broker-site@0.1.0 test
+> node scripts/test.mjs --grep @claim:demo-browser-isolation
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.07s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.07s
+     Running unittests src/lib.rs (target/debug/deps/worktree_secret_broker-90e852657c737119)
+
+running 5 tests
+test tests::denies_production_by_default ... ok
+test tests::rejects_duplicate_and_invalid_names ... ok
+test tests::template_is_valid ... ok
+test tests::validates_a_development_mapping ... ok
+test tests::validates_the_documented_one_password_reference_shape ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/wsb-57a7b9485ffebdad)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests worktree_secret_broker
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+> worktree-secret-broker-site@0.1.0 typecheck
+> tsc --noEmit
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.03s
+
+> worktree-secret-broker-site@0.1.0 build:site
+> vite build --config vite.config.ts && node scripts/prepare-site.mjs
+
+vite v7.3.6 building client environment for production...
+transforming...
+✓ 4 modules transformed.
+rendering chunks...
+computing gzip size...
+../dist/site/index.html                  2.01 kB │ gzip: 0.73 kB
+../dist/site/assets/index-DVfGD9a3.css  10.95 kB │ gzip: 3.23 kB
+../dist/site/assets/index-Cn21DOj6.js   13.83 kB │ gzip: 5.13 kB │ map: 21.99 kB
+✓ built in 225ms
+[WebServer] (node:5903) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:5916) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:5934) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5934) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (4.3s)
+RESULT: exit 0
+
+CLAIM recorded-demo-receipt: The browser recording shows the bundled CLI demo receipt names, timing, outcome, and revocation fields.
+COMMAND: npm test -- --grep @claim:recorded-demo-receipt
+
+> worktree-secret-broker-site@0.1.0 test
+> node scripts/test.mjs --grep @claim:recorded-demo-receipt
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.07s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.07s
+     Running unittests src/lib.rs (target/debug/deps/worktree_secret_broker-90e852657c737119)
+
+running 5 tests
+test tests::denies_production_by_default ... ok
+test tests::rejects_duplicate_and_invalid_names ... ok
+test tests::template_is_valid ... ok
+test tests::validates_a_development_mapping ... ok
+test tests::validates_the_documented_one_password_reference_shape ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/wsb-57a7b9485ffebdad)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests worktree_secret_broker
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+> worktree-secret-broker-site@0.1.0 typecheck
+> tsc --noEmit
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.03s
+
+> worktree-secret-broker-site@0.1.0 build:site
+> vite build --config vite.config.ts && node scripts/prepare-site.mjs
+
+vite v7.3.6 building client environment for production...
+transforming...
+✓ 4 modules transformed.
+rendering chunks...
+computing gzip size...
+../dist/site/index.html                  2.01 kB │ gzip: 0.73 kB
+../dist/site/assets/index-DVfGD9a3.css  10.95 kB │ gzip: 3.23 kB
+../dist/site/assets/index-Cn21DOj6.js   13.83 kB │ gzip: 5.13 kB │ map: 21.99 kB
+✓ built in 213ms
+[WebServer] (node:6154) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:6167) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:6185) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:6185) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (3.6s)
+RESULT: exit 0
+
+CLAIM copy-install-command: Copy install command copies the public-source Cargo command.
+COMMAND: npm test -- --grep @claim:copy-install-command
+
+> worktree-secret-broker-site@0.1.0 test
+> node scripts/test.mjs --grep @claim:copy-install-command
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.06s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.07s
+     Running unittests src/lib.rs (target/debug/deps/worktree_secret_broker-90e852657c737119)
+
+running 5 tests
+test tests::denies_production_by_default ... ok
+test tests::rejects_duplicate_and_invalid_names ... ok
+test tests::template_is_valid ... ok
+test tests::validates_a_development_mapping ... ok
+test tests::validates_the_documented_one_password_reference_shape ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/wsb-57a7b9485ffebdad)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests worktree_secret_broker
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+> worktree-secret-broker-site@0.1.0 typecheck
+> tsc --noEmit
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.04s
+
+> worktree-secret-broker-site@0.1.0 build:site
+> vite build --config vite.config.ts && node scripts/prepare-site.mjs
+
+vite v7.3.6 building client environment for production...
+transforming...
+✓ 4 modules transformed.
+rendering chunks...
+computing gzip size...
+../dist/site/index.html                  2.01 kB │ gzip: 0.73 kB
+../dist/site/assets/index-DVfGD9a3.css  10.95 kB │ gzip: 3.23 kB
+../dist/site/assets/index-Cn21DOj6.js   13.83 kB │ gzip: 5.13 kB │ map: 21.99 kB
+✓ built in 209ms
+[WebServer] (node:6435) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:6448) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:6466) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:6466) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (3.9s)
+RESULT: exit 0
+
+CLAIM one-password-provider: The broker reads a documented op://VAULT/ITEM/FIELD reference through 1Password CLI.
+COMMAND: npm test -- --grep @claim:one-password-provider
+
+> worktree-secret-broker-site@0.1.0 test
+> node scripts/test.mjs --grep @claim:one-password-provider
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.12s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.07s
+     Running unittests src/lib.rs (target/debug/deps/worktree_secret_broker-90e852657c737119)
+
+running 5 tests
+test tests::denies_production_by_default ... ok
+test tests::rejects_duplicate_and_invalid_names ... ok
+test tests::template_is_valid ... ok
+test tests::validates_a_development_mapping ... ok
+test tests::validates_the_documented_one_password_reference_shape ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/wsb-57a7b9485ffebdad)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests worktree_secret_broker
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+> worktree-secret-broker-site@0.1.0 typecheck
+> tsc --noEmit
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.06s
+
+> worktree-secret-broker-site@0.1.0 build:site
+> vite build --config vite.config.ts && node scripts/prepare-site.mjs
+
+vite v7.3.6 building client environment for production...
+transforming...
+✓ 4 modules transformed.
+rendering chunks...
+computing gzip size...
+../dist/site/index.html                  2.01 kB │ gzip: 0.73 kB
+../dist/site/assets/index-DVfGD9a3.css  10.95 kB │ gzip: 3.23 kB
+../dist/site/assets/index-Cn21DOj6.js   13.83 kB │ gzip: 5.13 kB │ map: 21.99 kB
+✓ built in 220ms
+[WebServer] (node:6689) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:6702) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:6720) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:6720) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (2.9s)
+RESULT: exit 0

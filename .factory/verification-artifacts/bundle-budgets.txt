@@ -1,0 +1,7 @@
+BUNDLE BUDGETS
+dist/site/assets/index-Cn21DOj6.js raw=13830 gzip=5164
+dist/site/assets/index-DVfGD9a3.css raw=10945 gzip=3242
+fonts-total=102036
+hero=79942
+binary=1005792
+crate=72188

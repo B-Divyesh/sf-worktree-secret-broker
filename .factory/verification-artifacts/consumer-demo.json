@@ -1,0 +1,1 @@
+{"lease_id":"demo-1787913600","worktree":"/tmp/wsb-demo-9057-1787988023","secret_names":["DATABASE_URL","NPM_TOKEN"],"started_at_unix":1787913600,"expires_at_unix":1787914500,"revoked_at_unix":1787913601,"outcome":"demo-complete","child_exit_code":0}

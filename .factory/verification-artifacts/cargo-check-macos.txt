@@ -1,0 +1,16 @@
+    Checking worktree-secret-broker v0.1.0 (/work/repo)
+error[E0425]: cannot find function `prctl` in crate `libc`
+   --> src/lib.rs:378:26
+    |
+378 |                 if libc::prctl(libc::PR_SET_PDEATHSIG, libc::SIGTERM) == -1 {
+    |                          ^^^^^ not found in `libc`
+
+error[E0425]: cannot find value `PR_SET_PDEATHSIG` in crate `libc`
+   --> src/lib.rs:378:38
+    |
+378 |                 if libc::prctl(libc::PR_SET_PDEATHSIG, libc::SIGTERM) == -1 {
+    |                                      ^^^^^^^^^^^^^^^^ not found in `libc`
+
+For more information about this error, try `rustc --explain E0425`.
+error: could not compile `worktree-secret-broker` (lib) due to 2 previous errors
+CARGO_CHECK_MACOS_EXIT=101

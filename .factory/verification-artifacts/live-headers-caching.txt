@@ -1,0 +1,172 @@
+HEADERS /
+HTTP/2 200
+content-type: text/html
+date: Sat, 29 Aug 2026 07:23:59 GMT
+accept-ranges: bytes
+cache-control: public, must-revalidate, max-age=30
+etag: "91826006"
+last-modified: Sat, 29 Aug 2026 06:54:26 GMT
+content-length: 2005
+strict-transport-security: max-age=10886400; includeSubDomains; preload
+referrer-policy: strict-origin-when-cross-origin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+x-dns-prefetch-control: off
+content-security-policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'
+permissions-policy: camera=(), microphone=(), geolocation=()
+
+HEADERS /demo
+HTTP/2 200
+content-type: text/html
+date: Sat, 29 Aug 2026 07:23:59 GMT
+accept-ranges: bytes
+cache-control: public, must-revalidate, max-age=30
+etag: "91826006"
+last-modified: Sat, 29 Aug 2026 06:54:26 GMT
+content-length: 2096
+strict-transport-security: max-age=10886400; includeSubDomains; preload
+referrer-policy: strict-origin-when-cross-origin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+x-dns-prefetch-control: off
+content-security-policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'
+permissions-policy: camera=(), microphone=(), geolocation=()
+
+HEADERS /privacy
+HTTP/2 200
+content-type: text/html
+date: Sat, 29 Aug 2026 07:24:00 GMT
+accept-ranges: bytes
+cache-control: public, must-revalidate, max-age=30
+etag: "91826006"
+last-modified: Sat, 29 Aug 2026 06:54:26 GMT
+content-length: 2059
+strict-transport-security: max-age=10886400; includeSubDomains; preload
+referrer-policy: strict-origin-when-cross-origin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+x-dns-prefetch-control: off
+content-security-policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'
+permissions-policy: camera=(), microphone=(), geolocation=()
+
+HEADERS /terms
+HTTP/2 200
+content-type: text/html
+date: Sat, 29 Aug 2026 07:24:00 GMT
+accept-ranges: bytes
+cache-control: public, must-revalidate, max-age=30
+etag: "91826006"
+last-modified: Sat, 29 Aug 2026 06:54:26 GMT
+content-length: 2079
+strict-transport-security: max-age=10886400; includeSubDomains; preload
+referrer-policy: strict-origin-when-cross-origin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+x-dns-prefetch-control: off
+content-security-policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'
+permissions-policy: camera=(), microphone=(), geolocation=()
+
+HEADERS /definitely-missing-verification-5
+HTTP/2 404
+content-type: text/html
+date: Sat, 29 Aug 2026 07:24:00 GMT
+cache-control: public, must-revalidate, max-age=30
+etag: "91826006"
+last-modified: Sat, 29 Aug 2026 06:54:26 GMT
+content-length: 2076
+strict-transport-security: max-age=10886400; includeSubDomains; preload
+referrer-policy: strict-origin-when-cross-origin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+x-dns-prefetch-control: off
+content-security-policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'
+permissions-policy: camera=(), microphone=(), geolocation=()
+
+HEADERS /assets/index-Cn21DOj6.js
+HTTP/2 200
+content-type: text/javascript
+date: Sat, 29 Aug 2026 07:24:00 GMT
+accept-ranges: bytes
+cache-control: public, max-age=31536000, immutable
+etag: "91826006"
+last-modified: Sat, 29 Aug 2026 06:54:26 GMT
+content-length: 13830
+strict-transport-security: max-age=10886400; includeSubDomains; preload
+referrer-policy: strict-origin-when-cross-origin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+x-dns-prefetch-control: off
+content-security-policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'
+permissions-policy: camera=(), microphone=(), geolocation=()
+
+HEADERS /assets/index-DVfGD9a3.css
+HTTP/2 200
+content-type: text/css
+date: Sat, 29 Aug 2026 07:24:00 GMT
+accept-ranges: bytes
+cache-control: public, max-age=31536000, immutable
+etag: "91826006"
+last-modified: Sat, 29 Aug 2026 06:54:26 GMT
+content-length: 10945
+strict-transport-security: max-age=10886400; includeSubDomains; preload
+referrer-policy: strict-origin-when-cross-origin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+x-dns-prefetch-control: off
+content-security-policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'
+permissions-policy: camera=(), microphone=(), geolocation=()
+
+HEADERS /fonts/atkinson-400.woff2
+HTTP/2 200
+content-type: font/woff2
+date: Sat, 29 Aug 2026 07:24:00 GMT
+accept-ranges: bytes
+cache-control: public, max-age=604800
+etag: "91826006"
+last-modified: Sat, 29 Aug 2026 06:54:26 GMT
+content-length: 17208
+strict-transport-security: max-age=10886400; includeSubDomains; preload
+referrer-policy: strict-origin-when-cross-origin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+x-dns-prefetch-control: off
+content-security-policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'
+permissions-policy: camera=(), microphone=(), geolocation=()
+
+HEADERS /key-orchard.webp
+HTTP/2 200
+content-type: image/webp
+date: Sat, 29 Aug 2026 07:24:01 GMT
+accept-ranges: bytes
+cache-control: public, max-age=604800
+etag: "91826006"
+last-modified: Sat, 29 Aug 2026 06:54:26 GMT
+content-length: 79942
+strict-transport-security: max-age=10886400; includeSubDomains; preload
+referrer-policy: strict-origin-when-cross-origin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+x-dns-prefetch-control: off
+content-security-policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'
+permissions-policy: camera=(), microphone=(), geolocation=()
+
+HEADERS /sw.js
+HTTP/2 200
+content-type: text/javascript
+date: Sat, 29 Aug 2026 07:24:01 GMT
+accept-ranges: bytes
+cache-control: public, must-revalidate, max-age=30
+etag: "91826006"
+last-modified: Sat, 29 Aug 2026 06:54:26 GMT
+content-length: 1027
+strict-transport-security: max-age=10886400; includeSubDomains; preload
+referrer-policy: strict-origin-when-cross-origin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+x-dns-prefetch-control: off
+content-security-policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'
+permissions-policy: camera=(), microphone=(), geolocation=()
+
+CONDITIONAL_ETAG "91826006"
+HTTP/2 304
+date: Sat, 29 Aug 2026 07:24:01 GMT

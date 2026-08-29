@@ -1,0 +1,689 @@
+{
+  "routes": [
+    {
+      "path": "/",
+      "status": 200,
+      "title": "Worktree Secret Broker — Lease development secrets",
+      "lang": "en",
+      "h1": 1,
+      "main": 1,
+      "headings": [
+        {
+          "level": 1,
+          "text": "Lease secrets to one worktree process"
+        },
+        {
+          "level": 2,
+          "text": "The receipt shows names, never values"
+        },
+        {
+          "level": 2,
+          "text": "Run one worktree process in three steps"
+        },
+        {
+          "level": 3,
+          "text": "Map approved names"
+        },
+        {
+          "level": 3,
+          "text": "Name the worktree"
+        },
+        {
+          "level": 3,
+          "text": "Read the receipt"
+        },
+        {
+          "level": 2,
+          "text": "What the broker does not do"
+        },
+        {
+          "level": 2,
+          "text": "Generate a names-only team policy"
+        }
+      ],
+      "headingSkips": [],
+      "imagesWithoutAlt": 0,
+      "axeSeriousCritical": [],
+      "axeAll": [],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "requestFailures": [],
+      "headers": {
+        "cache-control": "public, must-revalidate, max-age=30",
+        "content-encoding": "br",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'",
+        "content-type": "text/html",
+        "date": "Sat, 29 Aug 2026 07:23:21 GMT",
+        "etag": "\"91826006\"",
+        "last-modified": "Sat, 29 Aug 2026 06:54:26 GMT",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=10886400; includeSubDomains; preload",
+        "vary": "Accept-Encoding",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-xss-protection": "1; mode=block"
+      }
+    },
+    {
+      "path": "/demo",
+      "status": 200,
+      "title": "Demo — Worktree Secret Broker",
+      "lang": "en",
+      "h1": 1,
+      "main": 1,
+      "headings": [
+        {
+          "level": 1,
+          "text": "See the CLI run with sample worktree data"
+        },
+        {
+          "level": 2,
+          "text": "Sample input"
+        },
+        {
+          "level": 2,
+          "text": "Observable result"
+        }
+      ],
+      "headingSkips": [],
+      "imagesWithoutAlt": 0,
+      "axeSeriousCritical": [],
+      "axeAll": [],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "requestFailures": [],
+      "headers": {
+        "cache-control": "public, must-revalidate, max-age=30",
+        "content-encoding": "br",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'",
+        "content-type": "text/html",
+        "date": "Sat, 29 Aug 2026 07:23:21 GMT",
+        "etag": "\"91826006\"",
+        "last-modified": "Sat, 29 Aug 2026 06:54:26 GMT",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=10886400; includeSubDomains; preload",
+        "vary": "Accept-Encoding",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-xss-protection": "1; mode=block"
+      }
+    },
+    {
+      "path": "/privacy",
+      "status": 200,
+      "title": "Privacy — Worktree Secret Broker",
+      "lang": "en",
+      "h1": 1,
+      "main": 1,
+      "headings": [
+        {
+          "level": 1,
+          "text": "Privacy stays local"
+        },
+        {
+          "level": 2,
+          "text": "Site data"
+        },
+        {
+          "level": 2,
+          "text": "Contact"
+        }
+      ],
+      "headingSkips": [],
+      "imagesWithoutAlt": 0,
+      "axeSeriousCritical": [],
+      "axeAll": [],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "requestFailures": [],
+      "headers": {
+        "cache-control": "public, must-revalidate, max-age=30",
+        "content-encoding": "br",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'",
+        "content-type": "text/html",
+        "date": "Sat, 29 Aug 2026 07:23:21 GMT",
+        "etag": "\"91826006\"",
+        "last-modified": "Sat, 29 Aug 2026 06:54:26 GMT",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=10886400; includeSubDomains; preload",
+        "vary": "Accept-Encoding",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-xss-protection": "1; mode=block"
+      }
+    },
+    {
+      "path": "/terms",
+      "status": 200,
+      "title": "Terms — Worktree Secret Broker",
+      "lang": "en",
+      "h1": 1,
+      "main": 1,
+      "headings": [
+        {
+          "level": 1,
+          "text": "Terms for using the broker"
+        },
+        {
+          "level": 2,
+          "text": "Safe use"
+        },
+        {
+          "level": 2,
+          "text": "Changes"
+        }
+      ],
+      "headingSkips": [],
+      "imagesWithoutAlt": 0,
+      "axeSeriousCritical": [],
+      "axeAll": [],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "requestFailures": [],
+      "headers": {
+        "cache-control": "public, must-revalidate, max-age=30",
+        "content-encoding": "br",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'",
+        "content-type": "text/html",
+        "date": "Sat, 29 Aug 2026 07:23:21 GMT",
+        "etag": "\"91826006\"",
+        "last-modified": "Sat, 29 Aug 2026 06:54:26 GMT",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=10886400; includeSubDomains; preload",
+        "vary": "Accept-Encoding",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-xss-protection": "1; mode=block"
+      }
+    },
+    {
+      "path": "/definitely-missing-verification-5",
+      "status": 404,
+      "title": "Page not found — Worktree Secret Broker",
+      "lang": "en",
+      "h1": 1,
+      "main": 1,
+      "headings": [
+        {
+          "level": 1,
+          "text": "This path has no worktree"
+        }
+      ],
+      "headingSkips": [],
+      "imagesWithoutAlt": 0,
+      "axeSeriousCritical": [],
+      "axeAll": [],
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 404 ()"
+      ],
+      "pageErrors": [],
+      "requestFailures": [],
+      "headers": {
+        "cache-control": "public, must-revalidate, max-age=30",
+        "content-length": "2076",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'",
+        "content-type": "text/html",
+        "date": "Sat, 29 Aug 2026 07:23:27 GMT",
+        "etag": "\"91826006\"",
+        "last-modified": "Sat, 29 Aug 2026 06:54:26 GMT",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=10886400; includeSubDomains; preload",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-xss-protection": "1; mode=block"
+      }
+    }
+  ],
+  "flow": {
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://worktree-secret-broker.sociobot.in/",
+        "type": "document"
+      },
+      {
+        "method": "GET",
+        "url": "https://worktree-secret-broker.sociobot.in/fonts/fraunces-600-700.woff2",
+        "type": "font"
+      },
+      {
+        "method": "GET",
+        "url": "https://worktree-secret-broker.sociobot.in/key-orchard.webp",
+        "type": "image"
+      },
+      {
+        "method": "GET",
+        "url": "https://worktree-secret-broker.sociobot.in/assets/index-Cn21DOj6.js",
+        "type": "script"
+      },
+      {
+        "method": "GET",
+        "url": "https://worktree-secret-broker.sociobot.in/assets/index-DVfGD9a3.css",
+        "type": "stylesheet"
+      },
+      {
+        "method": "GET",
+        "url": "https://worktree-secret-broker.sociobot.in/fonts/atkinson-400.woff2",
+        "type": "font"
+      },
+      {
+        "method": "GET",
+        "url": "https://worktree-secret-broker.sociobot.in/fonts/atkinson-700.woff2",
+        "type": "font"
+      },
+      {
+        "method": "GET",
+        "url": "https://worktree-secret-broker.sociobot.in/",
+        "type": "document"
+      },
+      {
+        "method": "GET",
+        "url": "https://worktree-secret-broker.sociobot.in/fonts/fraunces-600-700.woff2",
+        "type": "font"
+      },
+      {
+        "method": "GET",
+        "url": "https://worktree-secret-broker.sociobot.in/key-orchard.webp",
+        "type": "image"
+      },
+      {
+        "method": "GET",
+        "url": "https://worktree-secret-broker.sociobot.in/assets/index-Cn21DOj6.js",
+        "type": "script"
+      },
+      {
+        "method": "GET",
+        "url": "https://worktree-secret-broker.sociobot.in/assets/index-DVfGD9a3.css",
+        "type": "stylesheet"
+      },
+      {
+        "method": "GET",
+        "url": "https://worktree-secret-broker.sociobot.in/fonts/atkinson-400.woff2",
+        "type": "font"
+      },
+      {
+        "method": "GET",
+        "url": "https://worktree-secret-broker.sociobot.in/fonts/atkinson-700.woff2",
+        "type": "font"
+      },
+      {
+        "method": "GET",
+        "url": "https://worktree-secret-broker.sociobot.in/",
+        "type": "document"
+      },
+      {
+        "method": "GET",
+        "url": "https://worktree-secret-broker.sociobot.in/fonts/fraunces-600-700.woff2",
+        "type": "font"
+      },
+      {
+        "method": "GET",
+        "url": "https://worktree-secret-broker.sociobot.in/key-orchard.webp",
+        "type": "image"
+      },
+      {
+        "method": "GET",
+        "url": "https://worktree-secret-broker.sociobot.in/assets/index-Cn21DOj6.js",
+        "type": "script"
+      },
+      {
+        "method": "GET",
+        "url": "https://worktree-secret-broker.sociobot.in/assets/index-DVfGD9a3.css",
+        "type": "stylesheet"
+      },
+      {
+        "method": "GET",
+        "url": "https://worktree-secret-broker.sociobot.in/fonts/atkinson-400.woff2",
+        "type": "font"
+      },
+      {
+        "method": "GET",
+        "url": "https://worktree-secret-broker.sociobot.in/fonts/atkinson-700.woff2",
+        "type": "font"
+      }
+    ],
+    "requestOrigins": [
+      "https://worktree-secret-broker.sociobot.in"
+    ],
+    "failures": [],
+    "consoleErrors": [],
+    "pageErrors": [],
+    "cookies": [],
+    "storage": {
+      "local": {
+        "real:sentinel": "keep"
+      },
+      "session": {
+        "real:sentinel": "keep"
+      }
+    },
+    "invalidMessage": "BAD-NAME is not a valid variable name.",
+    "duplicateMessage": "TOKEN is approved more than once. Keep one entry.",
+    "recoveredOutput": "# Team review: production labels remain denied by default.\nversion = 1\nlease_minutes = 60\n\n[[secrets]]\nname = \"SERVICE_TOKEN\"\nsource = \"op://Development/SERVICE_TOKEN/value\"\nlabels = [\"development\"]",
+    "clipboard": "cargo install --git https://github.com/B-Divyesh/sf-worktree-secret-broker.git --locked"
+  },
+  "keyboard": {
+    "focusOrder": [
+      {
+        "tag": "A",
+        "text": "Skip to main content",
+        "id": "",
+        "outlineWidth": "3px",
+        "outlineStyle": "solid",
+        "outlineColor": "rgb(255, 128, 102)"
+      },
+      {
+        "tag": "A",
+        "text": "WorktreeSecret Broker",
+        "id": "",
+        "outlineWidth": "3px",
+        "outlineStyle": "solid",
+        "outlineColor": "rgb(255, 128, 102)"
+      },
+      {
+        "tag": "A",
+        "text": "Demo",
+        "id": "",
+        "outlineWidth": "3px",
+        "outlineStyle": "solid",
+        "outlineColor": "rgb(255, 128, 102)"
+      },
+      {
+        "tag": "A",
+        "text": "Install",
+        "id": "",
+        "outlineWidth": "3px",
+        "outlineStyle": "solid",
+        "outlineColor": "rgb(255, 128, 102)"
+      },
+      {
+        "tag": "A",
+        "text": "Privacy",
+        "id": "",
+        "outlineWidth": "3px",
+        "outlineStyle": "solid",
+        "outlineColor": "rgb(255, 128, 102)"
+      },
+      {
+        "tag": "A",
+        "text": "Try it with sample data",
+        "id": "",
+        "outlineWidth": "3px",
+        "outlineStyle": "solid",
+        "outlineColor": "rgb(255, 128, 102)"
+      },
+      {
+        "tag": "PRE",
+        "text": "$ wsb demo Demo — sample data, nothing is saved Temporary worktree: /tmp/wsb-demo-4821 Approved: DATABASE_URL, NPM_TOKEN Lease: 15 minutes → sample check ✓ child received 2 approved variable names Receipt demo-1787913600 worktree: /tmp/wsb-demo-4821 names: DATABASE_URL, NPM_TOKEN started: 1787913600 expires: 1787914500 outcome: demo-complete revoked: 1787913601 Temporary worktree removed.",
+        "id": "",
+        "outlineWidth": "3px",
+        "outlineStyle": "solid",
+        "outlineColor": "rgb(255, 128, 102)"
+      },
+      {
+        "tag": "A",
+        "text": "View source (external site)",
+        "id": "",
+        "outlineWidth": "3px",
+        "outlineStyle": "solid",
+        "outlineColor": "rgb(255, 128, 102)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Copy install command",
+        "id": "",
+        "outlineWidth": "3px",
+        "outlineStyle": "solid",
+        "outlineColor": "rgb(255, 128, 102)"
+      },
+      {
+        "tag": "TEXTAREA",
+        "text": "DATABASE_URL NPM_TOKEN",
+        "id": "policy-names",
+        "outlineWidth": "3px",
+        "outlineStyle": "solid",
+        "outlineColor": "rgb(255, 128, 102)"
+      },
+      {
+        "tag": "SELECT",
+        "text": "OS keychain1Password",
+        "id": "policy-provider",
+        "outlineWidth": "3px",
+        "outlineStyle": "solid",
+        "outlineColor": "rgb(255, 128, 102)"
+      },
+      {
+        "tag": "SELECT",
+        "text": "5 minutes15 minutes30 minutes60 minutes",
+        "id": "policy-ttl",
+        "outlineWidth": "3px",
+        "outlineStyle": "solid",
+        "outlineColor": "rgb(255, 128, 102)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Generate team policy",
+        "id": "",
+        "outlineWidth": "3px",
+        "outlineStyle": "solid",
+        "outlineColor": "rgb(255, 128, 102)"
+      },
+      {
+        "tag": "PRE",
+        "text": "Your names-only config will appear here.",
+        "id": "policy-output",
+        "outlineWidth": "3px",
+        "outlineStyle": "solid",
+        "outlineColor": "rgb(255, 128, 102)"
+      },
+      {
+        "tag": "A",
+        "text": "Privacy",
+        "id": "",
+        "outlineWidth": "3px",
+        "outlineStyle": "solid",
+        "outlineColor": "rgb(255, 128, 102)"
+      },
+      {
+        "tag": "A",
+        "text": "Terms",
+        "id": "",
+        "outlineWidth": "3px",
+        "outlineStyle": "solid",
+        "outlineColor": "rgb(255, 128, 102)"
+      },
+      {
+        "tag": "A",
+        "text": "Built by Param Factory (external site)",
+        "id": "",
+        "outlineWidth": "3px",
+        "outlineStyle": "solid",
+        "outlineColor": "rgb(255, 128, 102)"
+      },
+      {
+        "tag": "BODY",
+        "text": "Skip to main content WorktreeSecret Broker DemoInstallPrivacy Local CLI · v0.1.0 Lease secrets to one worktree process For developers running coding agents, each worktree gets only approved development variables. Try it with sample dataOpens an isolated recorded CLI run. Only approved variables enter the child.Receipts list names, never values.Production labels are denied by default. Only approved variables reach the named worktree process. Sample names-only receiptThe receipt shows names, never valuesThe recording uses the demo’s two bundled names. wsb demo · isolated sample00:00:01 $ wsb demo Demo — sample data, nothing is saved Temporary worktree: /tmp/wsb-demo-4821 Approved: DATABASE_URL, NPM_TOKEN Lease: 15 minutes → sample check ✓ child received 2 approved variable names Receipt demo-1787913600 worktree: /tmp/wsb-demo-4821 names: DATABASE_URL, NPM_TOKEN started: 1787913600 expires: 1787914500 outcome: demo-complete revoked: 1787913601 Temporary worktree removed. How it worksRun one worktree process in three steps 01Map approved namesPoint each variable name at Keychain, Secret Service, or 1Password.DATABASE_URL → keychain://my-app/database-url 02Name the worktreeThe broker checks the Git root before starting one child process.wsb run --worktree ../agent-42 -- npm test 03Read the receiptExpiry stops the child. The receipt lists names, timing, and outcome.outcome: child-exited · names: NPM_TOKEN cargo install --git https://github.com/B-Divyesh/sf-worktree-secret-broker.git --lockedView source (external site)Copy install command A narrow toolWhat the broker does not do It does not host a vault.It does not scan repositories.It denies production-labelled entries by default.It cannot hide variables from the child that needs them. Local policy helperGenerate a names-only team policyEnter variable names. The helper creates development-only provider references in this browser. Approved variable names DATABASE_URL NPM_TOKENProvider OS keychain1PasswordLease length 5 minutes15 minutes30 minutes60 minutes Generate team policyYour names-only config will appear here. Temporary secret leases for worktree processes. PrivacyTermsBuilt by Param Factory (external site) Version 0.1.0 · build 2026.08.29",
+        "id": "",
+        "outlineWidth": "0px",
+        "outlineStyle": "none",
+        "outlineColor": "rgb(246, 239, 217)"
+      },
+      {
+        "tag": "A",
+        "text": "Skip to main content",
+        "id": "",
+        "outlineWidth": "3px",
+        "outlineStyle": "solid",
+        "outlineColor": "rgb(255, 128, 102)"
+      },
+      {
+        "tag": "A",
+        "text": "WorktreeSecret Broker",
+        "id": "",
+        "outlineWidth": "3px",
+        "outlineStyle": "solid",
+        "outlineColor": "rgb(255, 128, 102)"
+      },
+      {
+        "tag": "A",
+        "text": "Demo",
+        "id": "",
+        "outlineWidth": "3px",
+        "outlineStyle": "solid",
+        "outlineColor": "rgb(255, 128, 102)"
+      },
+      {
+        "tag": "A",
+        "text": "Install",
+        "id": "",
+        "outlineWidth": "3px",
+        "outlineStyle": "solid",
+        "outlineColor": "rgb(255, 128, 102)"
+      },
+      {
+        "tag": "A",
+        "text": "Privacy",
+        "id": "",
+        "outlineWidth": "3px",
+        "outlineStyle": "solid",
+        "outlineColor": "rgb(255, 128, 102)"
+      },
+      {
+        "tag": "A",
+        "text": "Try it with sample data",
+        "id": "",
+        "outlineWidth": "3px",
+        "outlineStyle": "solid",
+        "outlineColor": "rgb(255, 128, 102)"
+      }
+    ],
+    "uniqueFocusTargets": [
+      "A::Skip to main content",
+      "A::WorktreeSecret Broker",
+      "A::Demo",
+      "A::Install",
+      "A::Privacy",
+      "A::Try it with sample data",
+      "PRE::$ wsb demo Demo — sample data, nothing is saved Temporary worktree: /tmp/wsb-demo-4821 Approved: DATABASE_URL, NPM_TOKEN Lease: 15 minutes → sample check ✓ child received 2 approved variable names Receipt demo-1787913600 worktree: /tmp/wsb-demo-4821 names: DATABASE_URL, NPM_TOKEN started: 1787913600 expires: 1787914500 outcome: demo-complete revoked: 1787913601 Temporary worktree removed.",
+      "A::View source (external site)",
+      "BUTTON::Copy install command",
+      "TEXTAREA:policy-names:DATABASE_URL NPM_TOKEN",
+      "SELECT:policy-provider:OS keychain1Password",
+      "SELECT:policy-ttl:5 minutes15 minutes30 minutes60 minutes",
+      "BUTTON::Generate team policy",
+      "PRE:policy-output:Your names-only config will appear here.",
+      "A::Terms",
+      "A::Built by Param Factory (external site)",
+      "BODY::Skip to main content WorktreeSecret Broker DemoInstallPrivacy Local CLI · v0.1.0 Lease secrets to one worktree process For developers running coding agents, each worktree gets only approved development variables. Try it with sample dataOpens an isolated recorded CLI run. Only approved variables enter the child.Receipts list names, never values.Production labels are denied by default. Only approved variables reach the named worktree process. Sample names-only receiptThe receipt shows names, never valuesThe recording uses the demo’s two bundled names. wsb demo · isolated sample00:00:01 $ wsb demo Demo — sample data, nothing is saved Temporary worktree: /tmp/wsb-demo-4821 Approved: DATABASE_URL, NPM_TOKEN Lease: 15 minutes → sample check ✓ child received 2 approved variable names Receipt demo-1787913600 worktree: /tmp/wsb-demo-4821 names: DATABASE_URL, NPM_TOKEN started: 1787913600 expires: 1787914500 outcome: demo-complete revoked: 1787913601 Temporary worktree removed. How it worksRun one worktree process in three steps 01Map approved namesPoint each variable name at Keychain, Secret Service, or 1Password.DATABASE_URL → keychain://my-app/database-url 02Name the worktreeThe broker checks the Git root before starting one child process.wsb run --worktree ../agent-42 -- npm test 03Read the receiptExpiry stops the child. The receipt lists names, timing, and outcome.outcome: child-exited · names: NPM_TOKEN cargo install --git https://github.com/B-Divyesh/sf-worktree-secret-broker.git --lockedView source (external site)Copy install command A narrow toolWhat the broker does not do It does not host a vault.It does not scan repositories.It denies production-labelled entries by default.It cannot hide variables from the child that needs them. Local policy helperGenerate a names-only team policyEnter variable names. The helper creates development-only provider references in this browser. Approved variable names DATABASE_URL NPM_TOKENProvider OS keychain1PasswordLease length 5 minutes15 minutes30 minutes60 minutes Generate team policyYour names-only config will appear here. Temporary secret leases for worktree processes. PrivacyTermsBuilt by Param Factory (external site) Version 0.1.0 · build 2026.08.29"
+    ],
+    "afterSkip": {
+      "active": "$ wsb demo\nDemo — sample data, nothing is saved\nTemporary worktree: /tmp/wsb-demo-4821\nApproved: DATABASE_URL, NPM_TOKEN\nLease: 15 minutes → sample check\n✓ child received 2 approved variable names\nReceipt demo-1787913600\n  worktree: /tmp/wsb-demo-4821\n  names: DATABASE_URL, NPM_TOKEN\n  started: 1787913600\n  expires: 1787914500\n  outcome: demo-complete\n  revoked: 1787913601\nTemporary worktree removed.",
+      "scrollY": 92
+    }
+  },
+  "mobile": {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "action": {
+      "x": 20,
+      "y": 464.359375,
+      "width": 350,
+      "height": 50.34375
+    },
+    "actionInFirstScreen": true,
+    "undersized": [],
+    "beforeResize": {
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "scrollHeight": 5186
+    },
+    "afterText200Percent": {
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "scrollHeight": 7095
+    }
+  },
+  "reducedMotion": {
+    "matches": true,
+    "animations": [
+      {
+        "playState": "finished",
+        "duration": 0.001
+      }
+    ],
+    "sampleDurations": [
+      {
+        "transitionDuration": "1e-06s",
+        "animationDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "transitionDuration": "1e-06s",
+        "animationDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "transitionDuration": "1e-06s",
+        "animationDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "transitionDuration": "1e-06s",
+        "animationDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "transitionDuration": "1e-06s",
+        "animationDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "transitionDuration": "1e-06s",
+        "animationDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "transitionDuration": "1e-06s",
+        "animationDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "transitionDuration": "1e-06s",
+        "animationDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "transitionDuration": "1e-06s",
+        "animationDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      },
+      {
+        "transitionDuration": "1e-06s",
+        "animationDuration": "1e-06s",
+        "scrollBehavior": "auto"
+      }
+    ]
+  },
+  "serviceWorker": {
+    "updateState": {
+      "controlling": true,
+      "waiting": false,
+      "activeScript": "https://worktree-secret-broker.sociobot.in/sw.js",
+      "caches": [
+        "wsb-site-v3"
+      ]
+    },
+    "offlineState": {
+      "title": "Demo — Worktree Secret Broker",
+      "heading": "See the CLI run with sample worktree data",
+      "bannerVisible": true
+    }
+  }
+}

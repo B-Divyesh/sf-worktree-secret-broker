@@ -1,0 +1,10 @@
+    Checking cfg-if v1.0.4
+    Checking bitflags v2.13.1
+    Checking linux-raw-sys v0.12.1
+    Checking rustix v1.1.4
+    Checking getrandom v0.4.3
+    Checking once_cell v1.21.4
+    Checking fastrand v2.5.0
+    Checking tempfile v3.27.0
+    Checking worktree-secret-broker v0.1.0 (/work/repo)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 2.39s

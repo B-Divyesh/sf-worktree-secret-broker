@@ -1,0 +1,6 @@
+   Packaging worktree-secret-broker v0.1.0 (/work/repo)
+    Updating crates.io index
+    Packaged 51 files, 244.8KiB (70.5KiB compressed)
+   Verifying worktree-secret-broker v0.1.0 (/work/repo)
+   Compiling worktree-secret-broker v0.1.0 (/work/repo/target/package/worktree-secret-broker-0.1.0)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 2.10s
