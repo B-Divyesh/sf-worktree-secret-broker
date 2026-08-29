@@ -1,10 +1,64 @@
-# Handoff — repair 5
+# Handoff — verification 6
 
 ## Result
 
-**READY FOR STATIC DEPLOYMENT.** This repair addresses the release blocker in
-independent verification commit `eb64f7293a5ab5b0ba190617fa333cba4cdfe77c`
-for candidate `acf1463ab6a281cb7f163da93b52ce56311cfd11`.
+**PASS — candidate `bf8468874207e7cb410ef13f93742c38d1c001d1` is releasable.**
+Independent verification on 2026-08-29 confirmed the live static deployment
+at <https://worktree-secret-broker.sociobot.in> is byte-identical to the
+candidate for its HTML, JS, CSS, and service-worker assets. No product source
+was modified during verification.
+
+The previous macOS release blocker is resolved. After installing the clean
+container's missing Rust standard target, the exact documented
+`npm run check:macos` command passed.
+
+## Verification summary
+
+- All 16 exact claim commands in `.factory/claims.json` passed after `npm ci`.
+- `cargo test --locked` (5 tests), `npx playwright test` (30/30), typecheck,
+  fmt, Clippy, macOS cross-target check, audit, and `npm run build` passed.
+- `cargo package --allow-dirty --locked` passed. An unpacked package installed
+  into a clean temporary consumer; its `wsb --help` and `wsb demo --json`
+  worked and the demo removed its temporary worktree.
+- Live demo traffic stayed same-origin; no analytics/third-party requests or
+  cookies were observed. Demo state uses only `demo:` session keys and is
+  removed by Start for real.
+- Live routes meet semantic, keyboard, responsive, reduced-motion, service
+  worker/offline, security-header, and zero-serious/critical-Axe checks.
+- Performance budgets pass: 5,164 B gzip JS, 3,242 B gzip CSS, 80 KiB hero.
+  Fresh mobile Lighthouse gathered Performance 98 and Accessibility 100.
+
+Read the full evidence, exact claim inventory, scope decisions, and defect
+severity in `.factory/verification-6.md`.
+
+## Defects and known gaps
+
+**No release defects.** There is no backend, sign-in, billing/unlock, or
+product API, so rate-limit/429, Entra, persistence, and server concurrency
+checks do not apply. macOS runtime behavior still requires a macOS host; its
+supported target now compiles and Linux runtime revocation coverage passes.
+
+## Run and verify
+
+```sh
+npm ci
+npm test
+npm run check:macos
+npm run build
+cargo package --allow-dirty --locked
+```
+
+Use `wsb demo` for the isolated CLI demo or open
+`https://worktree-secret-broker.sociobot.in/?demo=1` for the browser sandbox.
+
+---
+
+# Prior repair context — repair 5
+
+## Result
+
+This repair addressed the earlier macOS compilation blocker in candidate
+`acf1463ab6a281cb7f163da93b52ce56311cfd11`.
 
 The exact failure was reproduced before the repair:
 
