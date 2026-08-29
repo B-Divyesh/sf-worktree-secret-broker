@@ -476,6 +476,25 @@ test('mobile first screen keeps the action visible and has no horizontal overflo
   expect(undersized).toEqual([]);
 });
 
+test('reduced motion and 200 percent text preserve the interface', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/');
+  const motion = await page.locator('.hero-art img').evaluate(element => ({
+    animationDuration: getComputedStyle(element).animationDuration,
+    animationIterationCount: getComputedStyle(element).animationIterationCount,
+  }));
+  const durationSeconds = motion.animationDuration.endsWith('ms')
+    ? Number.parseFloat(motion.animationDuration) / 1_000
+    : Number.parseFloat(motion.animationDuration);
+  expect(durationSeconds).toBeLessThanOrEqual(0.001);
+  expect(motion.animationIterationCount).toBe('1');
+  await page.evaluate(() => { document.documentElement.style.fontSize = '200%'; });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Try it with sample data' })).toBeVisible();
+});
+
 test('keyboard starts at the skip link and operates the policy helper', async ({ page }) => {
   await page.goto('/');
   await page.keyboard.press('Tab');

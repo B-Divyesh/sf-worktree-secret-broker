@@ -1,0 +1,176 @@
+{
+  "routes": {
+    "/": {
+      "status": 200,
+      "title": "Worktree Secret Broker — Lease development secrets",
+      "description": "Give one worktree process only the development secrets it needs, without copying a secret file.",
+      "canonical": "https://worktree-secret-broker.sociobot.in/",
+      "ogTitle": "Worktree Secret Broker — Lease development secrets",
+      "twitterTitle": "Worktree Secret Broker — Lease development secrets",
+      "lang": "en",
+      "h1Count": 1,
+      "mainCount": 1,
+      "missingAlts": 0,
+      "seriousCriticalAxe": [],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "requestOrigins": [
+        "https://worktree-secret-broker.sociobot.in"
+      ]
+    },
+    "/demo": {
+      "status": 200,
+      "title": "Demo — Worktree Secret Broker",
+      "description": "See the CLI run with isolated sample worktree data and a names-only receipt.",
+      "canonical": "https://worktree-secret-broker.sociobot.in/demo",
+      "ogTitle": "Demo — Worktree Secret Broker",
+      "twitterTitle": "Demo — Worktree Secret Broker",
+      "lang": "en",
+      "h1Count": 1,
+      "mainCount": 1,
+      "missingAlts": 0,
+      "seriousCriticalAxe": [],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "requestOrigins": [
+        "https://worktree-secret-broker.sociobot.in"
+      ]
+    },
+    "/privacy": {
+      "status": 200,
+      "title": "Privacy — Worktree Secret Broker",
+      "description": "Read how the CLI and its isolated browser sample handle local data.",
+      "canonical": "https://worktree-secret-broker.sociobot.in/privacy",
+      "ogTitle": "Privacy — Worktree Secret Broker",
+      "twitterTitle": "Privacy — Worktree Secret Broker",
+      "lang": "en",
+      "h1Count": 1,
+      "mainCount": 1,
+      "missingAlts": 0,
+      "seriousCriticalAxe": [],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "requestOrigins": [
+        "https://worktree-secret-broker.sociobot.in"
+      ]
+    },
+    "/terms": {
+      "status": 200,
+      "title": "Terms — Worktree Secret Broker",
+      "description": "Read the MIT license terms and safe-use limits for Worktree Secret Broker.",
+      "canonical": "https://worktree-secret-broker.sociobot.in/terms",
+      "ogTitle": "Terms — Worktree Secret Broker",
+      "twitterTitle": "Terms — Worktree Secret Broker",
+      "lang": "en",
+      "h1Count": 1,
+      "mainCount": 1,
+      "missingAlts": 0,
+      "seriousCriticalAxe": [],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "requestOrigins": [
+        "https://worktree-secret-broker.sociobot.in"
+      ]
+    },
+    "/missing": {
+      "status": 404,
+      "title": "Page not found — Worktree Secret Broker",
+      "description": "Return to Worktree Secret Broker from a path that does not exist.",
+      "canonical": "https://worktree-secret-broker.sociobot.in/404",
+      "ogTitle": "Page not found — Worktree Secret Broker",
+      "twitterTitle": "Page not found — Worktree Secret Broker",
+      "lang": "en",
+      "h1Count": 1,
+      "mainCount": 1,
+      "missingAlts": 0,
+      "seriousCriticalAxe": [],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "requestOrigins": [
+        "https://worktree-secret-broker.sociobot.in"
+      ]
+    }
+  },
+  "firstScreen": {
+    "heading": "Lease secrets to one worktree process",
+    "audience": "For developers running coding agents, each worktree gets only approved development variables.",
+    "actionVisible": true,
+    "actionCompanion": "Opens an isolated recorded CLI run.",
+    "facts": [
+      "Only approved variables enter the child.",
+      "Receipts list names, never values.",
+      "Production labels are denied by default."
+    ],
+    "limitsLabel": "LIMITS"
+  },
+  "demo": {
+    "directUrlAfterOneClick": "https://worktree-secret-broker.sociobot.in/?demo=1",
+    "entered": {
+      "local": {
+        "real:local-sentinel": "keep"
+      },
+      "session": {
+        "demo:session": "sample-receipt",
+        "real:session-sentinel": "keep"
+      }
+    },
+    "reset": {
+      "local": {
+        "real:local-sentinel": "keep"
+      },
+      "session": {
+        "demo:session": "sample-receipt",
+        "real:session-sentinel": "keep"
+      }
+    },
+    "exited": {
+      "local": {
+        "real:local-sentinel": "keep"
+      },
+      "session": {
+        "real:session-sentinel": "keep"
+      }
+    },
+    "duplicateError": "TOKEN is approved more than once. Keep one entry.",
+    "helperInputs": 0,
+    "helperTextareas": 1,
+    "requestOrigins": []
+  },
+  "mobile": {
+    "viewport": [
+      390,
+      844
+    ],
+    "scrollWidth": 390,
+    "actionBottom": 514.703125,
+    "undersizedTargets": [],
+    "afterText200Percent": {
+      "scrollWidth": 390,
+      "viewportWidth": 390,
+      "headingVisible": true
+    }
+  },
+  "focus": {
+    "firstTab": {
+      "text": "Skip to main content",
+      "outline": "rgb(255, 128, 102) solid 3px"
+    },
+    "afterSkip": {
+      "id": "main",
+      "tag": "MAIN"
+    },
+    "routeFocus": {
+      "tag": "H1",
+      "text": "See the CLI run with sample worktree data"
+    }
+  },
+  "reducedMotion": {
+    "mediaMatches": true,
+    "animationDuration": "1e-06s",
+    "animationIterationCount": "1"
+  },
+  "offline": {
+    "heading": "See the CLI run with sample worktree data",
+    "bannerVisible": true
+  }
+}
