@@ -1,0 +1,40 @@
+{
+  "live_url": "https://worktree-secret-broker.sociobot.in",
+  "deployment_id": "07122bb5-b66e-4d19-a5e0-711e30e33c91",
+  "routes": [
+    { "path": "/", "status": 200, "title": "Worktree Secret Broker — Approve worktree variables", "h1": "Give one worktree process approved variables", "axe_serious_critical": 0 },
+    { "path": "/demo", "status": 200, "title": "Demo — Worktree Secret Broker", "h1": "See the CLI run with sample worktree data", "axe_serious_critical": 0 },
+    { "path": "/privacy", "status": 200, "title": "Privacy — Worktree Secret Broker", "h1": "How license checks handle data", "axe_serious_critical": 0 },
+    { "path": "/terms", "status": 200, "title": "Terms — Worktree Secret Broker", "h1": "Terms for using the broker", "axe_serious_critical": 0 },
+    { "path": "/missing-polish-3", "status": 404, "title": "Page not found — Worktree Secret Broker", "h1": "This page does not exist", "axe_serious_critical": 0 }
+  ],
+  "demo_storage": {
+    "entry": { "real_local": "keep", "real_session": "keep", "demo_session": "sample-receipt" },
+    "reset": { "real_local": "keep", "real_session": "keep", "demo_session": "sample-receipt" },
+    "start_for_real": { "real_local": "keep", "real_session": "keep", "demo_session": null }
+  },
+  "license_flow": {
+    "returned_token_removed_from_url": true,
+    "verification_tokens": ["license_returned_live", "license_pasted_live", "license_invalid"],
+    "external_request_count": 3,
+    "external_request_origin": "https://api.sociobot.in",
+    "external_request_path": "/api/v1/products/worktree-secret-broker/verify",
+    "demo_license_storage_accesses": []
+  },
+  "keyboard": { "cold_hash_main_focus": "MAIN" },
+  "mobile_390": { "horizontal_overflow": false, "primary_action_visible": true },
+  "headers": {
+    "csp": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.sociobot.in; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'",
+    "referrer_policy": "strict-origin-when-cross-origin",
+    "x_content_type_options": "nosniff"
+  },
+  "links": {
+    "site_routes": ["/", "/demo", "/privacy", "/terms", "/?demo=1", "/#install"],
+    "site_route_status": 200,
+    "github_status": 200,
+    "factory_status": 200,
+    "checkout_status": 303,
+    "checkout_redirect_origin": "https://checkout.dodopayments.com",
+    "mailto": "privacy@sociobot.in"
+  }
+}
