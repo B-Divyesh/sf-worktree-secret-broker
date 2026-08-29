@@ -107,6 +107,28 @@ test('@claim:one-password-provider documented 1Password references use op read',
   await rm(root, { recursive: true, force: true });
 });
 
+test('@claim:os-keychain-provider documented Linux and macOS keychain commands resolve only the approved value', async () => {
+  await exec('cargo', ['test', 'tests::os_keychain_provider_contract', '--', '--exact']);
+  const root = await mkdtemp(join(tmpdir(), 'wsb-keychain-'));
+  const tools = join(root, 'tools');
+  const argumentsFile = join(root, 'secret-tool-arguments');
+  await mkdir(tools);
+  await exec('git', ['init', '-q'], { cwd: root });
+  const provider = join(tools, 'secret-tool');
+  await writeFile(provider, `#!/bin/sh\nprintf '%s\\n' "$@" > "${argumentsFile}"\nprintf os-keychain-fixture-value\n`);
+  await chmod(provider, 0o755);
+  const config = join(root, 'config.toml');
+  await writeFile(config, 'version=1\n[[secrets]]\nname="DATABASE_URL"\nsource="keychain://my-app/database-url"\nlabels=["development"]\n');
+  const env = { ...process.env, PATH: `${tools}:${process.env.PATH}`, UNRELATED_TOKEN: 'must-not-pass' };
+  const checked = await exec(binary, ['check', '--config', config, '--json'], { env });
+  expect(JSON.parse(checked.stdout).providers).toEqual(['os-keychain']);
+  const result = await exec(binary, ['run', '--config', config, '--worktree', root, '--', 'sh', '-c', 'test "$DATABASE_URL" = os-keychain-fixture-value && test -z "$UNRELATED_TOKEN"'], { env });
+  expect((await readFile(argumentsFile, 'utf8')).trim().split('\n')).toEqual(['lookup', 'service', 'my-app', 'account', 'database-url']);
+  expect(result.stdout).toContain('names: DATABASE_URL');
+  expect(result.stdout).not.toContain('os-keychain-fixture-value');
+  await rm(root, { recursive: true, force: true });
+});
+
 test('check rejects malformed 1Password references before provider access', async () => {
   const root = await mkdtemp(join(tmpdir(), 'wsb-op-invalid-'));
   const tools = join(root, 'tools');
@@ -258,12 +280,22 @@ test('@claim:policy-generator the local helper creates development-only referenc
   expect([...origins]).toEqual(['http://127.0.0.1:4173']);
 });
 
-test('regression: policy helper rejects duplicate variable names before generating TOML', async ({ page }) => {
+test('@claim:policy-helper-input-boundary rejects duplicate names without collecting secrets or contacting a third party', async ({ page }) => {
+  const origins = new Set<string>();
+  page.on('request', request => origins.add(new URL(request.url()).origin));
   await page.goto('/');
+  const form = page.locator('#policy-desk');
+  await expect(form.locator('input')).toHaveCount(0);
+  await expect(form.locator('textarea')).toHaveCount(1);
+  await expect(form.getByLabel('Approved variable names')).toBeVisible();
+  await expect(form.getByLabel('Provider')).toBeVisible();
+  await expect(form.getByLabel('Lease length')).toBeVisible();
+  expect((await form.innerText()).toLowerCase()).not.toContain('secret value');
   await page.getByLabel('Approved variable names').fill('TOKEN TOKEN');
   await page.getByRole('button', { name: 'Generate team policy' }).click();
   await expect(page.locator('#policy-output')).toHaveText('TOKEN is approved more than once. Keep one entry.');
   await expect(page.locator('#policy-output')).not.toContainText('[[secrets]]');
+  expect([...origins]).toEqual(['http://127.0.0.1:4173']);
 });
 
 test('@claim:demo-reset reset clears demo storage and restores the first output', async ({ page }) => {

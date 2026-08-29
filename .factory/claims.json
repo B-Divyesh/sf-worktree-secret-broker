@@ -110,5 +110,19 @@
     "where": "README provider documentation",
     "test": "npm test -- --grep @claim:one-password-provider",
     "sandbox": "temp Git worktree and fake op executable that verifies the read arguments"
+  },
+  {
+    "id": "os-keychain-provider",
+    "claim": "The broker reads keychain://SERVICE/ACCOUNT through Secret Service on Linux or Keychain on macOS and passes only the approved value.",
+    "where": "landing how it works and README provider documentation",
+    "test": "npm test -- --grep @claim:os-keychain-provider",
+    "sandbox": "temp Git worktree and fake secret-tool executable; shared command-contract unit test asserts Linux secret-tool and macOS security arguments"
+  },
+  {
+    "id": "policy-helper-input-boundary",
+    "claim": "The local policy helper rejects duplicate names and has no control for secret values.",
+    "where": "README team policy helper",
+    "test": "npm test -- --grep @claim:policy-helper-input-boundary",
+    "sandbox": "fresh browser context; inspect every form control, submit duplicate names, assert actionable error, no TOML, and same-origin requests"
   }
 ]

@@ -80,6 +80,51 @@ enum Source {
     OnePassword(String),
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum ProviderPlatform {
+    Linux,
+    Macos,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+struct ProviderCommand {
+    program: &'static str,
+    args: Vec<String>,
+}
+
+impl ProviderPlatform {
+    fn current() -> Self {
+        if cfg!(target_os = "macos") {
+            Self::Macos
+        } else {
+            Self::Linux
+        }
+    }
+}
+
+fn keychain_provider_command(
+    platform: ProviderPlatform,
+    service: &str,
+    account: &str,
+) -> ProviderCommand {
+    match platform {
+        ProviderPlatform::Linux => ProviderCommand {
+            program: "secret-tool",
+            args: ["lookup", "service", service, "account", account]
+                .into_iter()
+                .map(str::to_owned)
+                .collect(),
+        },
+        ProviderPlatform::Macos => ProviderCommand {
+            program: "security",
+            args: ["find-generic-password", "-s", service, "-a", account, "-w"]
+                .into_iter()
+                .map(str::to_owned)
+                .collect(),
+        },
+    }
+}
+
 fn default_lease() -> u64 {
     15
 }
@@ -193,11 +238,7 @@ pub fn check_providers(config: &Config) -> Result<()> {
     for secret in &config.secrets {
         match parse_source(&secret.source)? {
             Source::Keychain { .. } => {
-                let tool = if cfg!(target_os = "macos") {
-                    "security"
-                } else {
-                    "secret-tool"
-                };
+                let tool = keychain_provider_command(ProviderPlatform::current(), "", "").program;
                 if !command_exists(tool) {
                     bail!(
                         "{tool} is not installed. Install the OS keychain CLI, then run check again"
@@ -217,25 +258,15 @@ pub fn check_providers(config: &Config) -> Result<()> {
 
 fn resolve(secret: &Secret) -> Result<String> {
     let output = match parse_source(&secret.source)? {
-        Source::Keychain { service, account } if cfg!(target_os = "macos") => {
-            Command::new("security")
-                .args([
-                    "find-generic-password",
-                    "-s",
-                    &service,
-                    "-a",
-                    &account,
-                    "-w",
-                ])
+        Source::Keychain { service, account } => {
+            let provider =
+                keychain_provider_command(ProviderPlatform::current(), &service, &account);
+            Command::new(provider.program)
+                .args(provider.args)
                 .stdin(Stdio::null())
                 .stderr(Stdio::null())
                 .output()
         }
-        Source::Keychain { service, account } => Command::new("secret-tool")
-            .args(["lookup", "service", &service, "account", &account])
-            .stdin(Stdio::null())
-            .stderr(Stdio::null())
-            .output(),
         Source::OnePassword(reference) => Command::new("op")
             .args(["read", &reference, "--no-newline"])
             .stdin(Stdio::null())
@@ -689,5 +720,36 @@ labels=["{label}"]"#
         }
 
         assert!(parse_source("op://Development/API/token").is_ok());
+    }
+
+    #[test]
+    fn os_keychain_provider_contract() {
+        assert_eq!(
+            keychain_provider_command(ProviderPlatform::Linux, "my-app", "database-url"),
+            ProviderCommand {
+                program: "secret-tool",
+                args: ["lookup", "service", "my-app", "account", "database-url"]
+                    .into_iter()
+                    .map(str::to_owned)
+                    .collect(),
+            }
+        );
+        assert_eq!(
+            keychain_provider_command(ProviderPlatform::Macos, "my-app", "database-url"),
+            ProviderCommand {
+                program: "security",
+                args: [
+                    "find-generic-password",
+                    "-s",
+                    "my-app",
+                    "-a",
+                    "database-url",
+                    "-w",
+                ]
+                .into_iter()
+                .map(str::to_owned)
+                .collect(),
+            }
+        );
     }
 }

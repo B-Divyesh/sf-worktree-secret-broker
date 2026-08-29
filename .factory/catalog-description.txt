@@ -1,1 +1,1 @@
-Lease development secrets to one worktree process.
+Give one worktree process only its approved development secrets.

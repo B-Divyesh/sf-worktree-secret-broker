@@ -23,6 +23,7 @@ word. No sentence exceeds 22 words. No banned term appears in rendered copy.
 | Read the receipt | 3 | Pass |
 | Expiry stops the child. | 4 | Pass |
 | The receipt lists names, timing, and outcome. | 7 | Pass |
+| Limits | 1 | Pass |
 | What the broker does not do | 6 | Pass |
 | It does not host a vault. | 6 | Pass |
 | It does not scan repositories. | 5 | Pass |
@@ -64,5 +65,5 @@ word. No sentence exceeds 22 words. No banned term appears in rendered copy.
 | post-run names-and-time record | receipt |
 | browser policy form | local policy helper |
 
-Catalog description: “Lease development secrets to one worktree process.” It
-is 49 characters, starts with a verb, and has no banned term.
+Catalog description: “Give one worktree process only its approved development
+secrets.” It is 64 characters, starts with a verb, and has no banned term.

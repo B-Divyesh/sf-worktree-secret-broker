@@ -102,7 +102,7 @@ function home(): string {
       <div class="install-line"><div><code>cargo install --git https://github.com/B-Divyesh/sf-worktree-secret-broker.git --locked</code><a class="source-link" href="https://github.com/B-Divyesh/sf-worktree-secret-broker" rel="external">View source <span class="sr-only">(external site)</span></a></div><button type="button" data-copy="cargo install --git https://github.com/B-Divyesh/sf-worktree-secret-broker.git --locked">Copy install command</button></div>
     </section>
     <section class="limits" aria-labelledby="limits-heading">
-      <div><p class="eyebrow">A narrow tool</p><h2 id="limits-heading">What the broker does not do</h2></div>
+      <div><p class="eyebrow">Limits</p><h2 id="limits-heading">What the broker does not do</h2></div>
       <ul><li>It does not host a vault.</li><li>It does not scan repositories.</li><li>It denies production-labelled entries by default.</li><li>It cannot hide variables from the child that needs them.</li></ul>
     </section>
     ${policySection()}

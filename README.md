@@ -69,10 +69,10 @@ wsb run \
 ```
 
 `wsb` resolves each approved reference and passes the value in the child
-environment. The broker kills the complete child process group when the lease
-expires or the broker stops, then prints a receipt with names only. If its
-parent dies unexpectedly, a lease supervisor revokes the group and prints a
-names-only `broker-parent-died` receipt.
+environment. Lease expiry stops the child process. Stopping the broker also
+stops it. Each run then prints a names-only receipt. If its parent dies
+unexpectedly, a lease supervisor revokes the group and prints a names-only
+`broker-parent-died` receipt.
 
 ### Providers
 
