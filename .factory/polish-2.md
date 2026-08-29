@@ -28,9 +28,10 @@ evidence records `afterSkip: MAIN` and `routeFocus: H1`.
 
 ## Final acceptance evidence
 
-- Final clean clone: `/tmp/wsb-polish2-final.k2F3rW/repo`.
+- Final clean clone: `/tmp/wsb-polish2-accept.Uzltcu/repo` at acceptance
+  commit `e2540b3290e029906e4be5b0ff28ac71c28f6ae6`.
 - Every one of 18 declared claim commands: passed independently.
-- Full suite: 31/31 browser tests and 6/6 Rust tests passed.
+- Full suite: 32/32 browser tests and 6/6 Rust tests passed.
 - Build, package verification, macOS cross-check, and dependency audit: pass.
 - Live verifier, route crawl, Axe, privacy/storage flow, keyboard, mobile,
   reduced-motion CSS coverage, and offline reload: pass.

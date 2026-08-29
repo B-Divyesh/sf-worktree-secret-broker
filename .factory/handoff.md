@@ -34,14 +34,14 @@ neither belongs in this deterministic local secret boundary.
 
 ## Clean-clone evidence
 
-Final product commit `a9d1ac3aeefe64c5e8bb8f73885bb1268c03e78d`
+Acceptance commit `e2540b3290e029906e4be5b0ff28ac71c28f6ae6`
 was cloned without shared working files to
-`/tmp/wsb-polish2-final.k2F3rW/repo`.
+`/tmp/wsb-polish2-accept.Uzltcu/repo`.
 
 - `npm ci`: passed; 0 vulnerabilities.
 - Every one of the 18 commands in `.factory/claims.json` ran separately and
   passed, ending with `ALL 18 CLAIMS PASS`.
-- `npm test`: passed 31/31 Playwright integration tests, 6/6 Rust unit tests,
+- `npm test`: passed 32/32 Playwright integration tests, 6/6 Rust unit tests,
   Rust doc tests, `cargo fmt --check`, clippy with warnings denied,
   TypeScript checking, the production site build, browser Axe checks,
   privacy request checks, demo storage isolation, offline reload, mobile,
