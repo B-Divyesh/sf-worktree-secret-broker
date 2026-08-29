@@ -241,6 +241,8 @@ function bindActions(): void {
     const invalid = names.find(name => !/^[A-Za-z_][A-Za-z0-9_]*$/.test(name));
     const output = document.querySelector<HTMLElement>('#policy-output')!;
     if (!names.length || invalid) { output.textContent = invalid ? `${invalid} is not a valid variable name.` : 'Add at least one variable name.'; return; }
+    const duplicate = names.find((name, index) => names.indexOf(name) !== index);
+    if (duplicate) { output.textContent = `${duplicate} is approved more than once. Keep one entry.`; return; }
     const provider = document.querySelector<HTMLSelectElement>('#policy-provider')!.value;
     const ttl = document.querySelector<HTMLSelectElement>('#policy-ttl')!.value;
     const blocks = names.map(name => `[[secrets]]\nname = "${name}"\nsource = "${provider === 'op' ? `op://Development/${name}/value` : `keychain://team/${name.toLowerCase()}`}"\nlabels = ["development"]`).join('\n\n');

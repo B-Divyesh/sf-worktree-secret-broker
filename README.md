@@ -69,8 +69,10 @@ wsb run \
 ```
 
 `wsb` resolves each approved reference and passes the value in the child
-environment. The broker kills the child when the lease expires and prints a
-receipt with names only.
+environment. The broker kills the complete child process group when the lease
+expires or the broker stops, then prints a receipt with names only. If its
+parent dies unexpectedly, a lease supervisor revokes the group and prints a
+names-only `broker-parent-died` receipt.
 
 ### Providers
 
@@ -97,7 +99,8 @@ inherit = ["CI"]
 Child processes and privileged local tools may read process environments.
 `wsb` narrows the set and lifetime; it cannot make environment variables
 invisible to the process that needs them. Avoid production credentials in
-agent worktrees. Stop the broker to revoke the child environment immediately.
+agent worktrees. SIGINT, SIGTERM, SIGHUP, lease expiry, and broker-parent death
+revoke the complete child process group immediately.
 
 ## Develop and verify
 
@@ -116,9 +119,9 @@ See [`.factory/demo.md`](.factory/demo.md),
 
 ## Team policy helper
 
-The site includes a local policy helper. It turns variable names into
+The site includes a local policy helper. It turns unique variable names into
 development-only provider references without a network request. The helper
-does not ask for secret values.
+rejects duplicate names and does not ask for secret values.
 
 ## Privacy
 

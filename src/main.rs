@@ -5,7 +5,8 @@ use std::fs;
 use std::path::PathBuf;
 use std::process::{Command, ExitCode};
 use worktree_secret_broker::{
-    Receipt, check_providers, load_config, run_lease, validate, write_template,
+    Receipt, check_providers, load_config, run_lease, run_lease_supervisor, validate,
+    write_template,
 };
 
 #[derive(Parser)]
@@ -56,6 +57,21 @@ enum Commands {
     },
     #[command(name = "__demo-child", hide = true)]
     DemoChild,
+    #[command(name = "__lease-supervisor", hide = true)]
+    LeaseSupervisor {
+        #[arg(long)]
+        lease_id: String,
+        #[arg(long)]
+        worktree: PathBuf,
+        #[arg(long = "secret-name")]
+        secret_names: Vec<String>,
+        #[arg(long)]
+        started_at_unix: u64,
+        #[arg(long)]
+        expires_at_unix: u64,
+        #[arg(last = true, required = true)]
+        command: Vec<String>,
+    },
 }
 
 fn main() -> ExitCode {
@@ -130,6 +146,29 @@ fn execute() -> Result<u8> {
                 bail!("the demo child did not receive its approved sample variables");
             }
             Ok(0)
+        }
+        Commands::LeaseSupervisor {
+            lease_id,
+            worktree,
+            secret_names,
+            started_at_unix,
+            expires_at_unix,
+            command,
+        } => {
+            let (receipt, status) = run_lease_supervisor(
+                lease_id,
+                worktree,
+                secret_names,
+                started_at_unix,
+                expires_at_unix,
+                command,
+            )?;
+            if let Some(receipt) = receipt {
+                // The broker has already died, so its parent-death supervisor
+                // is the only process able to leave a names-only receipt.
+                print_receipt(&receipt, true)?;
+            }
+            Ok(status.code().unwrap_or(1).clamp(0, 255) as u8)
         }
     }
 }

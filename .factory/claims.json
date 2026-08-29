@@ -74,7 +74,7 @@
     "claim": "Stopping the broker kills the leased child process and records broker-stopped.",
     "where": "README exposure limits",
     "test": "npm test -- --grep @claim:broker-stop-revokes",
-    "sandbox": "temp Git worktree, fake provider, long-running child, and SIGINT sent to the broker"
+    "sandbox": "temp Git worktree, fake provider, long-running child group with a background descendant; probe SIGINT, SIGTERM, SIGHUP, one-second expiry, and forced broker-parent death; assert a names-only receipt and no surviving group member"
   },
   {
     "id": "demo-reset",

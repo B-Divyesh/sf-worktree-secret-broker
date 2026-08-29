@@ -1,5 +1,6 @@
 use anyhow::{Context, Result, anyhow, bail};
 use serde::{Deserialize, Serialize};
+use signal_hook::consts::signal::{SIGHUP, SIGINT, SIGTERM, SIGUSR1};
 use std::collections::{BTreeMap, BTreeSet};
 use std::env;
 use std::fs;
@@ -332,9 +333,23 @@ pub fn run_lease(
 
     let started = unix_now();
     let expires = started.saturating_add(duration_seconds);
-    let mut child_command = Command::new(&command[0]);
-    child_command
-        .args(&command[1..])
+    let lease_id = format!("lease-{started}-{}", std::process::id());
+    let mut supervisor =
+        Command::new(env::current_exe().context("could not locate the broker binary")?);
+    supervisor
+        .args([
+            "__lease-supervisor",
+            "--lease-id",
+            &lease_id,
+            "--worktree",
+            worktree
+                .to_str()
+                .ok_or_else(|| anyhow!("worktree path is not valid UTF-8"))?,
+            "--started-at-unix",
+            &started.to_string(),
+            "--expires-at-unix",
+            &expires.to_string(),
+        ])
         .current_dir(&worktree)
         .env_clear();
     for name in SAFE_ENV
@@ -343,30 +358,44 @@ pub fn run_lease(
         .chain(config.process.inherit.iter().map(String::as_str))
     {
         if let Some(value) = env::var_os(name) {
-            child_command.env(name, value);
+            supervisor.env(name, value);
         }
     }
-    child_command.envs(&values);
+    supervisor.envs(&values);
+    for name in &report.secret_names {
+        supervisor.args(["--secret-name", name]);
+    }
+    supervisor.arg("--").args(command);
     #[cfg(unix)]
     {
         use std::os::unix::process::CommandExt;
-        child_command.process_group(0);
+        let broker_pid = unsafe { libc::getpid() };
+        unsafe {
+            supervisor.pre_exec(move || {
+                if libc::setsid() == -1 {
+                    return Err(std::io::Error::last_os_error());
+                }
+                if libc::prctl(libc::PR_SET_PDEATHSIG, libc::SIGTERM) == -1 {
+                    return Err(std::io::Error::last_os_error());
+                }
+                // The parent can die between fork and prctl. In that case do
+                // not start a secret-bearing command without a broker.
+                if libc::getppid() != broker_pid {
+                    libc::raise(libc::SIGTERM);
+                }
+                Ok(())
+            });
+        }
     }
-    let mut child = child_command
+    let mut child = supervisor
         .spawn()
-        .with_context(|| format!("could not start {}", command[0]))?;
+        .with_context(|| format!("could not start the lease supervisor for {}", command[0]))?;
     drop(values);
 
-    let stop = Arc::new(AtomicBool::new(false));
-    let signal = Arc::clone(&stop);
-    ctrlc::set_handler(move || {
-        signal.store(true, Ordering::SeqCst);
-    })
-    .context("could not install the revocation handler")?;
+    let stop = install_stop_handler()?;
     let deadline = Instant::now() + Duration::from_secs(duration_seconds);
     let (status, outcome) = loop {
         if let Some(status) = child.try_wait().context("could not read child status")? {
-            revoke_process_group(child.id());
             break (status, "child-exited".to_string());
         }
         if stop.load(Ordering::SeqCst) || Instant::now() >= deadline {
@@ -375,8 +404,7 @@ pub fn run_lease(
             } else {
                 "lease-expired"
             };
-            revoke_process_group(child.id());
-            let _ = child.kill();
+            request_supervisor_revocation(child.id());
             break (
                 child.wait().context("could not wait for revoked child")?,
                 reason.to_string(),
@@ -384,15 +412,19 @@ pub fn run_lease(
         }
         thread::sleep(Duration::from_millis(100));
     };
+    let revoked = outcome != "child-exited";
     let receipt = Receipt {
-        lease_id: format!("lease-{started}-{}", std::process::id()),
+        lease_id,
         worktree: worktree.display().to_string(),
         secret_names: report.secret_names,
         started_at_unix: started,
         expires_at_unix: expires,
         revoked_at_unix: unix_now(),
         outcome,
-        child_exit_code: status.code(),
+        // The supervisor itself exits 1 after it has revoked a signal-killed
+        // child. Keep the receipt about the leased command, whose exit code
+        // is absent in every revocation path.
+        child_exit_code: if revoked { None } else { status.code() },
     };
     Ok((receipt, status))
 }
@@ -408,6 +440,94 @@ fn revoke_process_group(id: u32) {
 
 #[cfg(not(unix))]
 fn revoke_process_group(_id: u32) {}
+
+fn install_stop_handler() -> Result<Arc<AtomicBool>> {
+    let stop = Arc::new(AtomicBool::new(false));
+    for signal in [SIGINT, SIGTERM, SIGHUP] {
+        signal_hook::flag::register(signal, Arc::clone(&stop))
+            .context("could not install the revocation handler")?;
+    }
+    Ok(stop)
+}
+
+#[cfg(unix)]
+fn request_supervisor_revocation(id: u32) {
+    // SIGUSR1 is private to the supervisor. Unlike killing its session, it
+    // lets the supervisor kill and reap the separate child process group.
+    unsafe {
+        libc::kill(id as i32, SIGUSR1);
+    }
+}
+
+#[cfg(not(unix))]
+fn request_supervisor_revocation(_id: u32) {}
+
+/// Run the internal lease supervisor. It lives in its own session and gives
+/// the command a distinct process group so it can revoke every descendant if
+/// the broker disappears unexpectedly.
+pub fn run_lease_supervisor(
+    lease_id: String,
+    worktree: PathBuf,
+    secret_names: Vec<String>,
+    started_at_unix: u64,
+    expires_at_unix: u64,
+    command: Vec<String>,
+) -> Result<(Option<Receipt>, ExitStatus)> {
+    if command.is_empty() {
+        bail!("lease supervisor needs a child command");
+    }
+    let explicit_revoke = Arc::new(AtomicBool::new(false));
+    let parent_stopped = Arc::new(AtomicBool::new(false));
+    signal_hook::flag::register(SIGUSR1, Arc::clone(&explicit_revoke))
+        .context("could not install the supervisor revocation handler")?;
+    for signal in [SIGINT, SIGTERM, SIGHUP] {
+        signal_hook::flag::register(signal, Arc::clone(&parent_stopped))
+            .context("could not install the parent-death handler")?;
+    }
+
+    let mut child_command = Command::new(&command[0]);
+    child_command.args(&command[1..]).current_dir(&worktree);
+    #[cfg(unix)]
+    {
+        use std::os::unix::process::CommandExt;
+        child_command.process_group(0);
+    }
+    let mut child = child_command
+        .spawn()
+        .with_context(|| format!("could not start {}", command[0]))?;
+
+    loop {
+        if let Some(status) = child.try_wait().context("could not read child status")? {
+            // A command can leave background descendants in its group even
+            // after its leader exits. Revoke those before reporting success.
+            revoke_process_group(child.id());
+            return Ok((None, status));
+        }
+        if explicit_revoke.load(Ordering::SeqCst) {
+            revoke_process_group(child.id());
+            let status = child.wait().context("could not wait for revoked child")?;
+            return Ok((None, status));
+        }
+        if parent_stopped.load(Ordering::SeqCst) {
+            revoke_process_group(child.id());
+            let status = child.wait().context("could not wait for revoked child")?;
+            return Ok((
+                Some(Receipt {
+                    lease_id,
+                    worktree: worktree.display().to_string(),
+                    secret_names,
+                    started_at_unix,
+                    expires_at_unix,
+                    revoked_at_unix: unix_now(),
+                    outcome: "broker-parent-died".to_string(),
+                    child_exit_code: status.code(),
+                }),
+                status,
+            ));
+        }
+        thread::sleep(Duration::from_millis(25));
+    }
+}
 
 pub fn write_template(path: &Path) -> Result<()> {
     if path.exists() {

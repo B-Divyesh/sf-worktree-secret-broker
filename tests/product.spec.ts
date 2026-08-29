@@ -22,6 +22,32 @@ async function fixture() {
   return { root, tools, config, env: { ...process.env, PATH: `${tools}:${process.env.PATH}` } };
 }
 
+async function waitForFileNumber(path: string): Promise<number> {
+  for (let attempt = 0; attempt < 80; attempt += 1) {
+    try {
+      const value = Number((await readFile(path, 'utf8')).trim());
+      if (value > 1) return value;
+    } catch {
+      // The shell has not written its marker yet.
+    }
+    await new Promise(resolve => setTimeout(resolve, 25));
+  }
+  throw new Error(`timed out waiting for ${path}`);
+}
+
+async function processIsGone(pid: number): Promise<boolean> {
+  try {
+    const { stdout } = await exec('ps', ['-o', 'stat=', '-p', String(pid)]);
+    return !stdout.trim() || stdout.trim().startsWith('Z');
+  } catch {
+    return true;
+  }
+}
+
+function forceStop(pid: number): void {
+  try { process.kill(pid, 'SIGKILL'); } catch { /* already gone */ }
+}
+
 test('@claim:demo-isolated CLI demo uses no provider and removes its temporary worktree', async () => {
   const root = await mkdtemp(join(tmpdir(), 'wsb-demo-test-'));
   const marker = join(root, 'provider-called');
@@ -95,33 +121,65 @@ test('check rejects malformed 1Password references before provider access', asyn
   await rm(root, { recursive: true, force: true });
 });
 
-test('@claim:broker-stop-revokes stopping the broker kills its leased child', async () => {
+test('@claim:broker-stop-revokes SIGINT, SIGTERM, SIGHUP, expiry, and parent death revoke the complete child process group', async () => {
   const item = await fixture();
-  const marker = join(item.root, 'child.pid');
-  const broker = spawnProcess(binary, ['run', '--config', item.config, '--worktree', item.root, '--', 'sh', '-c', `echo $$ > "${marker}"; exec sleep 30`], {
-    env: item.env,
-    stdio: ['ignore', 'pipe', 'pipe'],
-  });
-  let childPid = 0;
-  for (let attempt = 0; attempt < 50; attempt += 1) {
-    try {
-      childPid = Number((await readFile(marker, 'utf8')).trim());
-      break;
-    } catch {
-      await new Promise(resolve => setTimeout(resolve, 50));
+  const brokers: Array<ReturnType<typeof spawnProcess>> = [];
+  const pids: number[] = [];
+  try {
+    for (const signal of ['SIGINT', 'SIGTERM', 'SIGHUP'] as const) {
+      const leaderMarker = join(item.root, `${signal}-leader.pid`);
+      const descendantMarker = join(item.root, `${signal}-descendant.pid`);
+      const broker = spawnProcess(binary, ['run', '--config', item.config, '--worktree', item.root, '--json', '--', 'sh', '-c', `echo $$ > "${leaderMarker}"; sleep 30 & echo $! > "${descendantMarker}"; wait`], {
+        env: item.env,
+        stdio: ['ignore', 'pipe', 'pipe'],
+      });
+      brokers.push(broker);
+      let stdout = '';
+      broker.stdout.on('data', chunk => { stdout += String(chunk); });
+      const leader = await waitForFileNumber(leaderMarker);
+      const descendant = await waitForFileNumber(descendantMarker);
+      pids.push(leader, descendant);
+      broker.kill(signal);
+      await new Promise<void>((resolve, reject) => {
+        broker.once('error', reject);
+        broker.once('close', () => resolve());
+      });
+      expect(stdout).toContain('"outcome":"broker-stopped"');
+      expect(await processIsGone(leader)).toBe(true);
+      expect(await processIsGone(descendant)).toBe(true);
     }
+
+    const expiryLeader = join(item.root, 'expiry-leader.pid');
+    const expiryDescendant = join(item.root, 'expiry-descendant.pid');
+    await expect(exec(binary, ['run', '--config', item.config, '--worktree', item.root, '--json', '--ttl-seconds', '1', '--', 'sh', '-c', `echo $$ > "${expiryLeader}"; sleep 30 & echo $! > "${expiryDescendant}"; wait`], { env: item.env }))
+      .rejects.toMatchObject({ code: 124, stdout: expect.stringContaining('"outcome":"lease-expired"') });
+    const expiryPids = [await waitForFileNumber(expiryLeader), await waitForFileNumber(expiryDescendant)];
+    pids.push(...expiryPids);
+    for (const pid of expiryPids) expect(await processIsGone(pid)).toBe(true);
+
+    const parentDeathLeader = join(item.root, 'parent-death-leader.pid');
+    const parentDeathDescendant = join(item.root, 'parent-death-descendant.pid');
+    const broker = spawnProcess(binary, ['run', '--config', item.config, '--worktree', item.root, '--json', '--', 'sh', '-c', `echo $$ > "${parentDeathLeader}"; sleep 30 & echo $! > "${parentDeathDescendant}"; wait`], {
+      env: item.env,
+      stdio: ['ignore', 'pipe', 'pipe'],
+    });
+    brokers.push(broker);
+    let parentDeathReceipt = '';
+    broker.stdout.on('data', chunk => { parentDeathReceipt += String(chunk); });
+    const parentDeathPids = [await waitForFileNumber(parentDeathLeader), await waitForFileNumber(parentDeathDescendant)];
+    pids.push(...parentDeathPids);
+    broker.kill('SIGKILL');
+    await new Promise<void>((resolve, reject) => {
+      broker.once('error', reject);
+      broker.once('close', () => resolve());
+    });
+    expect(parentDeathReceipt).toContain('"outcome":"broker-parent-died"');
+    for (const pid of parentDeathPids) expect(await processIsGone(pid)).toBe(true);
+  } finally {
+    brokers.forEach(broker => forceStop(broker.pid!));
+    pids.forEach(forceStop);
+    await rm(item.root, { recursive: true, force: true });
   }
-  expect(childPid).toBeGreaterThan(0);
-  broker.kill('SIGINT');
-  let stdout = '';
-  broker.stdout.on('data', chunk => { stdout += String(chunk); });
-  await new Promise<void>((resolve, reject) => {
-    broker.once('error', reject);
-    broker.once('close', () => resolve());
-  });
-  expect(stdout).toContain('outcome: broker-stopped');
-  expect(() => process.kill(childPid, 0)).toThrow();
-  await rm(item.root, { recursive: true, force: true });
 });
 
 test('@claim:names-only-receipt receipt, worktree, and provider-reference config never contain the resolved value', async () => {
@@ -198,6 +256,14 @@ test('@claim:policy-generator the local helper creates development-only referenc
   await expect(page.locator('#policy-output')).toContainText('labels = ["development"]');
   await expect(page.locator('#policy-output')).not.toContainText('fixture-value-7x9');
   expect([...origins]).toEqual(['http://127.0.0.1:4173']);
+});
+
+test('regression: policy helper rejects duplicate variable names before generating TOML', async ({ page }) => {
+  await page.goto('/');
+  await page.getByLabel('Approved variable names').fill('TOKEN TOKEN');
+  await page.getByRole('button', { name: 'Generate team policy' }).click();
+  await expect(page.locator('#policy-output')).toHaveText('TOKEN is approved more than once. Keep one entry.');
+  await expect(page.locator('#policy-output')).not.toContainText('[[secrets]]');
 });
 
 test('@claim:demo-reset reset clears demo storage and restores the first output', async ({ page }) => {
