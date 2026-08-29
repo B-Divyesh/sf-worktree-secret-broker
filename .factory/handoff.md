@@ -71,10 +71,15 @@ loaded. Production static output remains under `dist/site/`.
 
 ## Deployment
 
-Deployment class is unchanged: static. Push this repair to `main`; the
-configured static deployment consumes `dist/site/`. After the push, verify
-the live asset identity and `/`, `/demo`, `/privacy`, `/terms`, and the
-designed 404 response against the new revision.
+Deployment class is unchanged: static. The repair was pushed to `main` as
+`cb13d404b77978ff44c439e2de26587cdc76db61`; its CI browser-setup follow-up is
+`5b4c97f9e0c4a467802b0659b1348247c70c5784`. GitHub Actions run
+`33242554857` for the latter completed successfully with the macOS target
+check, full test, production build, and package steps. The configured static
+deployment consumes `dist/site/`; this CLI-only repair leaves its generated
+site files byte-identical. The live static root returned HTTP 200 with the
+existing CSP, HSTS, no-sniff, referrer-policy, and permissions-policy headers
+after the push.
 
 ## Known gaps
 
